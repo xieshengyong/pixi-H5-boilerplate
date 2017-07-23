@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <![endif]-->
+    <title>守护者计划</title>
+    <meta id="share-name" itemprop="name" content="">
+    <meta id="share-description" itemprop="description" content="">
+    <meta id="share-image" itemprop="image" content="">
+    <meta name="description" content="守护者">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" type="text/css" href="ossweb-img/style.css">
+    <!-- rem布局初始化设置start -->
+    <script type="text/javascript">
+        (function(doc, win) {
+            var docEl = doc.documentElement,
+                rszEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                reCalc = (function() {
+                    var reCalc = function () {
+                        var winWidth = docEl.clientWidth;
+                        var winHeight = docEl.clientHeight;
+                        if (!winWidth) return;
+
+                        if ( winWidth < winHeight ) {
+                            if ( (winWidth/winHeight) > (750/1200) ) {
+                                var fontSize = (100 * ( winWidth / 750 ));
+                            }else{
+                                var fontSize = ( 100 * ( winHeight / 1200 ));
+                            }
+                        } else {
+                            if ( (winWidth/winHeight) > (1200/750) ) {
+                                var fontSize = (100 * ( winWidth / 1200 ));
+                            }else{
+                                var fontSize = ( 100 * ( winHeight / 750 ));
+                            }
+                        }
+
+                        docEl.style.fontSize = (fontSize > 110 ? 110 : fontSize) + 'px';
+                        return reCalc;
+                    }
+                    return reCalc();
+                })();
+            if (!doc.addEventListener) return;
+            win.addEventListener(rszEvt, reCalc);
+        })(document, window);
+    </script>
+    <!-- rem布局初始化设置end -->
+    <script type="text/javascript">
+        (function  () {
+            var getQuery = function(name){
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            };
+            if ( !getQuery('_wv') ) {
+                if ( location.search ) {
+                    location.href += '&_wv=1'
+                }else{
+                    location.href += '?_wv=1'
+                }
+            }
+        }())
+    </script>
+</head>
+<body>
+    <div class="m-main-wrap absf">
+
+        <div class="m-stage abcter"></div>
+
+    </div>
+    <!-- <script src="http://ossweb-img.qq.com/images/js/zepto/zepto.min.js"></script> -->
+    <script src="js/lib/zepto.min.js"></script>
+    <script src="js/lib/pixi.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
