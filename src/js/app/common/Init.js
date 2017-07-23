@@ -27,7 +27,7 @@ fn.initPIXI = function () {
 fn.initRenderer = function () {
     this.renderer = PIXI.autoDetectRenderer(750, 1200, {preserveDrawingBuffer: true});
     this.renderer.backgroundColor = 0xffffff;
-    document.querySelector('.m-begin').appendChild(this.renderer.view);
+    document.querySelector('.m-stage').appendChild(this.renderer.view);
 };
 
 fn.update = function () {
