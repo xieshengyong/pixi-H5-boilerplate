@@ -18,10 +18,10 @@ var SceneInit = function (stage) {
     this.add = addChildToStge.addChild.bind(addChildToStge);
 
     var spriteDisplayCtr = new SpriteDisplayCtr(this);
-    this.showSprite = spriteDisplayCtr.showSprite.bind(spriteDisplayCtr);
-    this.hideSprite = spriteDisplayCtr.hideSprite.bind(spriteDisplayCtr);
-    this.spriteCenter = spriteDisplayCtr.spriteCenter.bind(spriteDisplayCtr);
-    this.sprCenterStiu = spriteDisplayCtr.sprCenterStiu.bind(spriteDisplayCtr);
+    this.show = spriteDisplayCtr.showSprite.bind(spriteDisplayCtr);
+    this.hide = spriteDisplayCtr.hideSprite.bind(spriteDisplayCtr);
+    this.centerSlf = spriteDisplayCtr.spriteCenterSlf.bind(spriteDisplayCtr);
+    this.centerCtn = spriteDisplayCtr.sprCenterCtn.bind(spriteDisplayCtr);
 };
 
 module.exports = SceneInit;

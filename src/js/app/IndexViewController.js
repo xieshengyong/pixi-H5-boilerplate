@@ -11,10 +11,12 @@ var fn = IndexViewController.prototype;
 
 fn.init = function () {
     this.add([
-        ['bg1.jpg', 0, 0],
-        ['bg2.png', 5, 0],
-        ['bg3.png', 0, 0]
+        ['man1_9.png', 0, 0],
+        ['man1_10.png', 0, 0],
+        ['man1_11.png', 0, 0]
     ]);
+
+    this.show(['man1_9', 'man1_10']);
 };
 
 fn.hide = function () {

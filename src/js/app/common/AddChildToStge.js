@@ -6,7 +6,6 @@ var AddChildToStge = function (that) {
 var fn = AddChildToStge.prototype;
 
 fn.addChild = function (sprites, stg) {
-    var pool = this.pool;
     var path = this.that.path;
     var cache = this.that.cache;
     var stage = stg || this.that.stage;
@@ -16,21 +15,22 @@ fn.addChild = function (sprites, stg) {
         var spr = sprites[i];
         var spr0 = sprites[i][0];
         if (spr0 === 'rect') {
-            this.addRect(spr, pool, stage);
+            this.addRect(spr, stage);
             continue;
         }
         if (typeof spr0 === 'string') {
-            this.addSprite(spr, pool, cache, path, stage);
+            this.addSprite(spr, cache, path, stage);
         }
         if (spr instanceof Function) {
             spr();
         }
     }
-    this.that.sprPool = pool;
-    pool = null;
+    this.that.sprPool = this.pool;
+    this.pool = null;
 };
 
-fn.addSprite = function (spr, pool, cache, path, stage) {
+fn.addSprite = function (spr, cache, path, stage) {
+    var pool = this.pool;
     var name = spr[0].substring(0, spr[0].indexOf('.'));
     var sprite = new PIXI.Sprite(cache[path + spr[0]]);
     sprite.visible = false;
@@ -44,7 +44,8 @@ fn.addSprite = function (spr, pool, cache, path, stage) {
     pool[name] = sprite;
 };
 
-fn.addRect = function (spr, pool, stage) {
+fn.addRect = function (spr, stage) {
+    var pool = this.pool;
     var name = spr[1];
     var color = spr[6] || 0xFF700B;
     var rect = new PIXI.Graphics();
