@@ -11,6 +11,7 @@ var webpack = require('webpack');
 var webpackConfig = require('./webpack.config.js');
 var browsersync = require('browser-sync').create();
 var path = require('path');
+var header = require('gulp-header');
 
 var lessSrc = './src/less/**/style.less';
 var lessDict = 'src/less/**/*.less';
@@ -18,7 +19,13 @@ var imageSrc = 'src/img/**/*.*';
 var media = 'src/media/**/*.*';
 var jsSrc = 'src/js/**/*.*';
 
-var distPath = './ossweb-img/';
+var distPath = './dist/';
+
+// var txpath = 'http://shzjh.treedom.cn/handover/';
+var txpath = '//game.gtimg.cn/images/lol/m/act/a20170717lolmusic/';
+var cssExport = 'handover/';
+var jsexport = 'handover/';
+var imgExport = 'handover/ossweb-img/';
 
 // 编译less
 gulp.task('less', function () {
@@ -27,25 +34,14 @@ gulp.task('less', function () {
         .pipe(less({
             paths: [ path.join(__dirname, 'less', 'includes') ]
         }))
-        .pipe(gulp.dest(distPath));
-});
-
-// 编译less
-gulp.task('less_tx', function () {
-    return gulp.src(lessSrc)
-        .pipe(replace(/@img: '..\/ossweb-img\/';/g, "@img: '../ossweb-img2/';"))
-        .pipe(plumer())
-        .pipe(less({
-            paths: [ path.join(__dirname, 'less', 'includes') ]
-        }))
-        .pipe(gulp.dest(distPath));
+        .pipe(gulp.dest(distPath + 'css/'));
 });
 
 // 复制图片
 gulp.task('images', ['imagesList'], function () {
     return gulp.src(imageSrc)
         .pipe(rename({dirname: '.'}))
-        .pipe(gulp.dest(distPath));
+        .pipe(gulp.dest(distPath + 'img/'));
 });
 
 // 生成图片文件名集合
@@ -57,7 +53,7 @@ gulp.task('imagesList', function () {
         .pipe(replace(/"/g, "'"))
         .pipe(replace(/  /g, '    '))
         .pipe(replace(/{/g, 'var Imglist = ['))
-        .pipe(replace(/}/g, '];\n\nmodule.exports = Imglist;\n'))
+        .pipe(replace(/}/g, '];\nmodule.exports = Imglist;\n'))
         .pipe(gulp.dest('src/js/app/'));
 });
 
@@ -65,14 +61,14 @@ gulp.task('imagesList', function () {
 gulp.task('media', function () {
     return gulp.src(media)
         .pipe(rename({dirname: '.'}))
-        .pipe(gulp.dest(distPath));
+        .pipe(gulp.dest(distPath + 'img/'));
 });
 
 // webpack打包
 gulp.task('webpack', function (callback) {
     var myConfig = Object.create(webpackConfig);
 
-    myConfig.output.filename = 'js/main.js';
+    myConfig.output.filename = distPath + 'js/main.js';
 
     // run webpack
     webpack(myConfig, function (err, stats) {
@@ -86,12 +82,52 @@ gulp.task('webpack', function (callback) {
 // 压缩less
 gulp.task('lessmin', function () {
     return gulp.src(lessSrc)
-        .pipe(replace(/@img: '..\/ossweb-img\/';/g, "@img: '../ossweb-img2/';"))
+        .pipe(replace(/\/dist\/img\//g, txpath))
         .pipe(less({
             paths: [ path.join(__dirname, 'less', 'includes') ]
         }))
         .pipe(cssmin())
-        .pipe(gulp.dest(distPath));
+        .pipe(gulp.dest(cssExport));
+});
+
+gulp.task('rhtml', function () {
+    return gulp.src('index.html')
+        .pipe(replace(/"dist\/css\//g, '"' + txpath))
+        .pipe(replace(/"dist\/js\//g, '"' + txpath))
+        .pipe(gulp.dest('handover/'));
+});
+
+gulp.task('rjs', ['webpack:build'], function () {
+    return gulp.src(jsexport + 'main.js')
+        .pipe(replace(/imgPath="dist\/img\//g, 'imgPath="' + txpath))
+        .pipe(gulp.dest(jsexport));
+});
+
+gulp.task('rimages', function () {
+    return gulp.src(imageSrc)
+        .pipe(rename({dirname: '.'}))
+        .pipe(gulp.dest(imgExport));
+});
+
+gulp.task('rmedia', function () {
+    return gulp.src(media)
+        .pipe(rename({dirname: '.'}))
+        .pipe(gulp.dest(imgExport));
+});
+
+gulp.task('rhead', ['rjs'], function () {
+    // using data from package.json
+    var pkg = require('./package.json');
+    var banner = ['/**',
+        ' * <%= pkg.name %> - <%= pkg.description %>',
+        ' * @version v<%= pkg.version %>',
+        ' * @author <%= pkg.author %>',
+        ' */',
+        ''].join('\n');
+
+    return gulp.src(jsexport + 'main.js')
+          .pipe(header(banner, {pkg: pkg}))
+          .pipe(gulp.dest(jsexport));
 });
 
 // 压缩js
@@ -103,9 +139,11 @@ gulp.task('webpack:build', function (callback) {
     );
 
     // 过滤任意函数插件
-    myConfig.module.loaders.push({text: /\.js$/, loader: 'webpack-strip?strip[]=TD.debug'});
+    // myConfig.module.loaders.push({text: /\.js$/, loader: 'webpack-strip?strip[]=TD.debug'});
 
-    myConfig.output.filename = 'js/main.js';
+    myConfig.output.filename = jsexport + 'main.js';
+
+    myConfig.module.loaders[0] = {test: /js[\/|\\]lib[\/||\\][\w|\.|_|-]+js$/, loader: 'url-loader?importLoaders=1&limit=1000&name=' + jsexport + '[name].[ext]'};
 
     // run webpack
     webpack(myConfig, function (err, stats) {
@@ -126,7 +164,7 @@ gulp.task('browsersync', function () {
             baseDir: './'
         },
         // port: 80,
-        files: ['./ossweb-img/*.*', './js/*.*', './*.html']
+        files: ['./dist/img/*.*', './dist/css/*.*', './dist/js/*.*', './*.html']
     });
 });
 
@@ -160,4 +198,4 @@ gulp.task('sync', ['images', 'less', 'webpack', 'media', 'browsersync'], functio
 });
 
 // 压缩
-gulp.task('zip', ['cleanImg', 'images', 'lessmin', 'webpack:build', 'media']);
+gulp.task('zip', ['lessmin', 'rhtml', 'rimages', 'rmedia', 'rhead']);

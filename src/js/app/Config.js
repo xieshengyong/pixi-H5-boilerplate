@@ -7,8 +7,7 @@ var Config = {};
 Config.requireUrl = '';
 
 // 图片路径前缀
-//  Config.imgPath = 'http://qrs.treedom.cn/streetgame/';
-Config.imgPath = '/ossweb-img/';
+Config.imgPath = '/dist/img/';
 
 // 默认分享语
 Config.defShare = {

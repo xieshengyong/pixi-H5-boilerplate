@@ -11,15 +11,13 @@ module.exports = {
         loaders: [
             {
                 test: /js[\/|\\]lib[\/||\\][\w|\.|_|-]+js$/,
-                loader: 'url-loader?importLoaders=1&limit=1000&name=/js/lib/[name].[ext]'
-            }
-            /*
+                loader: 'url-loader?importLoaders=1&limit=1000&name=/dist/js/[name].[ext]'
+            },
             {
                 test: /\.js$/,
                 exclude: /(node_modules|dist|js[\/|\\]lib[\/||\\][\w|\.|_|-]+js$|fx|fx_methods|TweenLite.min|EasePack.min)/,
-                loaders: ['babel-loader', 'eslint-loader']
+                loaders: ['babel-loader']
             }
-            */
         ]
     },
     resolve: {

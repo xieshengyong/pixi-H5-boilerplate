@@ -8,7 +8,7 @@ pro.hideSprite = function (sprite, duration, vars) {
     var dur = duration || 0;
     var vas = vars || {};
     if (duration === 0) {
-        this.streetHide(this.prettySprite(sprite));
+        this.directHide(this.prettySprite(sprite));
         return;
     }
     vas.visible = vas.visible || false;
@@ -16,7 +16,7 @@ pro.hideSprite = function (sprite, duration, vars) {
     TweenLite.to(this.prettySprite(sprite), dur, vas);
 };
 
-pro.streetHide = function (arr) {
+pro.directHide = function (arr) {
     var len = arr.length;
     for (var i = 0; i < len; i++) {
         arr[i].visible = false;
@@ -28,7 +28,7 @@ pro.showSprite = function (sprite, dur, vars) {
     var duration = dur || 0;
     var vas = vars || {};
     if (duration === 0) {
-        this.streetShow(this.prettySprite(sprite));
+        this.directShow(this.prettySprite(sprite));
         return;
     }
     vas.visible = true;
@@ -36,7 +36,7 @@ pro.showSprite = function (sprite, dur, vars) {
     TweenLite.to(this.prettySprite(sprite), duration, vas);
 };
 
-pro.streetShow = function (arr) {
+pro.directShow = function (arr) {
     for (var i = 0; i < arr.length; i++) {
         arr[i].visible = true;
         arr[i].alpha = 1;
