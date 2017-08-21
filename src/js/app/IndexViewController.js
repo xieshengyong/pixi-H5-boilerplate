@@ -15,7 +15,9 @@ fn.init = function () {
         ['man1_11.png', 200, 0]
     ]);
 
-    // this.show(['man1_9', 'man1_10', 'man1_11']);
+    this.get(['man1_11', 'man1_9']).show(0.5, function () {
+        console.log(132); 
+    });
 };
 
 fn.hideScene = function () {

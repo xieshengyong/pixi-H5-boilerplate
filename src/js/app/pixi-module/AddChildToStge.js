@@ -33,6 +33,7 @@ fn.addSprite = function (spr, cache, path, stage) {
     var pool = this.pool;
     var name = spr[0].substring(0, spr[0].indexOf('.'));
     var sprite = new PIXI.Sprite(cache[path + spr[0]]);
+    sprite.alpha = 0;
     sprite.visible = false;
     sprite.x = spr[1];
     sprite.y = spr[2];

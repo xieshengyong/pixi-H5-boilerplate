@@ -7,11 +7,12 @@ var fn = LoadViewController.prototype;
 
 fn.loadImg = function () {
     var self = this;
-
+    
     PIXI.loader
             .add(this.formatImgList())
             .on('progress', this.loadingProgress.bind(this))
-            .load(function () {
+            .load(function (resource) {
+                console.log('100%');
                 self.hideScene();
             });
 };
@@ -28,7 +29,7 @@ fn.formatImgList = function () {
 };
 
 fn.loadingProgress = function (loader, resource) {
-    console.log(loader.progress);
+    // console.log(loader.progress);
 };
 
 fn.hideScene = function () {
