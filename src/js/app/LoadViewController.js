@@ -7,7 +7,7 @@ var fn = LoadViewController.prototype;
 
 fn.loadImg = function () {
     var self = this;
-    
+
     PIXI.loader
             .add(this.formatImgList())
             .on('progress', this.loadingProgress.bind(this))
