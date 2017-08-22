@@ -1,10 +1,6 @@
-// var SceneInit = require('./pixi-module/SceneInit.js');
 // var AnimatedSprite = require('./AnimatedSprite.js');
 
-var IndexViewController = function () {
-    // console.log(this.add);
-    // this.init();
-};
+var IndexViewController = function () {};
 
 var fn = IndexViewController.prototype;
 
@@ -15,10 +11,11 @@ fn.init = function () {
         ['man1_11.png', 200, 0]
     ]);
 
-    this.get(['man1_11', 'man1_9']).show(0.5, function () {
-        console.log(132); 
-    });
+    this.get(['man1_11', 'man1_10', 'man1_9']).show(function () {
+        this.to(1, {x: '+=100'}).to(1, {x: '-=100', delay: 1});
+    }).centerCtn(this.screen);
 };
+
 
 fn.hideScene = function () {
     var self = this;
