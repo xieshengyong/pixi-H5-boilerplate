@@ -1,6 +1,10 @@
 node_modules
 .idea
-/js
-/ossweb-img
-/dist
+*.bat
+dist/
 .DS_Store
+package-lock.json
+test/build/*
+aBuildHistory
+aHasChangedFiles
+TexturePacker

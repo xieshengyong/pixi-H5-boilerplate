@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <![endif]-->
+    <title>守护自然计划</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="robots" content="all">
+    <meta name="author" content="Tencent-CP">
+    <meta name="Copyright" content="Tencent">
+    <meta name="Keywords" content="腾讯游戏,王者荣耀">
+    <meta id="share-description" itemprop="description" name="Description" content="腾讯游戏,王者荣耀">
+    <meta id="share-name" itemprop="name" content="">
+    <meta id="share-image" itemprop="image" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script>
+        if (localStorage.search != undefined && localStorage.search.indexOf("partition") != -1 && location.search.indexOf("partition") == -1) {
+            if (location.search == "") {
+                // location.replace(location.href + localStorage.search); 
+                window.history.pushState({}, 0, location.href + localStorage.search);
+            } else {
+                var search = location.href + "&" + localStorage.search.replace(/\?/, "");
+                // location.replace(search); 
+                window.history.pushState({}, 0, search);
+            }
+
+            // window.history.pushState({},0,location.href+localStorage.search);    
+        } 
+    </script>
+    
+    <% if (process.env.NODE_ENV === 'handover') { %>
+    <% for (var css in htmlWebpackPlugin.files.css) { %>
+    <% var cssFile = htmlWebpackPlugin.files.css[css] %>
+
+    <link href="<%= cssFile %>" rel="stylesheet">
+    <% } %>
+
+    <% } else { %>
+    <% for (var css in htmlWebpackPlugin.files.css) { %>
+    <% var cssFile = htmlWebpackPlugin.files.css[css].substr(htmlWebpackPlugin.files.publicPath.length); %>
+
+    <link href="<%= cssFile %>" rel="stylesheet">
+    <% } %>
+
+    <% } %>
+
+</head>
+<body class="">
+    <div class="m-main-wrap absf">
+        <!-- 竖屏页 -->
+        <div class="m-vertical absf">
+            <div class="m-wrap sizcont abcter"></div>
+        </div>
+
+        <!-- 横屏页 -->
+        <div class="m-horizontal absf">
+            <div class="m-wrap sizcont abcter">
+
+                <div class="m-loading absf" id="m-loading">
+                    <div class="bg abcter"></div>
+                    <div class="load-process abcter">0%</div>
+                </div>
+
+                <div class="m-index absf">
+                    <div class="video-box abcter">
+                        <video src="" id="video" class="video absf" preload></video>
+                    </div>
+                </div>
+
+                <div class="m-stage-wrap absf">
+                    <canvas class="abcter"></canvas>
+                </div>
+
+                <!-- 分享蒙层 -->
+                <div class="m-share absf">
+                    <div class="share-tip abs sizcont"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- loading小动画 -->
+        <div class="m-icon-loading absf hide">
+            <div class="inner abcter">
+                <svg class="abcter" version="1.1" id="loader-1" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50">
+                    <path fill="#000"
+                        d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                        <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25"
+                            to="360 25 25" dur="0.6s" repeatCount="indefinite" />
+                    </path>
+                </svg>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="//ossweb-img.qq.com/images/js/zepto/zepto.modules.min.js"></script>
+    <script src="//game.gtimg.cn/images/js/mmdVideoPlayer/mmd.videoplayer.min.1.0.1.js" charset="utf-8"></script>
+    <script src="https://ossweb-img.qq.com/images/spiderMediaData/yxzj_new/mediaURLData_https.js"></script>
+
+    <% if (process.env.NODE_ENV==='handover' && process.env.NODE_ENV2 != 'qn' ) { %>
+        <script src="//ossweb-img.qq.com/images/js/TGMobileShare/TGMobileShare.min.js"></script>
+        <script type="text/javascript" src="//ossweb-img.qq.com/images/js/mobile_bundle/milo.js" ></script>
+        <script type="text/javascript" src="//ossweb-img.qq.com/images/ams/atm/reporting.js"></script>
+        <script type="text/javascript" src="//ossweb-img.qq.com/images/js/x8/user_report.js" iModuleId="10896" iActivityId="367562" iFlowId="748744"></script>
+        <script src="//pvp.qq.com/cp/a20210317wwf/js/index.js"></script>
+
+        <script src="//ossweb-img.qq.com/images/js/PTT/ping_tcss_tgideas_https_min.js"></script>
+        <script>
+            //此段代码不能放到外链JS中，
+            var setSite = { //设置网站属性
+                siteType: "a20210317wwf", //必填项:"os"代表是官网，如果不是，则填写actName例如a20160701xxx
+                pageType: "index", //必填项:本页面的定位；按照页面含义填写例如main||list||detail||download||share||page1||pageN,不支持点(.)、下划线(_)
+                pageName: "首页", //必填项:页面中文名
+                project: "story", //选填项:如果是官网模块则是必填;按照模块内容，填写固定的对应值;官网微社区base;同人站doujin;赛事match;故事站story;文化站history;粉丝站fans;爆料站coming;论坛bbs;皮肤skin;默认other;
+                osact: 0 //选填项:默认是0。osact=0表示非官网专题；osact=pc表示pc官网/pc官网专题；osact=m表示移动官网/移动官网专题；osact=ingame表示微社区/微社区专题
+            };
+            if (typeof (pgvMain) == 'function') pgvMain();//千万不能忘记！
+        </script>
+    <% } %>
+
+    <% if (process.env.NODE_ENV === 'handover') { %>
+
+        <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+
+        <% var jsFile = htmlWebpackPlugin.files.chunks[chunk].entry; %>
+
+        <script type="text/javascript" src="<%= jsFile %>"></script>
+
+        <% } %>
+
+        <% } else { %>
+        <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+
+        <% var jsFile = htmlWebpackPlugin.files.chunks[chunk].entry.substr(htmlWebpackPlugin.files.publicPath.length); %>
+
+        <script type="text/javascript" src="<%= jsFile %>"></script>
+
+        <% } %>
+
+    <% } %>
+
+    </body>
+</html>

@@ -1,0 +1,24 @@
+{
+    "eslint.validate": ["javascript", "javascriptreact", "vue", "typescript", "typescriptreact"],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "todo-tree.highlights.customHighlight": {
+        "TODO:": {
+        "foreground": "#fff",
+        "background": "#ffbd2a",
+        "iconColour": "#ffbd2a"
+        },
+        "FIXME:": {
+        "foreground": "#fff",
+        "background": "#f06292",
+        "icon": "flame",
+        "iconColour": "#f06292"
+        },
+        "DEBUG:": {
+        "foreground": "#fff",
+        "background": "green",
+        "iconColour": "green"
+        }
+    },
+}

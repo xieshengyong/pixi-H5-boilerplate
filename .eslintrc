@@ -1,6 +1,6 @@
 // https://github.com/feross/standard/blob/master/docs/RULES-zhcn.md
 {
-  "parser": "babel-eslint",
+  "parser": "typescript-eslint-parser",
   "extends": "standard",
   "env": {
     "browser": true,
@@ -14,18 +14,29 @@
     "dat": false
   },
   "rules": {
-    "indent": [2, 4, {
-      "SwitchCase": 1
-    }],
+    "indent": [2, 4, { "SwitchCase": 1 }],
+    "one-var": [2, { "initialized": "never" }],
     "semi": [2, "always"],
-    "one-var": [2, {
-      "initialized": "never"
-    }],
+    "semi-spacing": "error",
+    "keyword-spacing": "error",
+    "block-spacing": "error",
+    // 驼峰命名法
     "camelcase": [1, { "properties": "always" }],
+    // 函数声明时括号与函数名间加空格
+    "space-before-function-paren": [2, "always"],
+    // 除了缩进，不要使用多个空格
+    "no-multi-spaces": "error",
     "no-console": 0,
+    "space-infix-ops": "error",
     "handle-callback-err": 0,
+    // 使用浏览器全局变量时加上 window. 前缀
     "no-undef": 0,
+    "no-multiple-empty-lines": "error",
     "no-cond-assign": 0,
+    // 行末不留空格
+    "no-trailing-spaces": "error",
+    // 代码块中避免多余留白
+    "padded-blocks": ["error", "never"],
     "no-constant-condition": 0
   }
 }

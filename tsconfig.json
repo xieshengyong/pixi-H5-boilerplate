@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    // "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    // "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "lib":["es2015", "dom", "es2015.promise"],
+    // "typeRoots": [
+    //   "./node_modules/phaser/types"
+    // ],
+    // "types": [
+    //     "node",
+    //     "Phaser"
+    // ]
+  },
+}

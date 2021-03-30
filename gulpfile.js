@@ -1,201 +1,298 @@
-var gulp = require('gulp');
-var del = require('del');
-var rev = require('gulp-rev');
-var less = require('gulp-less');
-var gutil = require('gulp-util');
-var replace = require('gulp-replace');
+/*
+ * @Author: xieshengyong
+ * @Date: 2019-06-18 11:35:03
+ * @Last Modified by: xieshengyong
+ * @Last Modified time: 2019-09-23 17:24:54
+ */
+/* eslint-disable no-unused-vars */
+const {
+    series,
+    parallel,
+    src,
+    dest,
+    watch,
+    done
+} = require('gulp');
+
+// var browsersync = require('browser-sync').create();
+// var replace = require('gulp-replace');
 var rename = require('gulp-rename');
-var cssmin = require('gulp-cssmin');
-var plumer = require('gulp-plumber');
-var webpack = require('webpack');
-var webpackConfig = require('./webpack.config.js');
-var browsersync = require('browser-sync').create();
-var path = require('path');
-var header = require('gulp-header');
+var del = require('del');
+// var fileInline = require('gulp-file-inline');
+// var minimist = require('minimist');
+// var convertEncoding = require('gulp-convert-encoding');
+// var gulpLess = require('gulp-less');
+// var path = require('path');
+// var md5 = require('gulp-md5-plus');
+var vinylPaths = require('vinyl-paths');
+var audiosprite = require('gulp-audiosprite');
+var changed = require('gulp-changed');
+var gulpIf = require('gulp-if');
+var deleteEmpty = require('delete-empty');
 
-var lessSrc = './src/less/**/style.less';
-var lessDict = 'src/less/**/*.less';
-var imageSrc = 'src/img/**/*.*';
-var media = 'src/media/**/*.*';
-var jsSrc = 'src/js/**/*.*';
+var config = require('./config.path');
 
-var distPath = './dist/';
+// var options = minimist(process.argv.slice(2));
+// var Dir = config[options.d || 'dist'];
 
-// var txpath = 'http://shzjh.treedom.cn/handover/';
-var txpath = '//game.gtimg.cn/images/lol/m/act/a20170717lolmusic/';
-var cssExport = 'handover/';
-var jsexport = 'handover/';
-var imgExport = 'handover/ossweb-img/';
+let outputDir = './a20190826anniversary/';
 
-// 编译less
-gulp.task('less', function () {
-    return gulp.src(lessSrc)
-        .pipe(plumer())
-        .pipe(less({
-            paths: [ path.join(__dirname, 'less', 'includes') ]
+let audioExport = './src/media/';
+const audio = series(() => {
+    return src('./src/media/vo/*.*')
+        .pipe(audiosprite({
+            output: 'talkSound',
+            format: 'howler',
+            export: 'mp3',
+            path: '.',
+            bitrate: '96',
+            gap: 0.5
         }))
-        .pipe(gulp.dest(distPath + 'css/'));
+        .pipe(dest(audioExport));
+}, function () {
+    return src(audioExport + 'talkSound.json')
+        .pipe(vinylPaths(del))
+        .pipe(dest('./src/json/'));
 });
+exports.audio = audio;
 
-// 复制图片
-gulp.task('images', ['imagesList'], function () {
-    return gulp.src(imageSrc)
-        .pipe(rename({dirname: '.'}))
-        .pipe(gulp.dest(distPath + 'img/'));
-});
-
-// 生成图片文件名集合
-gulp.task('imagesList', function () {
-    return gulp.src('src/img/*.*')
-        .pipe(rev())
-        .pipe(rev.manifest('Imglist.js'))
-        .pipe(replace(/: ".+"/g, ''))
-        .pipe(replace(/"/g, "'"))
-        .pipe(replace(/  /g, '    '))
-        .pipe(replace(/{/g, 'var Imglist = ['))
-        .pipe(replace(/}/g, '];\nmodule.exports = Imglist;\n'))
-        .pipe(gulp.dest('src/js/app/'));
-});
-
-// 复制media
-gulp.task('media', function () {
-    return gulp.src(media)
-        .pipe(rename({dirname: '.'}))
-        .pipe(gulp.dest(distPath + 'img/'));
-});
-
-// webpack打包
-gulp.task('webpack', function (callback) {
-    var myConfig = Object.create(webpackConfig);
-
-    myConfig.output.filename = distPath + 'js/main.js';
-
-    // run webpack
-    webpack(myConfig, function (err, stats) {
-        if (err) throw new gutil.PluginError('webpack', err);
-        gutil.log('[webpack]', stats.toString({
-        }));
-        callback();
-    });
-});
-
-// 压缩less
-gulp.task('lessmin', function () {
-    return gulp.src(lessSrc)
-        .pipe(replace(/\/dist\/img\//g, txpath))
-        .pipe(less({
-            paths: [ path.join(__dirname, 'less', 'includes') ]
+const audiovo2 = series(() => {
+    return src('./src/media/vo2/*.*')
+        .pipe(audiosprite({
+            output: 'talkSound2',
+            format: 'howler',
+            export: 'mp3',
+            path: '.',
+            bitrate: '96',
+            gap: 0.5
         }))
-        .pipe(cssmin())
-        .pipe(gulp.dest(cssExport));
+        .pipe(dest(audioExport));
+}, function () {
+    return src(audioExport + 'talkSound2.json')
+        .pipe(vinylPaths(del))
+        .pipe(dest('./src/json/'));
 });
+exports.audiovo2 = audiovo2;
 
-gulp.task('rhtml', function () {
-    return gulp.src('index.html')
-        .pipe(replace(/"dist\/css\//g, '"' + txpath))
-        .pipe(replace(/"dist\/js\//g, '"' + txpath))
-        .pipe(gulp.dest('handover/'));
+const audio2 = series(() => {
+    return src('./src/media/effect/*.mp3')
+        .pipe(audiosprite({
+            output: 'effect',
+            format: 'howler',
+            export: 'mp3',
+            path: '.',
+            bitrate: '96'
+        }))
+        .pipe(dest(audioExport));
+}, function () {
+    return src(audioExport + 'effect.json')
+        .pipe(vinylPaths(del))
+        .pipe(dest('./src/json/'));
 });
+exports.audio2 = audio2;
 
-gulp.task('rjs', ['webpack:build'], function () {
-    return gulp.src(jsexport + 'main.js')
-        .pipe(replace(/imgPath="dist\/img\//g, 'imgPath="' + txpath))
-        .pipe(gulp.dest(jsexport));
-});
+const audioZip = () => {
+    return src('./src/media/bga.mp3')
+        .pipe(audiosprite({
+            output: 'bg',
+            format: '',
+            export: 'mp3',
+            path: '.',
+            bitrate: '96'
+        }))
+        .pipe(dest('./src/media/'));
+};
+exports.audioZip = audioZip;
 
-gulp.task('rimages', function () {
-    return gulp.src(imageSrc)
-        .pipe(rename({dirname: '.'}))
-        .pipe(gulp.dest(imgExport));
-});
+// 清理文件夹
+var clean = function () {
+    return del([outputDir + '**/*.*']);
+};
+exports.clean = clean;
 
-gulp.task('rmedia', function () {
-    return gulp.src(media)
-        .pipe(rename({dirname: '.'}))
-        .pipe(gulp.dest(imgExport));
-});
+// 复制资源
+var copy = series(clean, series(function () {
+    return src('./dist/**/*.*')
+            .pipe(dest(outputDir));
+}, function () {
+    return src([
+        './build/web-mobile/**',
+        '!./build/web-mobile/style-desktop**.css',
+        '!./build/web-mobile/style-mobile**.css',
+        '!./build/web-mobile/main**.js',
+        '!./build/web-mobile/splash**.png',
+        '!./build/web-mobile/index.html'
+    ], {
+        base: './build/web-mobile/'
+    })
+        .pipe(dest(outputDir + 'ossweb-img'));
+}));
+exports.copy = copy;
 
-gulp.task('rhead', ['rjs'], function () {
-    // using data from package.json
-    var pkg = require('./package.json');
-    var banner = ['/**',
-        ' * <%= pkg.name %> - <%= pkg.description %>',
-        ' * @version v<%= pkg.version %>',
-        ' * @author <%= pkg.author %>',
-        ' */',
-        ''].join('\n');
+// 替换html内路径
+var replaceHtml = function () {
+    return src('dist/index.html')
+        .pipe(replace(/\.\//g, Dir))
+        .pipe(dest(outputDir));
+};
+exports.replaceHtml = replaceHtml;
 
-    return gulp.src(jsexport + 'main.js')
-          .pipe(header(banner, {pkg: pkg}))
-          .pipe(gulp.dest(jsexport));
-});
-
-// 压缩js
-gulp.task('webpack:build', function (callback) {
-    var myConfig = Object.create(webpackConfig);
-
-    myConfig.plugins = myConfig.plugins.concat(
-        new webpack.optimize.UglifyJsPlugin()
-    );
-
-    // 过滤任意函数插件
-    // myConfig.module.loaders.push({text: /\.js$/, loader: 'webpack-strip?strip[]=TD.debug'});
-
-    myConfig.output.filename = jsexport + 'main.js';
-
-    myConfig.module.loaders[0] = {test: /js[\/|\\]lib[\/||\\][\w|\.|_|-]+js$/, loader: 'url-loader?importLoaders=1&limit=1000&name=' + jsexport + '[name].[ext]'};
-
-    // run webpack
-    webpack(myConfig, function (err, stats) {
-        if (err) {
-            throw new gutil.PluginError('webpack', err);
-        }
-        gutil.log('[webpack]', stats.toString({}));
-
-        callback();
+const copyjscss = series(
+    function () {
+        return src(outputDir + 'index.html')
+            .pipe(replace(Dir, './js/'))
+            .pipe(dest(outputDir));
+    },
+    function () {
+        return src(outputDir + 'index.html')
+            .pipe(replace('./js/main.css', './css/main.css'))
+            .pipe(dest(outputDir));
+    },
+    function () {
+        return src(outputDir + 'ossweb-img/' + 'game**.js')
+            .pipe(vinylPaths(del))
+            .pipe(replace(Dir + 'src/', './js/'))
+            .pipe(dest(outputDir + 'js/'));
+    },
+    function () {
+        return src([
+            outputDir + 'ossweb-img/' + 'cocos2d-js-min**.js',
+            outputDir + 'ossweb-img/' + 'main**.js',
+            outputDir + 'ossweb-img/' + 'src/project**.js',
+            outputDir + 'ossweb-img/' + 'src/settings**.js'
+        ])
+        .pipe(vinylPaths(del))
+        .pipe(dest(outputDir + 'js/'));
+    }, function () {
+        return src([
+            outputDir + 'ossweb-img/' + 'src/assets/script/utils/howler.min**.js'
+        ])
+        .pipe(vinylPaths(del))
+        .pipe(dest(outputDir + 'js/assets/script/utils/'));
+    }, function () {
+        return src([
+            outputDir + 'ossweb-img/' + 'main**.css'
+        ])
+        .pipe(vinylPaths(del))
+        .pipe(dest(outputDir + 'css/'));
     });
+exports.copyjscss = copyjscss;
+
+// 替换game.js内路径
+var replaceMain = function () {
+    return src('change/game.js')
+        .pipe(replace(/res\//g, Dir + 'res/'))
+        .pipe(replace(/'src\//g, "'" + Dir + 'src/'))
+        .pipe(dest(outputDir + 'ossweb-img/'));
+};
+exports.replaceMain = replaceMain;
+
+const isMd5 = (file) => {
+    if (options.md5) {
+        return md5(5, file);
+    } else {
+        return replace();
+    }
+};
+
+// md5
+var mdbuild = series(function () {
+    return src(outputDir + 'ossweb-img/src/project.**js')
+            .pipe(vinylPaths(del))
+            .pipe(rename('project.js'))
+            .pipe(isMd5(outputDir + 'ossweb-img/game.js'))
+            .pipe(dest(outputDir + 'ossweb-img/src'))
+            ;
+}, function () {
+    return src(outputDir + 'ossweb-img/cocos2d-js-min.**js')
+            .pipe(vinylPaths(del))
+            .pipe(rename('cocos2d-js-min.js'))
+            .pipe(isMd5(outputDir + 'index.html'))
+            .pipe(dest(outputDir + 'ossweb-img'));
+}, function () {
+    return src(outputDir + 'ossweb-img/src/settings.**js')
+            .pipe(vinylPaths(del))
+            .pipe(rename('settings.js'))
+            .pipe(isMd5(outputDir + 'index.html'))
+            .pipe(dest(outputDir + 'ossweb-img/src'));
+}, function () {
+    return src(outputDir + 'ossweb-img/game.js')
+            .pipe(vinylPaths(del))
+            .pipe(isMd5(outputDir + 'index.html'))
+            .pipe(dest(outputDir + 'ossweb-img'));
 });
+exports.mdbuild = mdbuild;
+
+const gbk = () => {
+    return src([outputDir + '**/*.html', outputDir + '**/*.json', outputDir + '**/*.js'])
+        .pipe(replace(/utf-8/g, 'gbk'))
+        .pipe(convertEncoding({
+            from: 'utf8',
+            to: 'gbk'
+        }))
+        .pipe(dest(outputDir + ''));
+    // if (options.gbk) {
+    // }
+};
+exports.gbk = gbk;
 
 // browsersync自动刷新
-gulp.task('browsersync', function () {
+var browserSync = function () {
     browsersync.init({
         open: 'external',
         server: {
-            baseDir: './'
+            baseDir: './change/'
+            // baseDir: "a20181213act_mobile"
         },
         // port: 80,
-        files: ['./dist/img/*.*', './dist/css/*.*', './dist/js/*.*', './*.html']
+        files: ['change/*.css', 'change/*.css', 'change/*.js', 'change/*.html']
     });
-});
+};
+exports.sync = browserSync;
 
-// 清理dist/img文件夹，避免重复文件
-gulp.task('cleanImg', function (cb) {
-    del([
-        distPath
-    ], cb);
-});
+var browserSync2 = function () {
+    browsersync.init({
+        open: 'external',
+        server: {
+            baseDir: outputDir
+        }
+        // files: ['a20181213act_mobile/*.html']
+    });
+};
+exports.sync2 = browserSync2;
 
-// 默认侦听
-gulp.task('default', ['images', 'less', 'webpack', 'media'], function () {
-    gulp.watch(imageSrc, ['images']);
+// 对比
+var marked = series(() => {
+    return del(['aHasChangedFiles/**']);
+}, () => {
+    return src(['dist/**'], {
+        base: outputDir
+    })
+    .pipe(gulpIf(f => !f.isDirectory(), changed('aBuildHistory/0lastBuild/', {hasChanged: changed.compareContents})))
+    .pipe(dest('aHasChangedFiles/'));
+}/* , () => {
+    src('aBuildHistory/0lastBuild/**')
+        .pipe(dest('aBuildHistory/' + Date.now()));
+    return del('aBuildHistory/0lastBuild');
+}, () => {
+    return src('dist/**', {
+        base: outputDir
+    })
+    .pipe(dest('aBuildHistory/0lastBuild'));
+}, () => {
+    return new Promise((resolve, reject) => {
+        deleteEmpty('aHasChangedFiles/').then(resolve);
+    });
+} */);
+exports.marked = marked;
 
-    gulp.watch(lessDict, ['less']);
+exports.time = () => {
+    // console.log(new Date().getTime());
+    // console.log(Date.now());
+    src('aBuildHistory/0lastBuild/**')
+    .pipe(dest('aBuildHistory/' + Date.now()));
+    // console.log(1);
+};
 
-    gulp.watch(jsSrc, ['webpack']);
-
-    gulp.watch(media, ['media']);
-});
-
-// 自动刷新
-gulp.task('sync', ['images', 'less', 'webpack', 'media', 'browsersync'], function () {
-    gulp.watch(imageSrc, ['images']);
-
-    gulp.watch(lessDict, ['less']);
-
-    gulp.watch(jsSrc, ['webpack']);
-
-    gulp.watch(media, ['media']);
-});
-
-// 压缩
-gulp.task('zip', ['lessmin', 'rhtml', 'rimages', 'rmedia', 'rhead']);
+// exports.build = series(copy, replaceHtml, replaceMain, mdbuild, gbk);
+exports.build = series(copy, replaceHtml, replaceMain, mdbuild);
