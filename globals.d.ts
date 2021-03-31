@@ -20,5 +20,5 @@ interface PlaceDataChildType {
 }
 
 interface Window {
-
+    lloogg: any;
 }
