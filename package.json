@@ -1,4 +1,12 @@
 {
+    "name": "pixi-h5-boilerplate",
+    "description": "基于pixi.js的高性能多动效H5模板",
+    "author": "xieshengyong",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/xieshengyong/pixi-H5-boilerplate"
+    },
     "scripts": {
         "start": "npm run dev",
         "dev": "webpack-dev-server --config webpack.config.dev.js",

@@ -21,4 +21,8 @@
 
 `npm run qn`： 生成可部署至七牛的代码包
 
-`npm run handover`：生成可交接的代码包，并生成zip包，需提前在package.json中zip命令中修改正确路径和包名称
+`npm run handover`：生成可交接的代码包，并生成zip包，需提前在zip命令中修改正确路径和包名称
+
+## License
+
+[MIT](https://github.com/axios/axios/blob/master/LICENSE)
