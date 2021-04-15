@@ -1,0 +1,90 @@
+{
+"skeleton": { "hash": "KuojhMklX2KGns1wv+dBMVwNJwc", "spine": "3.8.75", "x": 230, "y": -496, "width": 300, "height": 191 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "head", "parent": "root", "length": 136.62, "rotation": 89.86, "x": 405.36, "y": -470.6 },
+	{ "name": "eye-contorl", "parent": "head", "x": 62.68, "y": -8.31 },
+	{ "name": "eye-pupil-back", "parent": "eye-contorl", "length": 52.17, "rotation": -6.28, "x": -23.02, "y": 41.6 },
+	{ "name": "eye-pupil-back copy", "parent": "eye-contorl", "length": 52.28, "rotation": -7.34, "x": -17.67, "y": -27.07 },
+	{ "name": "girlhair-back-control", "parent": "head", "x": 110.47, "y": 113.03 },
+	{ "name": "front-control", "parent": "root", "rotation": 89.86, "x": 414.15, "y": -388.49 },
+	{ "name": "back-control", "parent": "root", "rotation": 89.86, "x": 322.35, "y": -375.59 }
+],
+"slots": [
+	{ "name": "girlhair-back", "bone": "girlhair-back-control", "attachment": "girlhair-back" },
+	{ "name": "head", "bone": "head", "attachment": "head" },
+	{ "name": "eye-pupil-back", "bone": "eye-pupil-back", "attachment": "eye-pupil-back" },
+	{ "name": "eye-pupil-back copy", "bone": "eye-pupil-back copy", "attachment": "eye-pupil-back copy" }
+],
+"transform": [
+	{
+		"name": "eye-tns",
+		"order": 1,
+		"bones": [ "eye-contorl" ],
+		"target": "front-control",
+		"x": -19.46,
+		"y": 0.28,
+		"rotateMix": 0,
+		"translateMix": 0.135,
+		"scaleMix": 0,
+		"shearMix": 0
+	},
+	{
+		"name": "hairBack-tns",
+		"order": 2,
+		"bones": [ "girlhair-back-control" ],
+		"target": "back-control",
+		"x": 15.65,
+		"y": 29.79,
+		"rotateMix": 0,
+		"translateMix": 0.143,
+		"scaleMix": 0,
+		"shearMix": 0
+	},
+	{
+		"name": "tns-1",
+		"bones": [ "back-control" ],
+		"target": "front-control",
+		"x": 12.68,
+		"y": 91.83,
+		"rotateMix": 0,
+		"translateMix": -1,
+		"scaleMix": 0,
+		"shearMix": 0
+	}
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"eye-pupil-back": {
+				"eye-pupil-back": { "x": 25.42, "y": 1.01, "rotation": -83.58, "width": 44, "height": 61 }
+			},
+			"eye-pupil-back copy": {
+				"eye-pupil-back copy": { "x": 25.25, "y": 1.15, "rotation": -82.52, "width": 44, "height": 61 }
+			},
+			"girlhair-back": {
+				"girlhair-back": { "x": -40.42, "y": -87.5, "rotation": -89.86, "width": 300, "height": 191 }
+			},
+			"head": {
+				"head": { "x": 70.09, "y": 6.03, "rotation": -89.86, "width": 195, "height": 151 }
+			}
+		}
+	}
+],
+"animations": {
+	"animation": {
+		"bones": {
+			"front-control": {
+				"translate": [
+					{ "x": 73.5, "y": -1.68 },
+					{ "time": 0.3333, "x": 40.32, "y": -37.38 },
+					{ "time": 0.6667, "x": 5.88, "y": -13.02 },
+					{ "time": 1, "x": 38.64, "y": 21.42 },
+					{ "time": 1.3333, "x": 73.5, "y": -1.68 }
+				]
+			}
+		}
+	}
+}
+}

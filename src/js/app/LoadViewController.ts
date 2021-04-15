@@ -4,6 +4,9 @@ import Config, { formatDragonBonesAssets, formatImgList, formatDelayImgList, for
 import PX from './tool/PX';
 import TD, { browser, util, push, scriptLoader } from './tool/TD';
 import { delay, getRandom } from './tool/BaseTools';
+import './util/pixi-spine';
+// @ts-ignore
+import { addStats, Stats } from 'pixi-stats';
 // import dragonBones from './util/dragonBones';
 // window.dragonBones = dragonBones;
 
@@ -56,6 +59,12 @@ var initProject = async function () {
         });
     }
 
+    if (util.getQuery('stats') === '1') {
+        const stats: Stats = addStats(document, PX.app);
+        const ticker: PIXI.Ticker = PIXI.Ticker.shared;
+        ticker.add(stats.update, stats, PIXI.UPDATE_PRIORITY.UTILITY);
+    }
+
     // DEBUG: 全局静音
     util.getQuery('mute') === '1' && Howler.mute(true);
 };
@@ -68,9 +77,7 @@ export default class LoadViewController extends ViewController {
 
     private init () {
         // 防止IOS序列帧动画抖动
-        if (browser.versions.ios) {
-            PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH;
-        }
+        browser.versions.ios && (PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH);
 
         // 安卓8、IOS12以下不加载更多动画；
         Config.notLoadMoreAnim = parseInt(browser.versions.androidVer?.[1]) < 8 || parseInt(browser.versions.iosVer?.[1]) < 12;
@@ -109,9 +116,10 @@ export default class LoadViewController extends ViewController {
         let loader = new PIXI.Loader();
         loader.onStart.add(() => console.log('begin load'));
         loader
+            // .add(formatDragonBonesAssets())
             .add(formatImgList())
             .add(formatJsonList())
-            .load(async () => {
+            .load(async (loader, res) => {
                 loadingProcess.html('点击开始');
 
                 this.initEvent();
@@ -124,11 +132,55 @@ export default class LoadViewController extends ViewController {
                     $('.m-loading').fadeOut();
                     this.showIndex();
                     this.hideVideo();
-                    await delay(2);
-                    await this.loadSecond();
+                    // await delay(2);
+                    // await this.loadSecond();
                 } else {
                     this.loadEnding();
                 }
+
+                // var animation = new PIXI.spine.Spine(res['img/spriteSheet/tns-test.json'].spineData);
+                // PX.stage.addChild(animation);
+                // animation.position.set(-50, 0);
+                // animation.state.setAnimation(0, 'animation', true);
+
+                // var animation1 = new PIXI.spine.Spine(res['img/spriteSheet/mask-test.json'].spineData);
+                // PX.stage.addChild(animation1);
+                // animation1.position.set(900, 0);
+                // animation1.state.setAnimation(0, 'animation', true);
+                // // animation.scale.set(0.2);
+
+                var animation2 = new PIXI.spine.Spine(res['img/spriteSheet/skeleton.json'].spineData);
+                animation2.position.set(600, 375);
+                animation2.scale.set(0.6);
+                PX.stage.addChild(animation2);
+                animation2.name = 'book';
+                // @ts-ignore
+                animation2.getChildAt(0).children[0].texture = PIXI.utils.TextureCache['skeleton-2.jpg'];
+                // console.log(11, animation2.getChildAt(0).children[0].texture.from);
+                // @ts-ignore
+                window.aaaa = animation2.getChildAt(0).children[0];
+
+                // let texture = new PIXI.BaseTexture('icon_drj.png');
+                // let sprite1 = new PIXI.Sprite(PIXI.utils.TextureCache['icon_lyf.png']);
+                // sprite1.position.set(0, 0);
+                // PX.stage.addChild(sprite1);
+                // console.log(sprite1);
+                // animation2.getChildAt(0).children[0].texture = PX.addSprite(this.mainWrap, 'icon_drj.png', 200, 100).texture;
+                animation2.state.setAnimation(0, 'animation', !true);
+                // animation2.skeleton.setSkinByName('boy');
+
+                // var animation3 = new PIXI.spine.Spine(res['img/spriteSheet/bg_juewei_251.json'].spineData);
+                // animation3.position.set(800, 750);
+                // animation3.scale.set(0.5);
+                // PX.stage.addChild(animation3);
+                // animation3.state.setAnimation(0, 'start', true);
+                // animation3.skeleton.setSkinByName('boy');
+                // await delay(1);
+                // animation2.state.setAnimation(0, 'idle', true);
+                // animation2.skeleton.setSkinByName('full-skins/girl');
+                // await delay(1);
+                // animation2.state.setAnimation(0, 'dance', true);
+                // animation2.skeleton.setSkinByName('boy');
 
                 push('page', 'loading', '加载完成，耗时：' + (Date.now() - beginLoadTime));
             })

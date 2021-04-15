@@ -1,0 +1,34 @@
+
+tns-test.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eye-pupil-back
+  rotate: true
+  xy: 146, 150
+  size: 18, 27
+  orig: 22, 31
+  offset: 2, 2
+  index: -1
+eye-pupil-back copy
+  rotate: true
+  xy: 146, 150
+  size: 18, 27
+  orig: 22, 31
+  offset: 2, 2
+  index: -1
+girlhair-back
+  rotate: false
+  xy: 0, 148
+  size: 146, 92
+  orig: 150, 96
+  offset: 2, 2
+  index: -1
+head
+  rotate: false
+  xy: 146, 168
+  size: 94, 72
+  orig: 98, 76
+  offset: 2, 2
+  index: -1

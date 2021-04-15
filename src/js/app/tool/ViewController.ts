@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2020-05-25 17:05:09
- * @LastEditTime: 2021-03-21 21:56:41
+ * @LastEditTime: 2021-03-31 17:44:17
  * @LastEditors: xieshengyong
  */
 
@@ -20,6 +20,7 @@ export default class ViewController {
     public on (eventName: string, callback: any) {
         let pool = this._eventPool[eventName] || (this._eventPool[eventName] = []);
         pool.push(callback);
+        console.log('pool :>> ', pool);
     }
 
     public once (eventName: string, callback: any) {
@@ -27,6 +28,7 @@ export default class ViewController {
 
         let oncePool = this._onceEventPool[eventName] || (this._onceEventPool[eventName] = []);
         oncePool.push(callback);
+        // console.log('oncePool :>> ', oncePool);
     }
 
     public sync (fun: (resolve: (value: unknown) => void, reject: (reason?: any) => void) => void) {
@@ -38,12 +40,16 @@ export default class ViewController {
         eventCbs?.forEach((element: (arg0: any, arg1: any, arg2: any, arg3: any, arg4: any) => void, idx: any) => {
             element(data0, data1, data2, data3, data4);
             let onceEventCbs = this._onceEventPool[eventName] || [];
+            console.log('onceEventCbs :>> ', onceEventCbs.length);
             onceEventCbs.some((ele: any, index: any) => {
                 if (ele === element) {
+                    console.log(3);
                     eventCbs.splice(idx, 1);
+                    console.log('eventCbs :>> ', eventCbs.length);
                     return onceEventCbs.splice(index, 1);
                 }
             });
+            console.log('onceEventCbs1 :>> ', onceEventCbs.length);
         });
     }
 

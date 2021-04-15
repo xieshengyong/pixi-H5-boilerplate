@@ -1,8 +1,8 @@
 {
     "name": "pixi-h5-boilerplate",
+    "version": "0.0.1",
     "description": "基于pixi.js的高性能多动效H5模板",
     "author": "xieshengyong",
-    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "https://github.com/xieshengyong/pixi-H5-boilerplate"
@@ -11,7 +11,7 @@
         "start": "npm run dev",
         "dev": "webpack-dev-server --config webpack.config.dev.js",
         "dist": "cross-env NODE_ENV2=dist webpack --config webpack.config.handover.js && npm run replace",
-        "replace": "cd dist/ossweb-img/ && replace 'ossweb-img/' '' -r --include=main.*.css,main.css",
+        "replace": "cd dist/a20210317wwf/ossweb-img/ && replace 'ossweb-img/' '' -r --include=main.*.css,main.css",
         "qn1": "cross-env NODE_ENV2=qn webpack --config webpack.config.handover.js",
         "qn": "cross-env NODE_ENV2=qn webpack --config webpack.config.handover.js",
         "handover": "webpack --config webpack.config.handover.js && npm run zip",
@@ -24,6 +24,13 @@
         "zip2": "cd dist && bestzip a20210104aa.zip a20210104aa/*",
         "sever": "cd dist && browser-sync start -s"
     },
+    "keywords": [
+        "h5",
+        "animation",
+        "pixijs",
+        "boilerplate"
+    ],
+    "license": "MIT",
     "devDependencies": {
         "awesome-typescript-loader": "^5.2.0",
         "bestzip": "^2.1.7",
@@ -111,6 +118,7 @@
         "phaser": "^3.19.0",
         "pixi-filters": "^3.2.2",
         "pixi-particles": "^4.3.0",
+        "pixi-stats": "^1.0.6",
         "pixi.js": "^5.3.7",
         "sha1": "^1.1.1"
     }

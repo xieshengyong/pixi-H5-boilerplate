@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2021-01-04 11:30:04
- * @LastEditTime: 2021-03-19 15:12:26
+ * @LastEditTime: 2021-04-15 20:05:05
  * @LastEditors: xieshengyong
  */
 /**
@@ -20,7 +20,7 @@ interface PXType {
     init: Function
 }
 
-const Cache = PIXI.utils.TextureCache; // eslint-disable-line
+const Cache = PIXI.utils.TextureCache;
 
 const PX = {
     res: {'': ''},

@@ -5,24 +5,26 @@ import ViewController from './app/tool/ViewController';
 import LoadViewController from './app/LoadViewController';
 import IndexViewController from './app/IndexViewController';
 
-(function () {
-    const ViewInstance = new ViewController();
+window.addEventListener('load', () => {
+    (function () {
+        const ViewInstance = new ViewController();
 
-    // load页面
-    const loadPageBack = () => {
-        let loadView = new LoadViewController(ViewInstance);
+        // load页面
+        const loadPageBack = () => {
+            let loadView = new LoadViewController(ViewInstance);
 
-        loadView.on('showIndex', indexPageBack);
+            loadView.on('showIndex', indexPageBack);
 
-        loadView.show();
-    };
+            loadView.show();
+        };
 
-    // 长图页面
-    const indexPageBack = (debug: boolean) => {
-        let indexView = new IndexViewController(ViewInstance);
+        // 长图页面
+        const indexPageBack = (debug: boolean) => {
+            let indexView = new IndexViewController(ViewInstance);
 
-        indexView.show(debug);
-    };
+            indexView.show(debug);
+        };
 
-    loadPageBack();
-})();
+        loadPageBack();
+    })();
+});
