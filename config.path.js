@@ -5,6 +5,7 @@
 module.exports = {
     dev: '',
     dist: './ossweb-img/',
-    qn: '//qrss.treedom.cn/wzryWWF5/',
+    qn: '//qrtss.treedom.cn/wzryWWF51/',
+    // qn: '//dnfzyzs.treedom.cn/test/ossweb-img/',
     handover: '//game.gtimg.cn/images/yxzj/cp/a20210317wwf/'
 };

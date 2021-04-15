@@ -65,7 +65,7 @@ module.exports = function () {
                     ]
                 },
                 {
-                    test: /\.(fnt|png|jpg|gif|svg|ttf|TTF|OTF)$/,
+                    test: /\.(fnt|png|jpg|gif|svg|ttf|TTF|OTF|atlas)$/,
                     include: [
                         path.resolve(__dirname, 'src/img')
                     ],
@@ -85,7 +85,7 @@ module.exports = function () {
                     ]
                 },
                 {
-                    test: /\.(plist|int|json|png|jpg)$/,
+                    test: /\.(plist|int|json|png|jpg|atlas)$/,
                     include: [
                         path.resolve(__dirname, 'src/img/dragonBonesAssets')
                     ],
@@ -101,7 +101,7 @@ module.exports = function () {
                     type: 'javascript/auto'
                 },
                 {
-                    test: /\.(plist|int|fnt|json|png|jpg)$/,
+                    test: /\.(plist|int|fnt|json|png|jpg|atlas)$/,
                     include: [
                         path.resolve(__dirname, 'src/img/spriteSheet')
                     ],

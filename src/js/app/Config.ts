@@ -85,7 +85,8 @@ export function formatImgList () {
         let name = Imglist[i].slice(2);
         list.push({
             name: name,
-            url: require('../../img/autoLoad/' + name)
+            url: require('../../img/autoLoad/' + name),
+            crossOrigin: ''
         });
     }
     return list;

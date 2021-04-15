@@ -30,11 +30,29 @@ export default class IndexViewController extends ViewController {
         this.initParticeles();
     }
 
-    private initScene () {
+    private async initScene () {
         this.mainWrap = PX.addCtn(PX.stage);
 
-        let demo1 = PX.addSprite(this.mainWrap, 'icon_lyf.png', 100, 100);
-        let demo2 = PX.addSprite(this.mainWrap, 'icon_drj.png', 200, 100);
+        // let sprite1 = new PIXI.Sprite(PIXI.utils.TextureCache['icon_lyf.png']);
+        // sprite1.position.set(100, 100);
+        // this.mainWrap.addChild(sprite1);
+        // let sprite = new PIXI.Sprite(Cache[cacheName]);
+
+        // let demo1 = PX.addSprite(this.mainWrap, 'icon_lyf.png', 100, 100, true);
+        // let demo2 = PX.addSprite(this.mainWrap, 'icon_drj.png', 200, 100);
+
+        // demo1.on('tap', (e: any) => {
+        //     console.log(e);
+        // });
+
+        this.once('demo', () => {
+            console.log(1);
+        });
+        this.once('demo', () => {
+            console.log(2);
+        });
+        await delay(1);
+        this.emit('demo');
     }
 
     private initParticeles () {

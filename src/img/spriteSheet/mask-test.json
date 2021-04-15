@@ -1,0 +1,69 @@
+{
+"skeleton": { "hash": "i9sNdxLjq0W+8Fr2M42Chx91FRI", "spine": "3.8.75", "x": 102, "y": -506, "width": 564, "height": 212 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "eye-lashes-l", "parent": "root", "length": 194.7, "rotation": 89.07, "x": 544.46, "y": -498.69 },
+	{ "name": "eye-lashes-r", "parent": "root", "length": 177.95, "rotation": 87.27, "x": 235.52, "y": -493.4 },
+	{ "name": "eye-contorl", "parent": "root", "x": 402.04, "y": -260.67 },
+	{ "name": "eye-pupil-r", "parent": "eye-contorl", "x": -174.07, "y": 119.32 },
+	{ "name": "eye-pupil-l", "parent": "eye-contorl", "x": 144.25, "y": 118.58 }
+],
+"slots": [
+	{ "name": "eye-pupil-r-mask-2", "bone": "root", "attachment": "eye-pupil-r-mask-2" },
+	{ "name": "eye-pupil-r", "bone": "eye-pupil-r", "attachment": "eye-pupil-r" },
+	{ "name": "eye-lashes-r", "bone": "eye-lashes-r", "attachment": "eye-lashes-r" },
+	{ "name": "eye-pupil-l-mask", "bone": "root", "attachment": "eye-pupil-l-mask" },
+	{ "name": "eye-pupil-l", "bone": "eye-pupil-l", "attachment": "eye-pupil-l" },
+	{ "name": "eye-lashes-l", "bone": "eye-lashes-l", "attachment": "eye-lashes-l" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"eye-pupil-l-mask": {
+				"eye-pupil-l-mask": {
+					"type": "clipping",
+					"end": "eye-pupil-l",
+					"vertexCount": 24,
+					"vertices": [ 438.98, -479.79, 429.46, -462.19, 423.14, -435.07, 428.09, -413.15, 437.24, -399.94, 450.06, -386.49, 472.34, -363.12, 494.46, -344.77, 519.32, -326.1, 548.38, -313.54, 585.52, -309.84, 621.38, -308.63, 655.15, -313.61, 659.9, -344.49, 656.54, -375.85, 640.3, -415.51, 623.28, -445.42, 600.47, -472.01, 581.27, -483.83, 562.28, -496.34, 540.93, -502.59, 515.8, -501.49, 484.07, -502.52, 456.22, -496.19 ]
+				}
+			},
+			"eye-pupil-r-mask-2": {
+				"eye-pupil-r-mask-2": {
+					"type": "clipping",
+					"end": "eye-pupil-r",
+					"vertexCount": 22,
+					"vertices": [ 115.74, -376.67, 114.59, -347.36, 128.9, -318.61, 170.7, -308.88, 211.52, -309.14, 249.19, -317.06, 280.52, -331.19, 306.88, -348.75, 326.45, -364.1, 346.33, -383.46, 363.91, -401.24, 374.43, -418.2, 372.11, -447.7, 360.68, -477.96, 339.08, -493.64, 305.74, -502.44, 259.99, -501.03, 216.26, -494.74, 187.65, -477.96, 166.09, -458.04, 147.14, -437.94, 129.24, -411.73 ]
+				}
+			},
+			"eye-pupil-l": {
+				"eye-pupil-l": { "x": -12.47, "y": -279.21, "width": 113, "height": 161 }
+			},
+			"eye-lashes-l": {
+				"eye-lashes-l": { "x": 98.62, "y": 5.57, "rotation": -89.07, "width": 251, "height": 212 }
+			},
+			"eye-pupil-r": {
+				"eye-pupil-r": { "x": 17.05, "y": -276.15, "width": 128, "height": 161 }
+			},
+			"eye-lashes-r": {
+				"eye-lashes-r": { "x": 93.73, "y": -4.53, "rotation": -87.27, "width": 285, "height": 212 }
+			}
+		}
+	}
+],
+"animations": {
+	"animation": {
+		"bones": {
+			"eye-contorl": {
+				"translate": [
+					{ "x": -30.19, "y": 11.54 },
+					{ "time": 0.3333, "x": 13.32, "y": -50.62 },
+					{ "time": 0.6667, "x": 52.39, "y": -0.89 },
+					{ "time": 1, "x": -3.55, "y": 69.26 },
+					{ "time": 1.3333, "x": -30.19, "y": 11.54 }
+				]
+			}
+		}
+	}
+}
+}
