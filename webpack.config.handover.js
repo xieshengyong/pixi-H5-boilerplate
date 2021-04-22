@@ -171,7 +171,7 @@ module.exports = function () {
                     type: 'javascript/auto'
                 },
                 {
-                    test: /\.(plist|int|fnt|json|png|jpg)$/,
+                    test: /\.(plist|int|fnt|json|png|jpg|atlas)$/,
                     include: [
                         path.resolve(__dirname, 'src/img/spriteSheet')
                     ],

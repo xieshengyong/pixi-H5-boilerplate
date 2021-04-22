@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-vars */
-import ViewController from './tool/ViewController';
+import View from './tool/View';
 import PX from './tool/PX';
 import Config from './Config';
-import { delay, getRandom } from './tool/BaseTools';
+import { delay, getImg, getRandom } from './tool/BaseTools';
 import { util, push } from './tool/TD';
-import EmitterSnow from '../../json/EmitterSnow.json';
 
-export default class IndexViewController extends ViewController {
+import EmitterSnow from '../../json/EmitterSnow.json'; // 粒子数据
+
+export default class IndexViewController extends View {
     isInit: boolean;
     isSecondLoadEnd: boolean;
-    emitterCb: (dt: number) => void;
     mainWrap: PIXI.Container;
 
     private async init () {
@@ -26,46 +26,53 @@ export default class IndexViewController extends ViewController {
         });
 
         this.initScene();
-        await delay(0.1);
-        this.initParticeles();
+        // await delay(0.1);
+        // this.initParticeles();
+        // this.goPageDownTest();
     }
 
     private async initScene () {
         this.mainWrap = PX.addCtn(PX.stage);
 
-        // let sprite1 = new PIXI.Sprite(PIXI.utils.TextureCache['icon_lyf.png']);
-        // sprite1.position.set(100, 100);
-        // this.mainWrap.addChild(sprite1);
-        // let sprite = new PIXI.Sprite(Cache[cacheName]);
-
         // let demo1 = PX.addSprite(this.mainWrap, 'icon_lyf.png', 100, 100, true);
-        // let demo2 = PX.addSprite(this.mainWrap, 'icon_drj.png', 200, 100);
 
         // demo1.on('tap', (e: any) => {
         //     console.log(e);
         // });
-
-        this.once('demo', () => {
-            console.log(1);
-        });
-        this.once('demo', () => {
-            console.log(2);
-        });
-        await delay(1);
-        this.emit('demo');
     }
 
+    // mesh动画贴图更换测试（翻页效果）
+    goPageDownTest () {
+        var animation2 = new PIXI.spine.Spine(Config.loaderRes[Config.imgPath + 'spriteSheet/meshSpriteReplace.json'].spineData);
+        animation2.position.set(600, 375);
+        animation2.scale.set(0.6);
+        this.mainWrap.addChild(animation2);
+        animation2.name = 'book';
+        animation2.state.setAnimation(0, 'animation', !true);
+
+        let skins = ['icon_lyf.png', 'skeleton-2.jpg'];
+        let changeSkin = PX.addText(this.mainWrap, '贴图更换', 800, 600, 30, 'red', 'center', 400);
+        changeSkin.interactive = true;
+        changeSkin.on('tap', async () => {
+            let img = await getImg(require('../../img/autoLoad/' + skins[0]), true);
+            // @ts-ignore
+            animation2.getChildAt(0).children[0].texture = PIXI.Texture.from(img);
+            animation2.state.setAnimation(0, 'animation', !true);
+            skins.unshift(skins.pop());
+        });
+    }
+
+    // 粒子效果测试
     private initParticeles () {
         if (Config.notLoadMoreAnim) return;
         let pWrap = PX.addCtn(this.mainWrap);
         let emitterSnow = new window.Particles.Emitter(pWrap, [PIXI.Sprite.from('particle.png').texture], EmitterSnow);
         emitterSnow.emit = true;
 
-        this.emitterCb = (dt: number) => {
-            emitterSnow.update(dt * 0.016);
-        };
         // @ts-ignore
-        this.emitterCb && PX.app.ticker.add(this.emitterCb);
+        this.emitterCb && PX.app.ticker.add((dt: number) => {
+            emitterSnow.update(dt * 0.016);
+        });
     }
 
     // 检测所有资源加载完
