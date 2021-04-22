@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 var GStats;
 (function (GStats) {
     var BaseHooks = /** @class */ (function () {
-        function BaseHooks() {
+        function BaseHooks () {
             this._drawCalls = -1;
             this._maxDeltaDrawCalls = -1;
         }
@@ -10,7 +10,7 @@ var GStats;
             this.glhook = new GStats.GLHook(gl);
             this.texturehook = new GStats.TextureHook(gl);
         };
-        Object.defineProperty(BaseHooks.prototype, "drawCalls", {
+        Object.defineProperty(BaseHooks.prototype, 'drawCalls', {
             get: function () {
                 if (this.glhook && this.glhook.isInit) {
                     return this.glhook.drawPasses;
@@ -20,14 +20,14 @@ var GStats;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(BaseHooks.prototype, "maxDeltaDrawCalls", {
+        Object.defineProperty(BaseHooks.prototype, 'maxDeltaDrawCalls', {
             get: function () {
                 return this._maxDeltaDrawCalls;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(BaseHooks.prototype, "deltaDrawCalls", {
+        Object.defineProperty(BaseHooks.prototype, 'deltaDrawCalls', {
             get: function () {
                 if (this._drawCalls == -1) {
                     this._drawCalls = this.drawCalls;
@@ -42,19 +42,17 @@ var GStats;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(BaseHooks.prototype, "maxTextureCount", {
+        Object.defineProperty(BaseHooks.prototype, 'maxTextureCount', {
             get: function () {
-                if (this.texturehook && this.texturehook.isInit)
-                    return this.texturehook.maxTexturesCount;
+                if (this.texturehook && this.texturehook.isInit) { return this.texturehook.maxTexturesCount; }
                 return 0;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(BaseHooks.prototype, "texturesCount", {
+        Object.defineProperty(BaseHooks.prototype, 'texturesCount', {
             get: function () {
-                if (this.texturehook && this.texturehook.isInit)
-                    return this.texturehook.currentTextureCount;
+                if (this.texturehook && this.texturehook.isInit) { return this.texturehook.currentTextureCount; }
                 return 0;
             },
             enumerable: true,
@@ -63,16 +61,12 @@ var GStats;
         BaseHooks.prototype.reset = function () {
             this._maxDeltaDrawCalls = -1;
             this._drawCalls = -1;
-            if (this.glhook)
-                this.glhook.reset();
-            if (this.texturehook)
-                this.texturehook.reset();
+            if (this.glhook) { this.glhook.reset(); }
+            if (this.texturehook) { this.texturehook.reset(); }
         };
         BaseHooks.prototype.release = function () {
-            if (this.glhook)
-                this.glhook.release();
-            if (this.texturehook)
-                this.texturehook.release();
+            if (this.glhook) { this.glhook.release(); }
+            if (this.texturehook) { this.texturehook.release(); }
         };
         return BaseHooks;
     }());
@@ -81,7 +75,7 @@ var GStats;
 var GStats;
 (function (GStats) {
     var GLHook = /** @class */ (function () {
-        function GLHook(_gl) {
+        function GLHook (_gl) {
             this.drawPasses = 0;
             this.isInit = false;
             this.realGLDrawElements = function () { };
@@ -92,10 +86,9 @@ var GStats;
                     //replace to new function
                     _gl.__proto__.drawElements = this.fakeGLdrawElements.bind(this);
                     this.isInit = true;
-                    console.log("[GLHook] GL was Hooked!");
+                    console.log('[GLHook] GL was Hooked!');
                 }
-            }
-            else {
+            } else {
                 console.error("[GLHook] GL can't be NULL");
             }
         }
@@ -109,7 +102,7 @@ var GStats;
         GLHook.prototype.release = function () {
             if (this.isInit) {
                 this.gl.__proto__.drawElements = this.realGLDrawElements;
-                console.log("[GLHook] Hook was removed!");
+                console.log('[GLHook] Hook was removed!');
             }
             this.isInit = false;
         };
@@ -123,7 +116,7 @@ var __extends = (this && this.__extends) || (function () {
         function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
     return function (d, b) {
         extendStatics(d, b);
-        function __() { this.constructor = d; }
+        function __ () { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
@@ -131,7 +124,7 @@ var GStats;
 (function (GStats) {
     var PhaserHooks = /** @class */ (function (_super) {
         __extends(PhaserHooks, _super);
-        function PhaserHooks(game) {
+        function PhaserHooks (game) {
             var _this = _super.call(this) || this;
             if (!game) {
                 console.error("[Phaser Hooks]Phaser Game can't passed or NULL");
@@ -140,25 +133,21 @@ var GStats;
             var _w = window;
             if (_w.Phaser) {
                 var version = _w.Phaser.VERSION;
-                if (version.startsWith("3")) {
+                if (version.startsWith('3')) {
                     if (game.renderer.gl && game.renderer.gl instanceof WebGLRenderingContext) {
                         _this.attach(game.renderer.gl);
+                    } else {
+                        console.error('[Phaser 3 Hooks]Canvas renderer is not allowed');
                     }
-                    else {
-                        console.error("[Phaser 3 Hooks]Canvas renderer is not allowed");
-                    }
-                }
-                else {
+                } else {
                     if (game.renderer instanceof PIXI.WebGLRenderer) {
                         _this.attach(game.renderer.gl);
-                    }
-                    else {
-                        console.error("[Phaser 2 Hooks]Canvas renderer is not allowed");
+                    } else {
+                        console.error('[Phaser 2 Hooks]Canvas renderer is not allowed');
                     }
                 }
-            }
-            else {
-                console.error("[Phaser Hooks] THIS HOOK ONLY FOR PHASER 2CE or PHASER 3!!!!");
+            } else {
+                console.error('[Phaser Hooks] THIS HOOK ONLY FOR PHASER 2CE or PHASER 3!!!!');
             }
             return _this;
         }
@@ -170,17 +159,17 @@ var GStats;
 (function (GStats) {
     var PIXIHooks = /** @class */ (function (_super) {
         __extends(PIXIHooks, _super);
-        function PIXIHooks(app) {
+        function PIXIHooks (app) {
             var _this = _super.call(this) || this;
             if (!app) {
                 console.error("PIXI Application can't passed or NULL");
                 return _this;
             }
-            if (app.renderer instanceof PIXI.WebGLRenderer) {
+            if (app.renderer instanceof (PIXI.Renderer || PIXI.WebGLRenderer)) {
                 _this.attach(app.renderer.gl);
-                var start_textures = app.renderer.textureManager._managedTextures;
+                var start_textures = (app.renderer.texture || app.renderer.textureManager)._managedTextures;
                 if (start_textures && _this.texturehook) {
-                    console.log("[PIXI Hooks] Collect used textures:", start_textures.length);
+                    console.log('[PIXI Hooks] Collect used textures:', start_textures.length);
                     for (var i = 0; i < start_textures.length; ++i) {
                         var txr = start_textures[i];
                         var gltextures = txr._glTextures;
@@ -191,9 +180,8 @@ var GStats;
                         }
                     }
                 }
-            }
-            else {
-                console.error("[PIXI Hook]Canvas renderer is not allowed");
+            } else {
+                console.error('[PIXI Hook]Canvas renderer is not allowed');
             }
             return _this;
         }
@@ -204,23 +192,21 @@ var GStats;
 var GStats;
 (function (GStats) {
     var StatsJSAdapter = /** @class */ (function () {
-        function StatsJSAdapter(_hook, _stats) {
+        function StatsJSAdapter (_hook, _stats) {
             this.hook = _hook;
             if (_stats) {
                 this.stats = _stats;
-            }
-            else {
+            } else {
                 this.stats = null;
                 if (window.Stats) {
                     this.stats = new (window.Stats)();
                 }
             }
             if (this.stats) {
-                this.dcPanel = this.stats.addPanel(new window.Stats.Panel("DC:", "#330570", "#A69700"));
-                this.tcPanel = this.stats.addPanel(new window.Stats.Panel("TC:", "#A62500", "#00B454"));
+                this.dcPanel = this.stats.addPanel(new window.Stats.Panel('DC:', '#330570', '#A69700'));
+                this.tcPanel = this.stats.addPanel(new window.Stats.Panel('TC:', '#A62500', '#00B454'));
                 this.stats.showPanel(0);
-            }
-            else {
+            } else {
                 console.error("Stats can't found in window, pass instance of Stats.js as second param");
             }
         }
@@ -234,8 +220,7 @@ var GStats;
             }
         };
         StatsJSAdapter.prototype.reset = function () {
-            if (this.hook)
-                this.hook.reset();
+            if (this.hook) { this.hook.reset(); }
         };
         return StatsJSAdapter;
     }());
@@ -244,7 +229,7 @@ var GStats;
 var GStats;
 (function (GStats) {
     var TextureHook = /** @class */ (function () {
-        function TextureHook(_gl) {
+        function TextureHook (_gl) {
             this.createdTextures = new Array();
             this.maxTexturesCount = 0;
             this.isInit = false;
@@ -259,14 +244,13 @@ var GStats;
                     _gl.__proto__.createTexture = this.fakeGLCreateTexture.bind(this);
                     _gl.__proto__.deleteTexture = this.fakeGLDeleteTexture.bind(this);
                     this.isInit = true;
-                    console.log("[TextureHook] GL was Hooked!");
+                    console.log('[TextureHook] GL was Hooked!');
                 }
-            }
-            else {
+            } else {
                 console.error("[TextureHook] GL can't be NULL");
             }
         }
-        Object.defineProperty(TextureHook.prototype, "currentTextureCount", {
+        Object.defineProperty(TextureHook.prototype, 'currentTextureCount', {
             get: function () {
                 return this.createdTextures.length;
             },
@@ -297,7 +281,7 @@ var GStats;
             if (this.isInit) {
                 this.gl.__proto__.createTexture = this.realGLCreateTexture;
                 this.gl.__proto__.deleteTexture = this.realGLDeleteTexture;
-                console.log("[TextureHook] Hook was removed!");
+                console.log('[TextureHook] Hook was removed!');
             }
             this.isInit = false;
         };
@@ -305,4 +289,3 @@ var GStats;
     }());
     GStats.TextureHook = TextureHook;
 })(GStats || (GStats = {}));
-//# sourceMappingURL=gstats.js.map
