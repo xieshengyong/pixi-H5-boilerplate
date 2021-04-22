@@ -1,20 +1,20 @@
 
-skeleton.png
-size: 600,400
+meshSpriteReplace.png
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 1
   rotate: false
-  xy: 0, 0
-  size: 300, 400
-  orig: 300, 400
+  xy: 0, 200
+  size: 150, 200
+  orig: 150, 200
   offset: 0, 0
   index: -1
 backface
   rotate: false
-  xy: 300, 0
-  size: 300, 400
-  orig: 300, 400
+  xy: 0, 0
+  size: 150, 200
+  orig: 150, 200
   offset: 0, 0
   index: -1

@@ -1,14 +1,11 @@
 /* eslint-disable no-unused-vars */
-import ViewController from './tool/ViewController';
+import View from './tool/View';
 import Config, { formatDragonBonesAssets, formatImgList, formatDelayImgList, formatJsonList, formatJsonListDelay } from './Config';
 import PX from './tool/PX';
-import TD, { browser, util, push, scriptLoader } from './tool/TD';
-import { delay, getRandom } from './tool/BaseTools';
-import './util/pixi-spine';
-// @ts-ignore
-import { addStats, Stats } from 'pixi-stats';
-// import dragonBones from './util/dragonBones';
-// window.dragonBones = dragonBones;
+import { browser, push } from './tool/TD';
+import { delay, getRandom, getJs, getQuery } from './tool/BaseTools';
+
+import './util/pixi-spine'; // 骨骼动画
 
 // 项目初始化的一些函数
 var initProject = async function () {
@@ -19,14 +16,9 @@ var initProject = async function () {
     // Config.defShare.appid && TD.initWxApi(Config.defShare);
 
     /* 阻止微信下拉；原生js绑定覆盖zepto的默认绑定 */
-    document.body.addEventListener('touchmove', function (e) {
-        const event = e || window.event;
-        // @ts-ignore
-        const className = event.target.getAttribute('class');
-        /* 有滚动内容时取消阻止下拉 */
-        if (/permit-scroll/.test(className) === false) {
-            event.preventDefault();
-        }
+    document.body.addEventListener('touchmove', function (event) {
+        // @ts-ignore 有滚动内容时取消阻止
+        !/permit-scroll/.test(event.target.className) && event.preventDefault();
     }, { passive: false });
 
     /** 解决ios12微信input软键盘收回时页面不回弹，兼容动态添加dom(腾讯登录组件)的情况 */
@@ -52,24 +44,30 @@ var initProject = async function () {
     browser.versions.ios && $('body').on('DOMSubtreeModified', resetScroll);
 
     // DEBUG: 显示vconsole工具
-    if (util.getQuery('vconsole') === '1') {
-        scriptLoader(require('../lib/vconsole.min.js'), () => {
+    if (getQuery('vconsole') === '1') {
+        getJs(require('../lib/vconsole.min.js')).then(() => {
             new VConsole(); // eslint-disable-line
             console.log('Hello world');
         });
     }
 
-    if (util.getQuery('stats') === '1') {
-        const stats: Stats = addStats(document, PX.app);
-        const ticker: PIXI.Ticker = PIXI.Ticker.shared;
-        ticker.add(stats.update, stats, PIXI.UPDATE_PRIORITY.UTILITY);
+    // DEBUG: 显示stats工具
+    if (getQuery('stats') === '1') {
+        Promise.all([getJs(require('../lib/gstats.js')), getJs(require('../lib/Stats.min.js'))]).then(() => {
+            var pixiGstats = new GStats.PIXIHooks(PX.app);
+            var st = new GStats.StatsJSAdapter(pixiGstats);
+            document.body.appendChild(st.stats.dom || st.stats.domElement);
+            PIXI.Ticker.shared.add(st.update, st, PIXI.UPDATE_PRIORITY.UTILITY);
+        });
     }
 
+    console.log('1', getQuery('stats', 'http%3A%2F%2F10.0.129.170%3A8080%2F%3Fstats%3D1'));
+
     // DEBUG: 全局静音
-    util.getQuery('mute') === '1' && Howler.mute(true);
+    getQuery('mute') === '1' && Howler.mute(true);
 };
 
-export default class LoadViewController extends ViewController {
+export default class LoadViewController extends View {
     // [propName: string]: any;
     media: HTMLVideoElement;
     videoPlayer: MMD.VideoPlayer;
@@ -116,11 +114,11 @@ export default class LoadViewController extends ViewController {
         let loader = new PIXI.Loader();
         loader.onStart.add(() => console.log('begin load'));
         loader
-            // .add(formatDragonBonesAssets())
-            .add(formatImgList())
-            .add(formatJsonList())
+            .add(formatImgList()) // 加载单图
+            .add(formatJsonList()) // 加载图集和spine数据
             .load(async (loader, res) => {
                 loadingProcess.html('点击开始');
+                Config.loaderRes = res;
 
                 this.initEvent();
                 this.initVideo();
@@ -128,59 +126,19 @@ export default class LoadViewController extends ViewController {
                 Config.loadMusic();
 
                 // DEBUG: 跳过视频
-                if (util.getQuery('_debug') === '1') {
-                    $('.m-loading').fadeOut();
-                    this.showIndex();
-                    this.hideVideo();
-                    // await delay(2);
-                    // await this.loadSecond();
-                } else {
-                    this.loadEnding();
-                }
+                // if (util.getQuery('_debug') === '1') {
+                //     $('.m-loading').fadeOut();
+                //     this.showIndex();
+                //     // this.hideVideo();
+                //     // await delay(2);
+                //     // await this.loadSecond();
+                // } else {
+                //     this.loadEnding();
+                // }
 
-                // var animation = new PIXI.spine.Spine(res['img/spriteSheet/tns-test.json'].spineData);
-                // PX.stage.addChild(animation);
-                // animation.position.set(-50, 0);
-                // animation.state.setAnimation(0, 'animation', true);
-
-                // var animation1 = new PIXI.spine.Spine(res['img/spriteSheet/mask-test.json'].spineData);
-                // PX.stage.addChild(animation1);
-                // animation1.position.set(900, 0);
-                // animation1.state.setAnimation(0, 'animation', true);
-                // // animation.scale.set(0.2);
-
-                var animation2 = new PIXI.spine.Spine(res['img/spriteSheet/skeleton.json'].spineData);
-                animation2.position.set(600, 375);
-                animation2.scale.set(0.6);
-                PX.stage.addChild(animation2);
-                animation2.name = 'book';
-                // @ts-ignore
-                animation2.getChildAt(0).children[0].texture = PIXI.utils.TextureCache['skeleton-2.jpg'];
-                // console.log(11, animation2.getChildAt(0).children[0].texture.from);
-                // @ts-ignore
-                window.aaaa = animation2.getChildAt(0).children[0];
-
-                // let texture = new PIXI.BaseTexture('icon_drj.png');
-                // let sprite1 = new PIXI.Sprite(PIXI.utils.TextureCache['icon_lyf.png']);
-                // sprite1.position.set(0, 0);
-                // PX.stage.addChild(sprite1);
-                // console.log(sprite1);
-                // animation2.getChildAt(0).children[0].texture = PX.addSprite(this.mainWrap, 'icon_drj.png', 200, 100).texture;
-                animation2.state.setAnimation(0, 'animation', !true);
-                // animation2.skeleton.setSkinByName('boy');
-
-                // var animation3 = new PIXI.spine.Spine(res['img/spriteSheet/bg_juewei_251.json'].spineData);
-                // animation3.position.set(800, 750);
-                // animation3.scale.set(0.5);
-                // PX.stage.addChild(animation3);
-                // animation3.state.setAnimation(0, 'start', true);
-                // animation3.skeleton.setSkinByName('boy');
-                // await delay(1);
-                // animation2.state.setAnimation(0, 'idle', true);
-                // animation2.skeleton.setSkinByName('full-skins/girl');
-                // await delay(1);
-                // animation2.state.setAnimation(0, 'dance', true);
-                // animation2.skeleton.setSkinByName('boy');
+                $('.m-loading').fadeOut();
+                this.showIndex();
+                this.hideVideo();
 
                 push('page', 'loading', '加载完成，耗时：' + (Date.now() - beginLoadTime));
             })
