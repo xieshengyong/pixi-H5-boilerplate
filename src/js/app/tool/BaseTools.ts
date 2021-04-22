@@ -3,7 +3,7 @@
  * 基础通用工具方法集
  * @Author: xieshengyong
  * @Date: 2020-08-27 15:05:24
- * @LastEditTime: 2021-03-10 16:05:47
+ * @LastEditTime: 2021-04-20 18:58:07
  * @LastEditors: xieshengyong
  */
 
@@ -147,88 +147,55 @@ export const getNotSamePosition = (start: number[], end: number[], notSamePool: 
     return pos;
 };
 
-export function isWx () {
-    return typeof wx !== 'undefined';
-}
-
 export function getWinSize ():{width:number, height:number} {
-    if (isWx()) {
-        // @ts-ignore
-        let winSize = wx.getSystemInfoSync();
-        return {
-            width: winSize.windowWidth,
-            height: winSize.windowHeight
-        };
-    } else {
-        let winSize = document.documentElement;
-        return {
-            width: winSize.clientWidth,
-            height: winSize.clientHeight
-        };
-    }
+    let winSize = document.documentElement;
+    return {
+        width: winSize.clientWidth,
+        height: winSize.clientHeight
+    };
 }
 
 export function saveLocalData (key: string | number, data: any) {
-    // @ts-ignore
-    isWx() ? wx.setStorage({ key: key, data: data }) : localStorage[key] = data;
+    localStorage[key] = data;
 }
 
 export function getLocalData (key: string | number) {
-    // @ts-ignore
-    return isWx() ? wx.getStorageSync(key) : localStorage[key];
+    return localStorage[key];
 }
 
-export function getQuery (target: string, name: string) {
+export function getQuery (name: string, target = location.search) {
     let m = target.match(new RegExp('(\\?|&)' + name + '=([^&]*)(&|$)'));
     return !m ? '' : m[2];
 }
 
-export function getLaunchQuery (query: string | number) {
-    // @ts-ignore
-    return wx.getLaunchOptionsSync().query[query];
-};
-
-export function addWxOnShow (cb: any, remove = false) {
-    // console.log('cb :>> ', cb);
-    // let wxOnShowCbs = [];
-    // // wx.onShow((res) => {
-    // //     wxOnShowCbs.forEach(ele => {
-    // //         ele?.(res);
-    // //     });
-    // // });
-
-    // return ((cb, remove) => {
-    //     let cbIdx = wxOnShowCbs.findIndex(val => val === cb);
-    //     if (cbIdx > -1) {
-    //         remove && wxOnShowCbs.splice(cbIdx, 1);
-    //         console.log('remove');
-    //     } else {
-    //         wxOnShowCbs.push(cb);
-    //         console.log('push');
-    //     }
-    //     console.log('wxOnShowCbs :>> ', wxOnShowCbs);
-    // })(cb, remove);
-}
-
-// @ts-ignore
-export function getCanvas (width: number, height: number): [WechatMinigame.Canvas, CanvasRenderingContext2D] {
-    // @ts-ignore
-    let canvas = isWx() ? wx.createCanvas() : document.createElement('canvas');
+export function getCanvas (width: number, height: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
+    let canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     let ctx = canvas.getContext('2d');
-    // @ts-ignore
     return [canvas, ctx];
 };
 
-export function getImg (src: string): any {
+export function getImg (src: string, anonymous = false): any {
     return new Promise((resolve, reject) => {
-        // @ts-ignore
-        let img = isWx() ? wx.createImage() : new Image();
+        let img = new Image();
+        anonymous && (img.crossOrigin = 'Anonymous');
         img.src = src;
         img.onload = () => {
             resolve(img);
         };
         img.onerror = () => reject;
+    });
+};
+
+export function getJs (src: any) {
+    return new Promise<void>((resolve, reject) => {
+        let script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        document.body.appendChild(script);
+        script.onload = () => {
+            resolve();
+        };
+        script.src = src;
     });
 };
