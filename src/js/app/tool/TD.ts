@@ -321,9 +321,9 @@ TD.rotateScreen = (function () {
 
 // 网络工具包
 export const util = {
-    getQuery: function (name: string) {
-        var m = window.location.search.match(new RegExp('(\\?|&)' + name + '=([^&]*)(&|$)'));
-        return !m ? '' : decodeURIComponent(m[2]);
+    getQuery: function (name: string, target = window.location.search) {
+        let m = target.match(new RegExp('(\\?|&)' + name + '=([^&]*)(&|$)'));
+        return !m ? '' : m[2];
     },
     setCookie: function (name: string, value: string, expiredays: any) {
         var exdate: any = new Date();
@@ -363,19 +363,6 @@ export function push (category: string, action: string, label: string, value?: s
     if (typeof PTTSendClick !== 'undefined') {
         PTTSendClick(category, action, label);
     }
-};
-
-export function scriptLoader (src: any, cb: any) {
-    return new Promise<void>((resolve, reject) => {
-        let script = document.createElement('script');
-        script.setAttribute('type', 'text/javascript');
-        document.body.appendChild(script);
-        script.onload = () => {
-            cb && cb();
-            resolve();
-        };
-        script.src = src;
-    });
 };
 
 /*
