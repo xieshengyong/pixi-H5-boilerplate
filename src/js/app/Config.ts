@@ -106,33 +106,3 @@ export function formatDelayImgList () {
     }
     return list;
 };
-
-export function formatDragonBonesAssets () {
-    // @ts-ignore
-    let context1 = require.context('../../img/dragonBonesAssets', false, /\.json|\.png/);// eslint-disable-line
-    // TODO: JSON合并到js资源
-    // const requireAll = context => context.keys().map(context);
-    // requireAll(context1).forEach((item) => {
-    //     console.log('item :', item);
-    // });
-    let loadData = context1.keys();
-    // console.log('requireAll(context1) :', requireAll(context1));
-    // console.log('context1 :', context1(loadData[0]));
-
-    // context1.keys().forEach((path) => {
-    //    if (condition) {
-
-    //    }
-    // });
-
-    // let aa = loadData.map(loadData);
-    var list = [];
-    for (var i = 0; i < loadData.length; i++) {
-        let name = loadData[i].slice(2);
-        list.push({
-            name: name,
-            url: Config.imgPath + 'dragonBonesAssets/' + name
-        });
-    }
-    return list;
-}

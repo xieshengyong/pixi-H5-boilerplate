@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2021-01-04 11:30:04
- * @LastEditTime: 2021-04-15 20:05:05
+ * @LastEditTime: 2021-04-26 18:07:52
  * @LastEditors: xieshengyong
  */
 /**
@@ -12,41 +12,33 @@
  *
  */
 
-interface PXType {
-    res: any
-    app: any
-    stage: PIXI.Container
-    widgetPool: Array<any>
-    init: Function
-}
-
 const Cache = PIXI.utils.TextureCache;
 
 const PX = {
-    res: {'': ''},
-    app: {},
-    stage: new PIXI.Container(),
-    // widgetPool: [],
+    get app ():PIXI.Application {
+        return this.Application;
+    },
+    get stage (): PIXI.Container {
+        return this.app.stage;
+    },
+    get res () {
+        return Cache;
+    },
 
-    init (canvasEl: HTMLCanvasElement, width: number, height: number) {
-        var app = new PIXI.Application({
+    init (canvasEl: HTMLCanvasElement, dWidth: number, dHeight: number) {
+        this.Application = new PIXI.Application({
             view: canvasEl,
-            width: width,
-            height: height,
+            width: dWidth,
+            height: dHeight,
             transparent: true,
             backgroundColor: 0x000000
         });
-
-        this.res = Cache;
-
-        this.app = app;
-        this.stage = app.stage;
-        app.stage.interactive = true;
+        this.Application.stage.interactive = true;
 
         this.widgetPool = [];
 
         const getDOMRect = () => {
-            this.DOMRect = app.view.getBoundingClientRect();
+            this.DOMRect = this.app.view.getBoundingClientRect();
             this.domStageRatio = this.app.screen.width / this.DOMRect.width;
             if (this.DOMRect.width !== 0) {
                 this.app.ticker.remove(getDOMRect, this);
@@ -56,9 +48,10 @@ const PX = {
         // 在获取到真正视口区域前不停获取
         this.app.ticker.add(getDOMRect, this);
 
+        var landscape = dWidth > dHeight;
         // 适配横竖屏变化
         const resizeStage = (e?: any) => {
-            this.DOMRect = app.view.getBoundingClientRect();
+            this.DOMRect = this.app.view.getBoundingClientRect();
             this.domStageRatio = this.app.screen.width / this.DOMRect.width;
             this._setWidget();
 
@@ -67,24 +60,43 @@ const PX = {
             if (e && winWidth / winHeight < 1.2 && winWidth / winHeight > 0.8) {
                 return false;
             }
+            var [dWidth0, dHeight0] = landscape ? [dHeight, dWidth] : [dWidth, dHeight];
             if (winWidth < winHeight) {
-                this.app.renderer.resize(750, 1600);
-                this.app.stage.rotation = Math.PI / 2;
-                this.app.stage.x = 750;
-                canvasEl.style.transform = 'translate(-50%, -50%) rotate(-90deg)';
-                canvasEl.style.width = '7.5rem';
-                canvasEl.style.height = '16rem';
+                this.app.renderer.resize(dWidth0, dHeight0);
+                if (landscape) {
+                    this.app.stage.rotation = Math.PI / 2;
+                    this.app.stage.position.set(dWidth0, 0);
+                } else {
+                    this.app.stage.rotation = 0;
+                    this.app.stage.position.set(0, 0);
+                }
+                canvasEl.style.width = dWidth0 / 100 + 'rem';
+                canvasEl.style.height = dHeight0 / 100 + 'rem';
             } else {
-                this.app.renderer.resize(1600, 750);
-                this.app.stage.rotation = 0;
-                this.app.stage.x = 0;
-                canvasEl.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-                canvasEl.style.height = '7.5rem';
-                canvasEl.style.width = '16rem';
+                this.app.renderer.resize(dHeight0, dWidth0);
+                if (!landscape) {
+                    this.app.stage.rotation = -Math.PI / 2;
+                    this.app.stage.position.set(0, dWidth0);
+                } else {
+                    this.app.stage.rotation = 0;
+                    this.app.stage.position.set(0, 0);
+                }
+                canvasEl.style.width = dHeight0 / 100 + 'rem';
+                canvasEl.style.height = dWidth0 / 100 + 'rem';
             }
         };
         resizeStage();
         window.addEventListener('orientationchange' in window ? 'orientationchange' : 'resize', resizeStage);
+    },
+
+    // 获取真实坐标，兼容横竖屏
+    getRelTapPoint (e: PIXI.InteractionEvent) {
+        if (this.app.stage.rotation === 0) {
+            return e.data.global;
+        } else {
+            let g = e.data.global;
+            return new PIXI.Point(g.y, this.app.renderer.width - g.x);
+        }
     },
 
     getNewApp (canvasEl: any, width: any, height: any) {

@@ -34,11 +34,14 @@ export default class IndexViewController extends View {
     private async initScene () {
         this.mainWrap = PX.addCtn(PX.stage);
 
-        // let demo1 = PX.addSprite(this.mainWrap, 'icon_lyf.png', 100, 100, true);
+        let demo0 = PX.addSprite(this.mainWrap, '1.png', 0, 0, true);
+        let demo = PX.addSprite(this.mainWrap, 'loading_bg.jpg', 0, 0, true);
+        let demo1 = PX.addSprite(this.mainWrap, 'icon_lyf.png', 100, 100, true);
+        demo1.anchor.set(0.5);
 
-        // demo1.on('tap', (e: any) => {
-        //     console.log(e);
-        // });
+        demo.on('touchmove', (e: PIXI.InteractionEvent) => {
+            demo1.position = PX.getRelTapPoint(e);
+        });
     }
 
     // mesh动画贴图更换测试（翻页效果）
