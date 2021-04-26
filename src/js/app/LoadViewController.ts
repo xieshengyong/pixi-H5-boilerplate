@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import View from './tool/View';
-import Config, { formatDragonBonesAssets, formatImgList, formatDelayImgList, formatJsonList, formatJsonListDelay } from './Config';
+import Config, { formatImgList, formatDelayImgList, formatJsonList, formatJsonListDelay } from './Config';
 import PX from './tool/PX';
 import { browser, push } from './tool/TD';
 import { delay, getRandom, getJs, getQuery } from './tool/BaseTools';
@@ -54,14 +54,12 @@ var initProject = async function () {
     // DEBUG: 显示stats工具
     if (getQuery('stats') === '1') {
         Promise.all([getJs(require('../lib/gstats.js')), getJs(require('../lib/Stats.min.js'))]).then(() => {
-            var pixiGstats = new GStats.PIXIHooks(PX.app);
-            var st = new GStats.StatsJSAdapter(pixiGstats);
+            // @ts-ignore
+            var st = new GStats.StatsJSAdapter(new GStats.PIXIHooks(PX.app));
             document.body.appendChild(st.stats.dom || st.stats.domElement);
             PIXI.Ticker.shared.add(st.update, st, PIXI.UPDATE_PRIORITY.UTILITY);
         });
     }
-
-    console.log('1', getQuery('stats', 'http%3A%2F%2F10.0.129.170%3A8080%2F%3Fstats%3D1'));
 
     // DEBUG: 全局静音
     getQuery('mute') === '1' && Howler.mute(true);
@@ -85,7 +83,7 @@ export default class LoadViewController extends View {
         // give the plugin a reference to the PIXI object
         PixiPlugin.registerPIXI(PIXI);
 
-        PX.init(document.querySelector('.m-stage-wrap canvas'), 1600, 750);
+        PX.init(document.querySelector('.m-stage-wrap canvas'), 750, 1600);
 
         initProject();
     }
@@ -100,7 +98,6 @@ export default class LoadViewController extends View {
             PIXI.Loader.shared
                 .add(formatDelayImgList())
                 .add(formatJsonListDelay())
-                .add(formatDragonBonesAssets())
                 .load(() => {
                     this.instace.emit('secondLoadEnd');
                     resolve(true);

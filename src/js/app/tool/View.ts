@@ -1,13 +1,13 @@
 /*
  * @Author: xieshengyong
  * @Date: 2020-05-25 17:05:09
- * @LastEditTime: 2021-04-21 19:26:24
+ * @LastEditTime: 2021-04-22 18:30:28
  * @LastEditors: xieshengyong
  */
 
 /** 组件基类 */
 export default class View {
-    private _eventPool: anyValue = {}
+    private _eventPool: any = {}
 
     /** 公共实例，可通过on、emit方法在不同组件间通信 */
     public instace: View
