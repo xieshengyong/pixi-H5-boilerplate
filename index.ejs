@@ -10,42 +10,24 @@
     <meta name="robots" content="all">
     <meta name="author" content="Tencent-CP">
     <meta name="Copyright" content="Tencent">
-    <meta name="Keywords" content="腾讯游戏,王者荣耀">
-    <meta id="share-description" itemprop="description" name="Description" content="腾讯游戏,王者荣耀">
+    <meta name="Keywords" content="H5模板">
+    <meta id="share-description" itemprop="description" name="Description" content="H5模板">
     <meta id="share-name" itemprop="name" content="">
     <meta id="share-image" itemprop="image" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <script>
-        if (localStorage.search != undefined && localStorage.search.indexOf("partition") != -1 && location.search.indexOf("partition") == -1) {
-            if (location.search == "") {
-                // location.replace(location.href + localStorage.search); 
-                window.history.pushState({}, 0, location.href + localStorage.search);
-            } else {
-                var search = location.href + "&" + localStorage.search.replace(/\?/, "");
-                // location.replace(search); 
-                window.history.pushState({}, 0, search);
-            }
-
-            // window.history.pushState({},0,location.href+localStorage.search);    
-        } 
-    </script>
     
     <% if (process.env.NODE_ENV === 'handover') { %>
-    <% for (var css in htmlWebpackPlugin.files.css) { %>
-    <% var cssFile = htmlWebpackPlugin.files.css[css] %>
-
-    <link href="<%= cssFile %>" rel="stylesheet">
-    <% } %>
-
+        <% for (var css in htmlWebpackPlugin.files.css) { %>
+            <% var cssFile = htmlWebpackPlugin.files.css[css] %>
+            <link href="<%= cssFile %>" rel="stylesheet">
+        <% } %>
     <% } else { %>
-    <% for (var css in htmlWebpackPlugin.files.css) { %>
-    <% var cssFile = htmlWebpackPlugin.files.css[css].substr(htmlWebpackPlugin.files.publicPath.length); %>
-
-    <link href="<%= cssFile %>" rel="stylesheet">
-    <% } %>
-
+        <% for (var css in htmlWebpackPlugin.files.css) { %>
+            <% var cssFile = htmlWebpackPlugin.files.css[css].substr(htmlWebpackPlugin.files.publicPath.length); %>
+            <link href="<%= cssFile %>" rel="stylesheet">
+        <% } %>
     <% } %>
 
 </head>
@@ -135,7 +117,7 @@
 
         <% } %>
 
-        <% } else { %>
+    <% } else { %>
         <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
 
         <% var jsFile = htmlWebpackPlugin.files.chunks[chunk].entry.substr(htmlWebpackPlugin.files.publicPath.length); %>
