@@ -65,7 +65,7 @@ module.exports = function () {
                     ]
                 },
                 {
-                    test: /\.(fnt|png|jpg|gif|svg|ttf|TTF|OTF|atlas)$/,
+                    test: /\.(fnt|png|jpg|gif|svg|ttf|TTF|OTF|atlas|frag)$/,
                     include: [
                         path.resolve(__dirname, 'src/img')
                     ],

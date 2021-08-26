@@ -5,6 +5,13 @@
  * @Last Modified time: 2019-09-23 17:24:54
  */
 /* eslint-disable no-unused-vars */
+
+const fontCut = require('./DevTool/fontCut.js');
+const audio = require('./DevTool/audiosprite.js');
+const utf2gbk = require('./DevTool/utf2gbk.js');
+
+const fs = require('fs');
+
 const {
     series,
     parallel,
@@ -19,90 +26,25 @@ const {
 var rename = require('gulp-rename');
 var del = require('del');
 // var fileInline = require('gulp-file-inline');
-// var minimist = require('minimist');
-// var convertEncoding = require('gulp-convert-encoding');
+var minimist = require('minimist');
 // var gulpLess = require('gulp-less');
 // var path = require('path');
 // var md5 = require('gulp-md5-plus');
 var vinylPaths = require('vinyl-paths');
-var audiosprite = require('gulp-audiosprite');
 var changed = require('gulp-changed');
 var gulpIf = require('gulp-if');
 var deleteEmpty = require('delete-empty');
 
 var config = require('./config.path');
 
-// var options = minimist(process.argv.slice(2));
+var options = minimist(process.argv.slice(2));
 // var Dir = config[options.d || 'dist'];
 
 let outputDir = './a20190826anniversary/';
 
-let audioExport = './src/media/';
-const audio = series(() => {
-    return src('./src/media/vo/*.*')
-        .pipe(audiosprite({
-            output: 'talkSound',
-            format: 'howler',
-            export: 'mp3',
-            path: '.',
-            bitrate: '96',
-            gap: 0.5
-        }))
-        .pipe(dest(audioExport));
-}, function () {
-    return src(audioExport + 'talkSound.json')
-        .pipe(vinylPaths(del))
-        .pipe(dest('./src/json/'));
-});
+exports.fontCut = fontCut;
 exports.audio = audio;
-
-const audiovo2 = series(() => {
-    return src('./src/media/vo2/*.*')
-        .pipe(audiosprite({
-            output: 'talkSound2',
-            format: 'howler',
-            export: 'mp3',
-            path: '.',
-            bitrate: '96',
-            gap: 0.5
-        }))
-        .pipe(dest(audioExport));
-}, function () {
-    return src(audioExport + 'talkSound2.json')
-        .pipe(vinylPaths(del))
-        .pipe(dest('./src/json/'));
-});
-exports.audiovo2 = audiovo2;
-
-const audio2 = series(() => {
-    return src('./src/media/effect/*.mp3')
-        .pipe(audiosprite({
-            output: 'effect',
-            format: 'howler',
-            export: 'mp3',
-            path: '.',
-            bitrate: '96'
-        }))
-        .pipe(dest(audioExport));
-}, function () {
-    return src(audioExport + 'effect.json')
-        .pipe(vinylPaths(del))
-        .pipe(dest('./src/json/'));
-});
-exports.audio2 = audio2;
-
-const audioZip = () => {
-    return src('./src/media/bga.mp3')
-        .pipe(audiosprite({
-            output: 'bg',
-            format: '',
-            export: 'mp3',
-            path: '.',
-            bitrate: '96'
-        }))
-        .pipe(dest('./src/media/'));
-};
-exports.audioZip = audioZip;
+exports.gbk = utf2gbk;
 
 // 清理文件夹
 var clean = function () {
@@ -223,44 +165,6 @@ var mdbuild = series(function () {
 });
 exports.mdbuild = mdbuild;
 
-const gbk = () => {
-    return src([outputDir + '**/*.html', outputDir + '**/*.json', outputDir + '**/*.js'])
-        .pipe(replace(/utf-8/g, 'gbk'))
-        .pipe(convertEncoding({
-            from: 'utf8',
-            to: 'gbk'
-        }))
-        .pipe(dest(outputDir + ''));
-    // if (options.gbk) {
-    // }
-};
-exports.gbk = gbk;
-
-// browsersync自动刷新
-var browserSync = function () {
-    browsersync.init({
-        open: 'external',
-        server: {
-            baseDir: './change/'
-            // baseDir: "a20181213act_mobile"
-        },
-        // port: 80,
-        files: ['change/*.css', 'change/*.css', 'change/*.js', 'change/*.html']
-    });
-};
-exports.sync = browserSync;
-
-var browserSync2 = function () {
-    browsersync.init({
-        open: 'external',
-        server: {
-            baseDir: outputDir
-        }
-        // files: ['a20181213act_mobile/*.html']
-    });
-};
-exports.sync2 = browserSync2;
-
 // 对比
 var marked = series(() => {
     return del(['aHasChangedFiles/**']);
@@ -294,5 +198,4 @@ exports.time = () => {
     // console.log(1);
 };
 
-// exports.build = series(copy, replaceHtml, replaceMain, mdbuild, gbk);
 exports.build = series(copy, replaceHtml, replaceMain, mdbuild);
