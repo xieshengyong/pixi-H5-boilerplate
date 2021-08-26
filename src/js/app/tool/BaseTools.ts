@@ -3,7 +3,7 @@
  * 基础通用工具方法集
  * @Author: xieshengyong
  * @Date: 2020-08-27 15:05:24
- * @LastEditTime: 2021-04-20 18:58:07
+ * @LastEditTime: 2021-08-26 17:37:07
  * @LastEditors: xieshengyong
  */
 
@@ -147,7 +147,7 @@ export const getNotSamePosition = (start: number[], end: number[], notSamePool: 
     return pos;
 };
 
-export function getWinSize ():{width:number, height:number} {
+export function getWinSize (): { width: number, height: number } {
     let winSize = document.documentElement;
     return {
         width: winSize.clientWidth,
@@ -168,15 +168,75 @@ export function getQuery (name: string, target = location.search) {
     return !m ? '' : m[2];
 }
 
+export function getCookie (name: string) {
+    var cStart, cEnd;
+    if (document.cookie.length > 0) {
+        cStart = document.cookie.indexOf(name + '=');
+        if (cStart !== -1) {
+            cStart = cStart + name.length + 1;
+            cEnd = document.cookie.indexOf(';', cStart);
+            if (cEnd === -1) cEnd = document.cookie.length;
+            return decodeURIComponent(document.cookie.substring(cStart, cEnd));
+        }
+    }
+    return '';
+};
+
+export function setCookie (name: string, value: string, expiredays: number) {
+    var exdate = new Date();
+    document.cookie = name + '=' + value + ';expires=' +
+        ((expiredays === null) ? exdate.setDate(exdate.getDate() + expiredays) : exdate.toUTCString());
+}
+
+/** canvas 绘制文字，字间距 */
+export function letterSpacingText (context: CanvasRenderingContext2D, text: string, x: number, y: number, letterSpacing: number) {
+    var canvas = context.canvas;
+
+    if (!letterSpacing && canvas) {
+        letterSpacing = parseFloat(window.getComputedStyle(canvas).letterSpacing);
+    }
+    if (!letterSpacing) {
+        return this.fillText(text, x, y);
+    }
+
+    var arrText = text.split('');
+    var align = context.textAlign || 'left';
+
+    // 这里仅考虑水平排列
+    var originWidth = context.measureText(text).width;
+    // 应用letterSpacing占据宽度
+    var actualWidth = originWidth + letterSpacing * (arrText.length - 1);
+    // 根据水平对齐方式确定第一个字符的坐标
+    if (align === 'center') {
+        x = x - actualWidth / 2;
+    } else if (align === 'right') {
+        x = x - actualWidth;
+    }
+
+    // 临时修改为文本左对齐
+    context.textAlign = 'left';
+    // 开始逐字绘制
+    arrText.forEach(function (letter: any) {
+        var letterWidth = context.measureText(letter).width;
+        context.fillText(letter, x, y);
+        // 确定下一个字符的横坐标
+        x = x + letterWidth + letterSpacing;
+    });
+    // 对齐方式还原
+    context.textAlign = align;
+};
+
 export function getCanvas (width: number, height: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
     let canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
+    canvas.style.display = 'none';
+    document.body.append(canvas);
     let ctx = canvas.getContext('2d');
     return [canvas, ctx];
 };
 
-export function getImg (src: string, anonymous = false): any {
+export function getImg (src: string, anonymous = false): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
         let img = new Image();
         anonymous && (img.crossOrigin = 'Anonymous');
@@ -188,7 +248,7 @@ export function getImg (src: string, anonymous = false): any {
     });
 };
 
-export function getJs (src: any) {
+export function getJs (src: any): Promise<void> {
     return new Promise<void>((resolve, reject) => {
         let script = document.createElement('script');
         script.setAttribute('type', 'text/javascript');
@@ -198,4 +258,12 @@ export function getJs (src: any) {
         };
         script.src = src;
     });
+};
+
+/** 监听微信长按保存的事件，用于统计上报等，注意重复绑定 */
+export function wxLongTapSaveImg (img: HTMLElement, cb: Function): void {
+    let startTime: number;
+    img.addEventListener('touchstart', () => (startTime = Date.now()));
+    img.addEventListener('touchcancel', () => Date.now() - startTime >= 500 && cb?.());
+    img.addEventListener('touchend', () => Date.now() - startTime >= 1000 && cb?.());
 };
