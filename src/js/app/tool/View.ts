@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2020-05-25 17:05:09
- * @LastEditTime: 2021-04-22 18:30:28
+ * @LastEditTime: 2021-08-26 17:01:57
  * @LastEditors: xieshengyong
  */
 
@@ -12,7 +12,7 @@ export default class View {
     /** 公共实例，可通过on、emit方法在不同组件间通信 */
     public instace: View
 
-    constructor (ViewInstance?: View) {
+    constructor () {
         this.instace = ViewInstance;
     }
 
@@ -55,3 +55,5 @@ export default class View {
         });
     }
 };
+
+const ViewInstance = new View();
