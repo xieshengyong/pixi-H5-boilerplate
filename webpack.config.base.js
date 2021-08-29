@@ -82,7 +82,8 @@ module.exports = function () {
                                 name: 'img/[name].[ext]'
                             }
                         }
-                    ]
+                    ],
+                    type: 'javascript/auto'
                 },
                 {
                     test: /\.(plist|int|json|png|jpg|atlas)$/,
