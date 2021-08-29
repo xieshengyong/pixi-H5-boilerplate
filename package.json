@@ -21,6 +21,9 @@
         "handover2": "cross-env TEST=true webpack --config webpack.config.handover.js && npm run moveVendor2 && npm run replaceAA && npm run zip2",
         "moveVendor2": "move-file dist/a20210104aa/ossweb-img/vendor.js dist/vendor.js",
         "replaceAA": "cd dist/a20210104aa/ && replace 'a20210317wwf' 'a20210104aa' -r --include=index.html",
+        "replace1": "cd dist/ && replace '/ossweb-img/(\\w+).(\\w+).js' '/$1.$2.js' -r --include=index.html",
+        "copyfiles": "copyfiles -f dist/ossweb-img/*.js dist",
+        "move1": "move-file dist/ossweb-img/main.5031738d.js dist/main.5031738d.js",
         "zip2": "cd dist && bestzip a20210104aa.zip a20210104aa/*",
         "sever": "cd dist && browser-sync start -s"
     },

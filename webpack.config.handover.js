@@ -10,7 +10,7 @@ const WebpackStrip = require('webpack-strip');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -135,7 +135,7 @@ module.exports = function () {
                     ]
                 },
                 {
-                    test: /\.(png|jpg|gif|svg|ttf|TTF|OTF)$/,
+                    test: /\.(png|jpg|gif|svg|ttf|TTF|OTF|frag)$/,
                     include: [
                         path.resolve(__dirname, 'src/img')
                     ],
