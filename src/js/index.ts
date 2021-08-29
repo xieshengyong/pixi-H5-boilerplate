@@ -15,10 +15,10 @@ import IndexViewController from './app/IndexViewController';
     };
 
     // 长图页面
-    const indexPageBack = (debug: boolean) => {
+    const indexPageBack = () => {
         let indexView = new IndexViewController();
 
-        indexView.show(debug);
+        indexView.show();
     };
 
     loadPageBack();

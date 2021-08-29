@@ -66,9 +66,8 @@ var initProject = async function () {
 };
 
 export default class LoadViewController extends View {
-    // [propName: string]: any;
     media: HTMLVideoElement;
-    videoPlayer: MMD.VideoPlayer;
+    videoPlayer: MMDVideoPlayer;
     notLoadMoreAnim: Boolean;
 
     private init () {
@@ -113,6 +112,7 @@ export default class LoadViewController extends View {
         loader
             .add(formatImgList()) // 加载单图
             .add(formatJsonList()) // 加载图集和spine数据
+            .add('shader', require('../../img/shader.frag'))
             .load(async (loader, res) => {
                 loadingProcess.html('点击开始');
                 Config.loaderRes = res;
@@ -215,7 +215,7 @@ export default class LoadViewController extends View {
             muted: false,
             poster: '',
             tryMultipleVideoPlayAtTheSameTime: false,
-            onTimes: async (name) => {
+            onTimes: async (name: string) => {
                 console.log('name :>> ', name);
                 switch (name) {
                     case 'showSkip':
