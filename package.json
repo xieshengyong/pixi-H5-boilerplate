@@ -7,6 +7,15 @@
         "type": "git",
         "url": "https://github.com/xieshengyong/pixi-H5-boilerplate"
     },
+    "projectConfigs": {
+        "_notes_path": "项目路径，dev为开发阶段，一般默认无需配置，dist为相对目录或七牛分离地址，用于html和资源部署在同一入口，prod为分离地址",
+        "path": {
+            "dev": "",
+            "dist": "./ossweb-img/",
+            "prod": "//game.gtimg.cn/images/yxzj/cp/a20210317wwf/"
+        },
+        "zipName": "a20210104act"
+    },
     "scripts": {
         "start": "npm run dev",
         "dev": "webpack-dev-server --config webpack.config.dev.js",
@@ -14,7 +23,8 @@
         "replace": "cd dist/a20210317wwf/ossweb-img/ && replace 'ossweb-img/' '' -r --include=main.*.css,main.css",
         "qn1": "cross-env NODE_ENV2=qn webpack --config webpack.config.handover.js",
         "qn": "cross-env NODE_ENV2=qn webpack --config webpack.config.handover.js",
-        "handover": "webpack --config webpack.config.handover.js && npm run zip",
+        "build": "cross-env NODE_ENV=prod webpack --config webpack.config.prod.js",
+        "handover1": "webpack --config webpack.config.handover.js && npm run zip",
         "handoverm": "webpack --config webpack.config.handover.js && npm run moveVendor && npm run zip",
         "moveVendor": "move-file dist/a20210317wwf/ossweb-img/vendor.js dist/vendor.js",
         "zip": "cd dist && bestzip a20210317wwf.zip a20210317wwf/*",

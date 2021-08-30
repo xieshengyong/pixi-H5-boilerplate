@@ -4,7 +4,7 @@
 const Config = {} as anyValue;
 
 // 图片路径前缀
-Config.imgPath = process.env.NODE_ENV === 'handover' ? process.env.PATH : process.env.PATH + 'img/';
+Config.imgPath = process.env.NODE_ENV === 'prod' ? process.env.PATH : process.env.PATH + '';
 
 // 默认分享语
 Config.defShare = {
@@ -57,7 +57,7 @@ export function formatJsonList () {
     var list = [];
     for (var i = 0; i < loadDataPool2.length; i++) {
         let name = loadDataPool2[i].slice(2);
-        list.push(Config.imgPath + 'spriteSheet/' + name);
+        list.push(Config.imgPath + process.env.sheetPath + name);
     }
     return list;
 }
@@ -71,7 +71,7 @@ export function formatJsonListDelay () {
     var list = [];
     for (var i = 0; i < loadDataPool2.length; i++) {
         let name = loadDataPool2[i].slice(2);
-        list.push(Config.imgPath + 'delayLoadSpriteSheet/' + name);
+        list.push(Config.imgPath + process.env.sheetPath + name);
     }
     return list;
 }

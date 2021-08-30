@@ -192,7 +192,7 @@ export default class LoadViewController extends View {
         this.media.addEventListener('timeupdate', timeListener);
 
         let mediaSrc;
-        if (process.env.NODE_ENV === 'handover' && process.env.NODE_ENV2 !== 'qn') {
+        if (process.env.NODE_ENV === 'prod' && process.env.NODE_ENV2 !== 'qn') {
             mediaSrc = mediaURLData[7653];
         } else {
             mediaSrc = require('../../media/video.mp4');

@@ -1,14 +1,16 @@
-/**
- * Created by z on 2017/6/5.
+/*
+ * @Author: z
+ * @Date: 2017-06-5 22:23:56
+ * @LastEditTime: 2021-08-31 00:16:43
+ * @LastEditors: xieshengyong
  */
 const path = require('path');
 const webpack = require('webpack');
-const config = require('./config.path');
+const config = require('./package.json');
 
 const DefinePlugin = webpack.DefinePlugin;
 
 const webpackMerge = require('webpack-merge');
-
 const commonConfig = require('./webpack.config.base.js');
 
 const HotModuleReplacementPlugin = webpack.HotModuleReplacementPlugin;
@@ -22,7 +24,7 @@ module.exports = function (env) {
         output: {
             path: path.resolve(__dirname, './dist'),
             filename: 'js/[name].[hash:8].js',
-            publicPath: config.dev
+            publicPath: config.projectConfigs.path.dev
         },
         module: {
             rules: [
@@ -78,26 +80,6 @@ module.exports = function (env) {
                         // }
                     ]
                 }
-                // {
-                //     test: /\.js$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/js')
-                //     ],
-                //     exclude: [
-                //         path.resolve(__dirname, 'src/js/lib')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'babel-loader',
-                //             options: {
-                //                 cacheDirectory: true
-                //             }
-                //         },
-                //         {
-                //             loader: 'eslint-loader'
-                //         }
-                //     ]
-                // }
             ]
         },
         plugins: [
@@ -105,7 +87,7 @@ module.exports = function (env) {
             new DefinePlugin({
                 'process.env': {
                     'NODE_ENV': JSON.stringify('dev'),
-                    'PATH': JSON.stringify(config.dev)
+                    'PATH': JSON.stringify(config.projectConfigs.path.dev)
                 }
             }),
             new HotModuleReplacementPlugin()

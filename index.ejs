@@ -18,7 +18,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     
-    <% if (process.env.NODE_ENV === 'handover') { %>
+    <% if (process.env.NODE_ENV === 'prod') { %>
         <% for (var css in htmlWebpackPlugin.files.css) { %>
             <% var cssFile = htmlWebpackPlugin.files.css[css] %>
             <link href="<%= cssFile %>" rel="stylesheet">
@@ -86,7 +86,7 @@
     <script src="//game.gtimg.cn/images/js/mmdVideoPlayer/mmd.videoplayer.min.1.0.1.js" charset="utf-8"></script>
     <script src="https://ossweb-img.qq.com/images/spiderMediaData/yxzj_new/mediaURLData_https.js"></script>
 
-    <% if (process.env.NODE_ENV==='handover' && process.env.NODE_ENV2 != 'qn' ) { %>
+    <% if (process.env.NODE_ENV==='prod' && process.env.NODE_ENV2 != 'qn' ) { %>
         <script src="//ossweb-img.qq.com/images/js/TGMobileShare/TGMobileShare.min.js"></script>
         <script type="text/javascript" src="//ossweb-img.qq.com/images/js/mobile_bundle/milo.js" ></script>
         <script type="text/javascript" src="//ossweb-img.qq.com/images/ams/atm/reporting.js"></script>
@@ -107,7 +107,7 @@
         </script>
     <% } %>
 
-    <% if (process.env.NODE_ENV === 'handover') { %>
+    <% if (process.env.NODE_ENV === 'prod') { %>
 
         <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
 
