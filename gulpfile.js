@@ -6,11 +6,9 @@
  */
 /* eslint-disable no-unused-vars */
 
-const fontCut = require('./DevTool/fontCut.js');
-const audio = require('./DevTool/audiosprite.js');
-const utf2gbk = require('./DevTool/utf2gbk.js');
-
-const fs = require('fs');
+const fontCut = require('./DevToolScript/gulp-fontCut.js');
+const audio = require('./DevToolScript/gulp-audiosprite.js');
+const utf2gbk = require('./DevToolScript/gulp-utf2gbk.js');
 
 const {
     series,
@@ -21,21 +19,13 @@ const {
     done
 } = require('gulp');
 
-// var browsersync = require('browser-sync').create();
-// var replace = require('gulp-replace');
 var rename = require('gulp-rename');
 var del = require('del');
-// var fileInline = require('gulp-file-inline');
 var minimist = require('minimist');
-// var gulpLess = require('gulp-less');
-// var path = require('path');
-// var md5 = require('gulp-md5-plus');
 var vinylPaths = require('vinyl-paths');
 var changed = require('gulp-changed');
 var gulpIf = require('gulp-if');
 var deleteEmpty = require('delete-empty');
-
-var config = require('./config.path');
 
 var options = minimist(process.argv.slice(2));
 // var Dir = config[options.d || 'dist'];

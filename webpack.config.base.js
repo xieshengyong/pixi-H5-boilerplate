@@ -1,14 +1,20 @@
-/**
- * Created by z on 2017/6/5.
+/*
+ * @Author: z
+ * @Date: 2017-06-5 22:23:56
+ * @LastEditTime: 2021-08-31 00:46:02
+ * @LastEditors: xieshengyong
  */
 const path = require('path');
-// const webpack = require('webpack');
+const webpack = require('webpack');
 const fs = require('fs');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const SpritesmithPlugin = require('webpack-spritesmith');
+// const SpritesmithPlugin = require('webpack-spritesmith');
+const DefinePlugin = webpack.DefinePlugin;
+
+let sheetPath = Math.random().toString(36).slice(-5) + '/';
 
 var copyItem = [];
 
@@ -30,25 +36,16 @@ module.exports = function () {
             rules: [
                 {
                     test: /\.ejs/,
-                    // include: [
-                    //     path.resolve(__dirname, 'src/app')
-                    // ],
                     exclude: [
-                        path.resolve(__dirname, 'node_modules'),
-                        path.resolve(__dirname, 'index.ejs')
+                        path.resolve(__dirname, 'node_modules')
                     ],
                     use: [
                         {
                             loader: 'ejs-compiled-loader',
                             options: {}
                         }
-                        // {
-                        //     loader: 'ejs-loader',
-                        //     options: {}
-                        // }
                     ]
                 },
-                // todo: lib下的js未进行压缩
                 {
                     test: /\.js$/,
                     include: [
@@ -59,13 +56,13 @@ module.exports = function () {
                             loader: 'url-loader',
                             options: {
                                 limit: 1,
-                                name: 'js/lib/[name].[ext]'
+                                name: '[name].[ext]'
                             }
                         }
                     ]
                 },
                 {
-                    test: /\.(fnt|png|jpg|gif|svg|ttf|TTF|OTF|atlas|frag)$/,
+                    test: /\.(fnt|png|jpg|gif|svg|json|int|plist|atlas|ttf|frag)$/,
                     include: [
                         path.resolve(__dirname, 'src/img')
                     ],
@@ -79,15 +76,17 @@ module.exports = function () {
                             loader: 'url-loader',
                             options: {
                                 limit: 1,
-                                name: 'img/[name].[ext]'
+                                name: '[name].[hash:8].[ext]'
                             }
                         }
                     ],
                     type: 'javascript/auto'
                 },
                 {
-                    test: /\.(plist|int|json|png|jpg|atlas)$/,
+                    test: /\.(fnt|png|jpg|gif|svg|json|int|plist|atlas|ttf|frag)$/,
                     include: [
+                        path.resolve(__dirname, 'src/img/spriteSheet'),
+                        path.resolve(__dirname, 'src/img/delayLoadSpriteSheet'),
                         path.resolve(__dirname, 'src/img/dragonBonesAssets')
                     ],
                     use: [
@@ -95,44 +94,60 @@ module.exports = function () {
                             loader: 'url-loader',
                             options: {
                                 limit: 1,
-                                name: 'img/dragonBonesAssets/[name].[ext]'
+                                name: sheetPath + '[name].[ext]'
                             }
                         }
                     ],
                     type: 'javascript/auto'
                 },
-                {
-                    test: /\.(plist|int|fnt|json|png|jpg|atlas)$/,
-                    include: [
-                        path.resolve(__dirname, 'src/img/spriteSheet')
-                    ],
-                    use: [
-                        {
-                            loader: 'url-loader',
-                            options: {
-                                limit: 1,
-                                name: 'img/spriteSheet/[name].[ext]'
-                            }
-                        }
-                    ],
-                    type: 'javascript/auto'
-                },
-                {
-                    test: /\.(plist|int|fnt|json|png|jpg)$/,
-                    include: [
-                        path.resolve(__dirname, 'src/img/delayLoadSpriteSheet')
-                    ],
-                    use: [
-                        {
-                            loader: 'url-loader',
-                            options: {
-                                limit: 1,
-                                name: 'img/delayLoadSpriteSheet/[name].[ext]'
-                            }
-                        }
-                    ],
-                    type: 'javascript/auto'
-                },
+                // {
+                //     test: /\.(plist|int|json|png|jpg|atlas)$/,
+                //     include: [
+                //         path.resolve(__dirname, 'src/img/dragonBonesAssets')
+                //     ],
+                //     use: [
+                //         {
+                //             loader: 'url-loader',
+                //             options: {
+                //                 limit: 1,
+                //                 name: 'dragonBonesAssets/[name].[ext]'
+                //             }
+                //         }
+                //     ],
+                //     type: 'javascript/auto'
+                // },
+                // {
+                //     test: /\.(plist|int|fnt|json|png|jpg|atlas)$/,
+                //     include: [
+                //         path.resolve(__dirname, 'src/img/spriteSheet')
+                //     ],
+                //     use: [
+                //         {
+                //             loader: 'url-loader',
+                //             options: {
+                //                 limit: 1,
+                //                 name: '[name].[ext]'
+                //             }
+                //         }
+                //     ],
+                //     type: 'javascript/auto'
+                // },
+                // {
+                //     test: /\.(plist|int|fnt|json|png|jpg)$/,
+                //     include: [
+                //         path.resolve(__dirname, 'src/img/delayLoadSpriteSheet')
+                //     ],
+                //     use: [
+                //         {
+                //             loader: 'url-loader',
+                //             options: {
+                //                 limit: 1,
+                //                 name: 'delayLoadSpriteSheet/[name].[ext]'
+                //             }
+                //         }
+                //     ],
+                //     type: 'javascript/auto'
+                // },
                 {
                     test: /\.(mp3|mp4|ss)$/,
                     include: [
@@ -143,7 +158,7 @@ module.exports = function () {
                             loader: 'url-loader',
                             options: {
                                 limit: 1,
-                                name: 'img/[name].[ext]'
+                                name: '[name].[ext]'
                             }
                         }
                     ]
@@ -158,7 +173,7 @@ module.exports = function () {
                             loader: 'url-loader',
                             options: {
                                 limit: 1,
-                                name: 'img/[name].[ext]'
+                                name: '[name].[ext]'
                             }
                         }
                     ]
@@ -173,8 +188,13 @@ module.exports = function () {
         },
         plugins: [
             new CopyWebpackPlugin(copyItem),
+            new DefinePlugin({
+                'process.env': {
+                    'sheetPath': JSON.stringify(sheetPath)
+                }
+            }),
             new HtmlWebpackPlugin({
-                filename: './index.html',
+                filename: process.env.NODE_ENV ? '../index.html' : './index.html',
                 template: 'index.ejs',
                 // template: 'ejs-render-loader!index.ejs',
                 inject: false,
@@ -265,10 +285,10 @@ module.exports = function () {
             //         padding: 4
             //     }
             // })
-        ],
-        externals: {
-            '$': 'window.$',
-            'global': 'window.global'
-        }
+        ]
+        // externals: {
+        //     '$': 'window.$',
+        //     'global': 'window.global'
+        // }
     };
 };
