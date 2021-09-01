@@ -11,7 +11,7 @@
         "_notes_path": "项目路径，dev为开发阶段，一般默认无需配置，dist为相对目录或七牛分离地址，用于html和资源部署在同一入口，prod为分离地址",
         "path": {
             "dev": "",
-            "dist": "./ossweb-img/",
+            "dist": "http://10.0.2.238:3000/ossweb-img/",
             "prod": "//game.gtimg.cn/images/yxzj/cp/a20210317wwf/"
         },
         "zipName": "a20210104act"
@@ -19,8 +19,8 @@
     "scripts": {
         "start": "npm run dev",
         "dev": "webpack-dev-server --config webpack.config.dev.js",
-        "dist": "cross-env NODE_ENV2=dist webpack --config webpack.config.handover.js && npm run replace",
-        "replace": "cd dist/a20210317wwf/ossweb-img/ && replace 'ossweb-img/' '' -r --include=main.*.css,main.css",
+        "dist": "cross-env NODE_ENV=dist webpack --config webpack.config.prod.js",
+        "replace": "cd dist/ossweb-img/ && replace 'ossweb-img/' '' -r --include=main.*.css,main.css",
         "qn1": "cross-env NODE_ENV2=qn webpack --config webpack.config.handover.js",
         "qn": "cross-env NODE_ENV2=qn webpack --config webpack.config.handover.js",
         "build": "cross-env NODE_ENV=prod webpack --config webpack.config.prod.js",
@@ -35,6 +35,7 @@
         "copyfiles": "copyfiles -f dist/ossweb-img/*.js dist",
         "move1": "move-file dist/ossweb-img/main.5031738d.js dist/main.5031738d.js",
         "zip2": "cd dist && bestzip a20210104aa.zip a20210104aa/*",
+        "zip3": "bestzip dist/*",
         "sever": "cd dist && browser-sync start -s"
     },
     "keywords": [
@@ -106,20 +107,14 @@
         "webpack-strip": "^0.1.0"
     },
     "dependencies": {
-        "@types/clipboard": "^2.0.1",
-        "@types/hammerjs": "^2.0.36",
         "@types/howler": "^2.2.1",
-        "@types/iscroll": "^5.2.2",
         "@types/js-base64": "^2.3.1",
         "@types/js-cookie": "^2.2.2",
         "@types/node": "^12.7.2",
         "@types/zepto": "^1.0.31",
         "clipboard": "^2.0.4",
-        "fontmin": "^0.9.8",
         "gsap": "^3.5.1",
-        "hammerjs": "^2.0.8",
         "howler": "^2.2.1",
-        "iscroll": "^5.2.0",
         "js-cookie": "^2.2.1",
         "parallax-js": "^3.1.0",
         "phaser": "^3.19.0",

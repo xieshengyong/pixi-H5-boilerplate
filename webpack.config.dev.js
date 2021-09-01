@@ -1,7 +1,7 @@
 /*
  * @Author: z
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-08-31 00:16:43
+ * @LastEditTime: 2021-08-31 16:28:34
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -23,7 +23,10 @@ module.exports = function (env) {
         devtool: 'inline-source-map',
         output: {
             path: path.resolve(__dirname, './dist'),
-            filename: 'js/[name].[hash:8].js',
+            filename: '[name].js',
+            // filename: (pathData) => {
+            //     return pathData.chunk.name === 'vendor' && '[name].js';
+            // },
             publicPath: config.projectConfigs.path.dev
         },
         module: {
@@ -75,9 +78,6 @@ module.exports = function (env) {
                                 transpileOnly: true
                             }
                         }
-                        // {
-                        //     loader: 'eslint-loader'
-                        // }
                     ]
                 }
             ]
