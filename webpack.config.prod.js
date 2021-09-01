@@ -1,7 +1,7 @@
 /*
  * @Author: z
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-08-31 00:53:46
+ * @LastEditTime: 2021-08-31 16:28:55
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -29,9 +29,8 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 // const SpritesmithPlugin = require('webpack-spritesmith');
 
-let isQn = true;
-let PubPath = config.projectConfigs.path.prod;
-const zipName = config.projectConfigs.zipName;
+let PubPath = config.projectConfigs.path[process.env.NODE_ENV];
+// const zipName = config.projectConfigs.zipName;
 
 // var copyItem = [];
 // if (fs.existsSync('src/img/copy')) {
@@ -42,8 +41,6 @@ const zipName = config.projectConfigs.zipName;
 //     });
 // }
 
-console.log('PubPath :>> ', PubPath);
-
 module.exports = function () {
     return webpackMerge(commonConfig(), {
         mode: 'production',
@@ -52,27 +49,15 @@ module.exports = function () {
         //     main: './src/js/index.ts'
         // },
         output: {
-            path: path.resolve(__dirname, './dist/' + zipName + '/ossweb-img'),
+            path: path.resolve(__dirname, './dist/ossweb-img'),
             filename: (pathData) => {
-                // return pathData.chunk.name === 'vendor' ? '[name].js' : isQn ? '[name].[hash:8].js' : '[name].js';
+                // return pathData.chunk.name === 'vendor' && '[name].js';
                 return '[name].[hash:8].js';
             },
             publicPath: PubPath
         },
         module: {
             rules: [
-                // {
-                //     test: /\.ejs/,
-                //     exclude: [
-                //         path.resolve(__dirname, 'node_modules')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'ejs-compiled-loader',
-                //             options: {}
-                //         }
-                //     ]
-                // },
                 {
                     test: /\.less$/,
                     include: [
@@ -100,21 +85,6 @@ module.exports = function () {
                         }
                     ]
                 },
-                // {
-                //     test: /\.js$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/js/lib')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: 'js/lib/[name].[ext]'
-                //             }
-                //         }
-                //     ]
-                // },
                 {
                     test: /\.(js|ts)$/,
                     include: [
@@ -129,136 +99,32 @@ module.exports = function () {
                         }
                     ]
                 }
-                // {
-                //     test: /\.(png|jpg|gif|svg|ttf|TTF|OTF|frag)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/img')
-                //     ],
-                //     exclude: [
-                //         path.resolve(__dirname, 'src/img/spriteSheet'),
-                //         path.resolve(__dirname, 'src/img/delayLoadSpriteSheet'),
-                //         path.resolve(__dirname, 'src/img/dragonBonesAssets')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: isQn ? '[name].[hash:8].[ext]' : '[name].[ext]'
-                //             }
-                //         }
-                //     ]
-                // },
-                // {
-                //     test: /\.(plist|int|json|png|jpg)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/img/dragonBonesAssets')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: 'dragonBonesAssets/[name].[ext]'
-                //             }
-                //         }
-                //     ],
-                //     type: 'javascript/auto'
-                // },
-                // {
-                //     test: /\.(plist|int|fnt|json|png|jpg|atlas)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/img/spriteSheet')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: 'spriteSheet/[name].[ext]'
-                //             }
-                //         }
-                //     ],
-                //     type: 'javascript/auto'
-                // },
-                // {
-                //     test: /\.(plist|int|fnt|json|png|jpg)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/img/delayLoadSpriteSheet')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: 'delayLoadSpriteSheet/[name].[ext]'
-                //             }
-                //         }
-                //     ],
-                //     type: 'javascript/auto'
-                // },
-                // {
-                //     test: /\.(mp4|mp3|ss)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/media')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 5120,
-                //                 name: isQn ? '[name].[hash:8].[ext]' : '[name].[ext]'
-                //             }
-                //         }
-                //     ]
-                // },
-                // {
-                //     test: /\.(ttf|woff|OTF)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/font')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: isQn ? '[name].[hash:8].[ext]' : '[name].[ext]'
-                //             }
-                //         }
-                //     ]
-                // }
             ]
         },
-        // resolve: {
-        //     alias: {
-        //         '@': path.resolve(__dirname, 'src')
-        //     },
-        //     extensions: ['.ts', '.js']
-        // },
         plugins: [
             new CleanPlugin('dist'),
             new MiniCssExtractPlugin({
-                filename: isQn ? '[name].[contenthash:8].css' : '[name].css'
+                filename: '[name].[contenthash:8].css'
             }),
             // new CopyWebpackPlugin(copyItem),
             new DefinePlugin({
                 'process.env': {
                     'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-                    'NODE_ENV2': JSON.stringify(process.env.NODE_ENV2),
                     'PATH': JSON.stringify(PubPath)
                 }
             }),
             // new HtmlWebpackPlugin({
-            //     filename: isQn ? '../index.html' : '../index_wq.html',
+            //     filename: process.env.NODE_ENV ? '../index.html' : './index.html',
             //     template: 'index.ejs',
+            //     // template: 'ejs-render-loader!index.ejs',
             //     inject: false,
             //     chunks: ['vendor', 'main'],
             //     hash: false,
             //     minify: {
-            //         removeComments: false, // 移除HTML中的注释
+            //         removeComments: true, // 移除HTML中的注释
             //         collapseWhitespace: false, // 删除空白符与换行符
             //         minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
-            //         minifyJS: false // 压缩 HTML 中出现的 JS 代码
+            //         minifyJS: true // 压缩 HTML 中出现的 JS 代码
             //     }
             // }),
             new UglifyJSPlugin({

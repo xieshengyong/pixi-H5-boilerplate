@@ -1,10 +1,11 @@
 node_modules
 .idea
 *.bat
-dist/
+dist
 .DS_Store
 package-lock.json
 test/build/*
 aBuildHistory
 aHasChangedFiles
 TexturePacker
+a20*.zip

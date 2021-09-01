@@ -18,20 +18,20 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     
-    <% if (process.env.NODE_ENV === 'prod') { %>
+    <% if (process.env.NODE_ENV === 'dev') { %>
         <% for (var css in htmlWebpackPlugin.files.css) { %>
-            <% var cssFile = htmlWebpackPlugin.files.css[css] %>
+            <% var cssFile = htmlWebpackPlugin.files.css[css].substr(htmlWebpackPlugin.files.publicPath.length); %>
             <link href="<%= cssFile %>" rel="stylesheet">
         <% } %>
     <% } else { %>
         <% for (var css in htmlWebpackPlugin.files.css) { %>
-            <% var cssFile = htmlWebpackPlugin.files.css[css].substr(htmlWebpackPlugin.files.publicPath.length); %>
+            <% var cssFile = htmlWebpackPlugin.files.css[css] %>
             <link href="<%= cssFile %>" rel="stylesheet">
         <% } %>
     <% } %>
 
 </head>
-<body class="">
+<body>
     <div class="m-main-wrap absf">
         <!-- 竖屏页 -->
         <div class="m-vertical absf">
@@ -82,47 +82,53 @@
 
     </div>
 
-    <script src="//ossweb-img.qq.com/images/js/zepto/zepto.modules.min.js"></script>
-    <script src="//game.gtimg.cn/images/js/mmdVideoPlayer/mmd.videoplayer.min.1.0.1.js" charset="utf-8"></script>
-    <script src="https://ossweb-img.qq.com/images/spiderMediaData/yxzj_new/mediaURLData_https.js"></script>
+    <script charset="utf-8" src="//ossweb-img.qq.com/images/js/zepto/zepto.modules.min.js"></script>
+    <script charset="utf-8" src="//game.gtimg.cn/images/js/mmdVideoPlayer/mmd.videoplayer.min.1.0.1.js"></script>
+    <script charset="utf-8" src="//ossweb-img.qq.com/images/spiderMediaData/yxzj_new/mediaURLData_https.js"></script>
 
-    <% if (process.env.NODE_ENV==='prod' && process.env.NODE_ENV2 != 'qn' ) { %>
-        <script src="//ossweb-img.qq.com/images/js/TGMobileShare/TGMobileShare.min.js"></script>
-        <script type="text/javascript" src="//ossweb-img.qq.com/images/js/mobile_bundle/milo.js" ></script>
-        <script type="text/javascript" src="//ossweb-img.qq.com/images/ams/atm/reporting.js"></script>
-        <script type="text/javascript" src="//ossweb-img.qq.com/images/js/x8/user_report.js" iModuleId="10896" iActivityId="367562" iFlowId="748744"></script>
-        <script src="//pvp.qq.com/cp/a20210317wwf/js/index.js"></script>
-
-        <script src="//ossweb-img.qq.com/images/js/PTT/ping_tcss_tgideas_https_min.js"></script>
+    <% if (process.env.NODE_ENV==='prod') { %>
+        <script charset="utf-8" src="//ossweb-img.qq.com/images/js/PTT/ping_tcss_tgideas_https_min.js"></script>
         <script>
             //此段代码不能放到外链JS中，
             var setSite = { //设置网站属性
-                siteType: "a20210317wwf", //必填项:"os"代表是官网，如果不是，则填写actName例如a20160701xxx
+                siteType: "a20210104act", //必填项:"os"代表是官网，如果不是，则填写actName例如a20160701xxx
                 pageType: "index", //必填项:本页面的定位；按照页面含义填写例如main||list||detail||download||share||page1||pageN,不支持点(.)、下划线(_)
                 pageName: "首页", //必填项:页面中文名
                 project: "story", //选填项:如果是官网模块则是必填;按照模块内容，填写固定的对应值;官网微社区base;同人站doujin;赛事match;故事站story;文化站history;粉丝站fans;爆料站coming;论坛bbs;皮肤skin;默认other;
                 osact: 0 //选填项:默认是0。osact=0表示非官网专题；osact=pc表示pc官网/pc官网专题；osact=m表示移动官网/移动官网专题；osact=ingame表示微社区/微社区专题
             };
-            if (typeof (pgvMain) == 'function') pgvMain();//千万不能忘记！
+            if (typeof (pgvMain) == 'function') pgvMain(); //千万不能忘记！
+        </script>
+
+        <script charset="utf-8" src="//ossweb-img.qq.com/images/js/TGMobileShare/TGMobileShare.min.js"></script>
+        <script>
+            TGMobileShare({
+                    shareTitle: '赶快来挑战强者之路，搭配职业共逐巅峰，领取丰厚奖品吧！',
+                    shareDesc: '赶快来挑战强者之路，搭配职业共逐巅峰，领取丰厚奖品吧！',
+                    shareImgUrl: 'https://game.gtimg.cn/images/dnf/cp/a20210104act/share.jpg',
+                    shareLink: location.origin + location.pathname,
+                    actName: 'a20210104act',
+                    types: "1"
+                })
         </script>
     <% } %>
 
-    <% if (process.env.NODE_ENV === 'prod') { %>
+    <% if (process.env.NODE_ENV === 'dev') { %>
+        <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+
+        <% var jsFile = htmlWebpackPlugin.files.chunks[chunk].entry.substr(htmlWebpackPlugin.files.publicPath.length); %>
+
+        <script charset="utf-8" type="text/javascript" src="<%= jsFile %>"></script>
+
+        <% } %>
+
+    <% } else { %>
 
         <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
 
         <% var jsFile = htmlWebpackPlugin.files.chunks[chunk].entry; %>
 
-        <script type="text/javascript" src="<%= jsFile %>"></script>
-
-        <% } %>
-
-    <% } else { %>
-        <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
-
-        <% var jsFile = htmlWebpackPlugin.files.chunks[chunk].entry.substr(htmlWebpackPlugin.files.publicPath.length); %>
-
-        <script type="text/javascript" src="<%= jsFile %>"></script>
+        <script charset="utf-8" type="text/javascript" src="<%= jsFile %>"></script>
 
         <% } %>
 

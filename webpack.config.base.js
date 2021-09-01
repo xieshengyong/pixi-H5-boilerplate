@@ -1,7 +1,7 @@
 /*
  * @Author: z
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-08-31 00:46:02
+ * @LastEditTime: 2021-08-31 16:28:21
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -100,54 +100,6 @@ module.exports = function () {
                     ],
                     type: 'javascript/auto'
                 },
-                // {
-                //     test: /\.(plist|int|json|png|jpg|atlas)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/img/dragonBonesAssets')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: 'dragonBonesAssets/[name].[ext]'
-                //             }
-                //         }
-                //     ],
-                //     type: 'javascript/auto'
-                // },
-                // {
-                //     test: /\.(plist|int|fnt|json|png|jpg|atlas)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/img/spriteSheet')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: '[name].[ext]'
-                //             }
-                //         }
-                //     ],
-                //     type: 'javascript/auto'
-                // },
-                // {
-                //     test: /\.(plist|int|fnt|json|png|jpg)$/,
-                //     include: [
-                //         path.resolve(__dirname, 'src/img/delayLoadSpriteSheet')
-                //     ],
-                //     use: [
-                //         {
-                //             loader: 'url-loader',
-                //             options: {
-                //                 limit: 1,
-                //                 name: 'delayLoadSpriteSheet/[name].[ext]'
-                //             }
-                //         }
-                //     ],
-                //     type: 'javascript/auto'
-                // },
                 {
                     test: /\.(mp3|mp4|ss)$/,
                     include: [
