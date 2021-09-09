@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2021-01-13 17:29:44
- * @LastEditTime: 2021-08-26 18:56:57
+ * @LastEditTime: 2021-09-10 01:09:11
  * @LastEditors: xieshengyong
  */
 
@@ -10,20 +10,16 @@
 /** Animated show, hide, toggle, and fade*() methods. */
 // import './app/util/fx_methods';
 
-import 'howler';
+// import 'howler';
 
-import gsap from 'gsap';
-import { PixiPlugin } from 'gsap/PixiPlugin';
+window.howler = require('howler');
 
-import * as PIXI from 'pixi.js';
+window.PIXI = require('pixi.js');
+window.gsap = require('gsap').gsap;
+window.PixiPlugin = require('gsap/PixiPlugin').PixiPlugin;
 
-import * as PixiFilters from 'pixi-filters';
-import * as Particles from 'pixi-particles';
+window.PixiFilters = require('pixi-filters');
+window.Particles = require('pixi-particles');
 
-window.PIXI = PIXI;
-
-window.gsap = gsap;
-window.PixiPlugin = PixiPlugin;
-
-window.Particles = Particles;
-window.PixiFilters = PixiFilters;
+// window.Particles = Particles;
+// window.PixiFilters = PixiFilters;

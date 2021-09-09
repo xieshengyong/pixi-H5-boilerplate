@@ -27,6 +27,9 @@ interface Window {
     JSMpeg: any;
     showMsg: any;
     showLoading: any;
+    PIXI: any;
+    gsap: any;
+    howler: any;
 }
 
 // todo: interface 补充
@@ -80,8 +83,6 @@ declare var Tenvideo: any;
 
 declare var QRCode: any;
 
-declare var Howler: any;
-declare var Howl: any;
 declare var Particles: any;
 declare var PixiFilters: any;
 

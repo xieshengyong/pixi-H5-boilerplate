@@ -5,7 +5,7 @@ import PX from './tool/PX';
 import { browser, push } from './tool/TD';
 import { delay, getRandom, getJs, getQuery } from './tool/BaseTools';
 
-import './util/pixi-spine'; // 骨骼动画
+// require('./util/pixi-spine'); // 骨骼动画
 
 // 项目初始化的一些函数
 var initProject = async function () {
@@ -62,7 +62,7 @@ var initProject = async function () {
     }
 
     // DEBUG: 全局静音
-    getQuery('mute') === '1' && Howler.mute(true);
+    getQuery('mute') === '1' && window.howler.mute(true);
 };
 
 export default class LoadViewController extends View {

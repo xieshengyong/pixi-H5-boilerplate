@@ -18,12 +18,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     
-    <% if (process.env.NODE_ENV === 'dev') { %>
-        <% for (var css in htmlWebpackPlugin.files.css) { %>
-            <% var cssFile = htmlWebpackPlugin.files.css[css].substr(htmlWebpackPlugin.files.publicPath.length); %>
-            <link href="<%= cssFile %>" rel="stylesheet">
-        <% } %>
-    <% } else { %>
+    <% if (process.env.NODE_ENV !== 'development') { %>
         <% for (var css in htmlWebpackPlugin.files.css) { %>
             <% var cssFile = htmlWebpackPlugin.files.css[css] %>
             <link href="<%= cssFile %>" rel="stylesheet">
@@ -113,25 +108,9 @@
         </script>
     <% } %>
 
-    <% if (process.env.NODE_ENV === 'dev') { %>
-        <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
-
-        <% var jsFile = htmlWebpackPlugin.files.chunks[chunk].entry.substr(htmlWebpackPlugin.files.publicPath.length); %>
-
+    <% for (var chunk in htmlWebpackPlugin.files.js) { %>
+        <% var jsFile = htmlWebpackPlugin.files.js[chunk]; %>
         <script charset="utf-8" type="text/javascript" src="<%= jsFile %>"></script>
-
-        <% } %>
-
-    <% } else { %>
-
-        <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
-
-        <% var jsFile = htmlWebpackPlugin.files.chunks[chunk].entry; %>
-
-        <script charset="utf-8" type="text/javascript" src="<%= jsFile %>"></script>
-
-        <% } %>
-
     <% } %>
 
     </body>

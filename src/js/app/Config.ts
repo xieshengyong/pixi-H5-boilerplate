@@ -25,7 +25,7 @@ Config.effect = { play: () => { } };
 Config.bgm = { play: () => { } };
 
 Config.loadMusic = () => {
-    Config.bgm = new Howl({ src: require('../../media/bg.mp3'), loop: true }); // eslint-disable-line
+    Config.bgm = new window.howler.Howl({ src: require('../../media/bg.mp3'), loop: true }); // eslint-disable-line
     // Config.bgm.play();
 };
 
@@ -38,11 +38,11 @@ document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
         // 打开媒体
         if (!$('.mute-icon').hasClass('mute')) {
-            window.Howler && Howler.mute(false);
+            window.howler && window.howler.mute(false);
         }
     } else {
         // 关闭媒体
-        window.Howler && Howler.mute(true);
+        window.howler && window.howler.mute(true);
     }
 });
 
