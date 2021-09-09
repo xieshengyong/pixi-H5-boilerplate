@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2021-01-04 11:30:04
- * @LastEditTime: 2021-04-26 18:07:52
+ * @LastEditTime: 2021-09-10 00:48:55
  * @LastEditors: xieshengyong
  */
 /**
@@ -11,7 +11,6 @@
  * 2、 防止IOS序列帧动画抖动， 判读为IOS时PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH;
  *
  */
-
 const Cache = PIXI.utils.TextureCache;
 
 const PX = {
@@ -30,7 +29,7 @@ const PX = {
             view: canvasEl,
             width: dWidth,
             height: dHeight,
-            transparent: true,
+            backgroundAlpha: 0,
             backgroundColor: 0x000000
         });
         this.Application.stage.interactive = true;

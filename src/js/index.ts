@@ -1,8 +1,9 @@
 import '../less/style.less';
 
-// 引入的包根据实际情况而定
+/* 引入的包根据实际情况而定 */
 import LoadViewController from './app/LoadViewController';
 import IndexViewController from './app/IndexViewController';
+
 
 (function () {
     // load页面

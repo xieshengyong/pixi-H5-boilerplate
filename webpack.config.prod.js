@@ -1,7 +1,7 @@
 /*
  * @Author: z
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-08-31 16:28:55
+ * @LastEditTime: 2021-09-09 23:40:23
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -13,10 +13,10 @@ const config = require('./package.json');
 
 // const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin}  = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const webpackMerge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.config.base.js');
 
 // const cssTemplate = require('./sprite/cssTemplate');
@@ -25,7 +25,7 @@ const commonConfig = require('./webpack.config.base.js');
 
 const DefinePlugin = webpack.DefinePlugin;
 
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 // const SpritesmithPlugin = require('webpack-spritesmith');
 
@@ -42,18 +42,20 @@ let PubPath = config.projectConfigs.path[process.env.NODE_ENV];
 // }
 
 module.exports = function () {
-    return webpackMerge(commonConfig(), {
+    return merge(commonConfig(), {
         mode: 'production',
         // entry: {
         //     vendor: './src/js/vendor.ts',
         //     main: './src/js/index.ts'
         // },
+        devtool: 'source-map',
         output: {
             path: path.resolve(__dirname, './dist/ossweb-img'),
-            filename: (pathData) => {
-                // return pathData.chunk.name === 'vendor' && '[name].js';
-                return '[name].[hash:8].js';
-            },
+            filename: '[name].[hash:8].js',
+            // filename: (pathData) => {
+            //     // return pathData.chunk.name === 'vendor' && '[name].js';
+            //     return '[name].[hash:8].js';
+            // },
             publicPath: PubPath
         },
         module: {
@@ -69,7 +71,7 @@ module.exports = function () {
                             loader: 'css-loader',
                             options: {
                                 // importLoaders: 2,
-                                minimize: true
+                                // minimize: true
                             }
                         },
                         {
@@ -80,7 +82,7 @@ module.exports = function () {
                         {
                             loader: 'less-loader',
                             options: {
-                                ieCompat: false
+                                // ieCompat: false
                             }
                         }
                     ]
@@ -102,7 +104,7 @@ module.exports = function () {
             ]
         },
         plugins: [
-            new CleanPlugin('dist'),
+            new CleanWebpackPlugin (),
             new MiniCssExtractPlugin({
                 filename: '[name].[contenthash:8].css'
             }),
@@ -113,27 +115,13 @@ module.exports = function () {
                     'PATH': JSON.stringify(PubPath)
                 }
             }),
-            // new HtmlWebpackPlugin({
-            //     filename: process.env.NODE_ENV ? '../index.html' : './index.html',
-            //     template: 'index.ejs',
-            //     // template: 'ejs-render-loader!index.ejs',
-            //     inject: false,
-            //     chunks: ['vendor', 'main'],
-            //     hash: false,
-            //     minify: {
-            //         removeComments: true, // 移除HTML中的注释
-            //         collapseWhitespace: false, // 删除空白符与换行符
-            //         minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
-            //         minifyJS: true // 压缩 HTML 中出现的 JS 代码
+            // new UglifyJSPlugin({
+            //     uglifyOptions: {
+            //         compress: {
+            //             drop_console: !false
+            //         }
             //     }
-            // }),
-            new UglifyJSPlugin({
-                uglifyOptions: {
-                    compress: {
-                        drop_console: !false
-                    }
-                }
-            })
+            // })
             // new SpritesmithPlugin({
             //         // 目标小图标
             //         src: {
