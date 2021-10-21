@@ -1,7 +1,7 @@
 /*
- * @Author: z
+ * @Author: xieshengyong
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-09-10 00:51:20
+ * @LastEditTime: 2021-10-21 21:49:59
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -12,8 +12,6 @@ const DefinePlugin = webpack.DefinePlugin;
 
 const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.config.base.js');
-
-const HotModuleReplacementPlugin = webpack.HotModuleReplacementPlugin;
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
@@ -88,14 +86,14 @@ module.exports = function (env) {
             new DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('development'),
                 'process.env.PATH': JSON.stringify(config.projectConfigs.path.dev),
-            }),
-            new HotModuleReplacementPlugin()
+            })
         ],
         devServer: {
             static: {
                 directory: path.join(__dirname, './')
             },
             // host: '0.0.0.0',
+            hot: true,
             compress: true,
         }
     });
