@@ -85,23 +85,48 @@
 		}
 	}
 }
-.m-msg{
+
+.m-msg {
     .hide;
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    top: 50%;left: 50%;
-    margin: -60px 0 0 -135px;
-    width: 290px;
-    height: 120px;
-    text-align: center;
-    line-height: 120px;
-    background-color: rgba(0, 0, 0, 0.65);
-    border-radius: 18px;
-    z-index: 999;
-    color: #fff;
-    font-size: 24px;
-    animation: msgAni 1.5s both;
+	pointer-events: all;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 10;
+
+    .bg {
+		width: 300px;
+		height: 150px;
+		background-color: rgba(0, 0, 0, 0.65);
+		border-radius: 18px;
+        font-size: 32px;
+        color: #fff;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .content {
+            padding: 0 24px;
+            line-height: 50px;
+        }
+
+        i {
+            color: #ffc039;
+        }
+
+        &::after {
+            .lcter;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            font-size: 25px;
+            content: "点击任意位置继续";
+            bottom: -50px;
+        }
+    }
+
+    &.notips .bg::after {
+        display: none;
+    }
 }
 
 .setSize(@w, @h) {

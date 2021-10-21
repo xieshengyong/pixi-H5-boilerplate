@@ -5,7 +5,7 @@ import PX from './tool/PX';
 import { browser, push } from './tool/TD';
 import { delay, getRandom, getJs, getQuery } from './tool/BaseTools';
 
-// require('./util/pixi-spine'); // 骨骼动画
+require('./util/pixi-spine'); // 骨骼动画
 
 // 项目初始化的一些函数
 var initProject = async function () {
@@ -43,26 +43,47 @@ var initProject = async function () {
     }());
     browser.versions.ios && $('body').on('DOMSubtreeModified', resetScroll);
 
+
+    window.showMsg = (msg: string, time?: number) => {
+        let msgWrap = $('.m-msg');
+        msgWrap.fadeIn(100).find('.bg .content').html(msg);
+        if (time) {
+            msgWrap.addClass('notips');
+            setTimeout(() => {
+                msgWrap.fadeOut(0).removeClass('notips');
+            }, time);
+            return;
+        }
+        return new Promise((resolve, reject) => {
+            msgWrap.one('click', () => {
+                msgWrap.fadeOut(100);
+                resolve(null);
+            });
+        });
+    };
+
+    window.showLoading = (isShow: boolean) => {
+        isShow ? $('.m-icon-loading').fadeIn(200) : $('.m-icon-loading').fadeOut(200);
+    };
+
     // DEBUG: 显示vconsole工具
     if (getQuery('vconsole') === '1') {
-        getJs(require('../lib/vconsole.min.js')).then(() => {
-            new VConsole(); // eslint-disable-line
-            console.log('Hello world');
-        });
+        await getJs(require('../lib/vconsole.min.js'));
+        new VConsole(); // eslint-disable-line
+        console.log('Hello world');
     }
 
     // DEBUG: 显示stats工具
     if (getQuery('stats') === '1') {
-        Promise.all([getJs(require('../lib/gstats.js')), getJs(require('../lib/Stats.min.js'))]).then(() => {
-            // @ts-ignore
-            var st = new GStats.StatsJSAdapter(new GStats.PIXIHooks(PX.app));
-            document.body.appendChild(st.stats.dom || st.stats.domElement);
-            PIXI.Ticker.shared.add(st.update, st, PIXI.UPDATE_PRIORITY.UTILITY);
-        });
+        await Promise.all([getJs(require('../lib/gstats.js')), getJs(require('../lib/Stats.min.js'))]);
+        // @ts-ignore
+        var st = new GStats.StatsJSAdapter(new GStats.PIXIHooks(PX.app));
+        document.body.appendChild(st.stats.dom || st.stats.domElement);
+        PIXI.Ticker.shared.add(st.update, st, PIXI.UPDATE_PRIORITY.UTILITY);
     }
 
     // DEBUG: 全局静音
-    getQuery('mute') === '1' && window.howler.mute(true);
+    getQuery('mute') === '1' && window.howler.Howler.mute(true);
 };
 
 export default class LoadViewController extends View {
@@ -82,7 +103,7 @@ export default class LoadViewController extends View {
         // give the plugin a reference to the PIXI object
         PixiPlugin.registerPIXI(PIXI);
 
-        PX.init(document.querySelector('.m-stage-wrap canvas'), 750, 1600);
+        PX.init(document.querySelector('.m-stage-wrap canvas'), 1600, 750);
 
         initProject();
     }
@@ -164,7 +185,7 @@ export default class LoadViewController extends View {
         this.once('videoStart', async () => {
             console.log('video start');
             this.showVideo();
-            $('.m-icon-loading').fadeOut(100);
+            window.showLoading(!true);
         });
 
         this.once('videoEnd', () => {
@@ -173,7 +194,7 @@ export default class LoadViewController extends View {
 
         $('.m-loading').one('click', () => {
             this.videoPlayer.play();
-            $('.m-icon-loading').fadeIn(200);
+            window.showLoading(true);
             push('btn', 'startVideo', '开始播放视频');
         });
     }

@@ -38,11 +38,11 @@ document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
         // 打开媒体
         if (!$('.mute-icon').hasClass('mute')) {
-            window.howler && window.howler.mute(false);
+            window.howler && window.howler.Howler.mute(false);
         }
     } else {
         // 关闭媒体
-        window.howler && window.howler.mute(true);
+        window.howler && window.howler.Howler.mute(true);
     }
 });
 
