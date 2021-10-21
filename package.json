@@ -19,7 +19,7 @@
     },
     "scripts": {
         "start": "npm run dev",
-        "dev": "webpack server --config webpack.config.dev.js",
+        "dev": "webpack server --hot --config webpack.config.dev.js",
         "dist": "cross-env NODE_ENV=dist webpack --config webpack.config.prod.js",
         "replace": "cd dist/ossweb-img/ && replace 'ossweb-img/' '' -r --include=main.*.css,main.css",
         "qn1": "cross-env NODE_ENV2=qn webpack --config webpack.config.handover.js",
@@ -43,7 +43,8 @@
         "h5",
         "animation",
         "pixijs",
-        "boilerplate"
+        "boilerplate",
+        "pixi-h5-boilerplate"
     ],
     "license": "MIT",
     "devDependencies": {
