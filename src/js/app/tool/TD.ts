@@ -390,7 +390,7 @@ export const browser = {
             iPad: u.indexOf('iPad') > -1, // 是否iPad
             webApp: u.indexOf('Safari') === -1, // 是否web应该程序，没有头部与底部
             weixin: u.indexOf('MicroMessenger') > -1, // 是否微信 （2015-01-22新增）
-            qq: u.match(/QQ/i) === 'QQ', // 是否QQ
+            qq: u.indexOf('QQ/') > -1, // 是否QQ
             iosVer: u.toLowerCase().match(/cpu iphone os (.*?) like mac os/),
             androidVer: u.toLowerCase().match(/android (.*?);/)
         };
