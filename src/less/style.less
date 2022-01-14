@@ -20,7 +20,6 @@ html.pad .m-wrap{
     width: 600PX;
 }
 
-
 .m-main-wrap{
     // overflow: hidden;
 }
@@ -37,6 +36,7 @@ html.pad .m-wrap{
 
 .m-loading{
     z-index: 5;
+    .hide;
     .bg{
         .img('../img/loading_bg.jpg');
     }
@@ -62,12 +62,15 @@ html.pad .m-wrap{
 }
 
 .m-index{
-    .hide;
+    // .hide;
     z-index: 4;
     .video-box{
         width: 1600px;
         height: 750px;
         z-index: 4;
+        .video{
+            display: none;
+        }
         .video-skip{
             .hide;
             width: 1.2rem;

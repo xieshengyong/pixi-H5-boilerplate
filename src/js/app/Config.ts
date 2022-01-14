@@ -5,6 +5,8 @@ const Config = {} as anyValue;
 
 // 图片路径前缀
 Config.imgPath = process.env.NODE_ENV === 'prod' ? process.env.PATH : process.env.PATH + '';
+// 配置文件路径前缀
+Config.sheetDirPath = Config.imgPath + process.env.sheetPath;
 
 // 默认分享语
 Config.defShare = {

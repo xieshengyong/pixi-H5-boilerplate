@@ -5,8 +5,6 @@ import Config from './Config';
 import { delay, getImg, getRandom } from './tool/BaseTools';
 import { util, push } from './tool/TD';
 
-import EmitterSnow from '../../json/EmitterSnow.json'; // 粒子数据
-
 export default class IndexViewController extends View {
     isInit: boolean;
     isSecondLoadEnd: boolean;

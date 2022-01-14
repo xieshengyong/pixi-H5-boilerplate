@@ -1,6 +1,6 @@
 {
     "name": "pixi-h5-boilerplate",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "基于pixi.js的高性能多动效H5模板",
     "author": "xieshengyong",
     "private": true,

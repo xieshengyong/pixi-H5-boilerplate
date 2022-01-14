@@ -1,0 +1,1 @@
+ffmpeg -i video.mp4 -f mpegts -codec:v mpeg1video -s 750x1600 -b:v 2200k -r 25 -bf 0 -codec:a mp2 -ar 44100 -ac 1 -b:a 96k out.ttf

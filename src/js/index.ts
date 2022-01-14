@@ -4,7 +4,6 @@ import '../less/style.less';
 import LoadViewController from './app/LoadViewController';
 import IndexViewController from './app/IndexViewController';
 
-
 (function () {
     // load页面
     const loadPageBack = () => {

@@ -87,17 +87,19 @@
 }
 
 .m-msg {
-    .hide;
+	display: none;
 	pointer-events: all;
     background-color: rgba(0, 0, 0, 0.45);
     z-index: 10;
+	transform: translateZ(0);
 
     .bg {
-		width: 300px;
-		height: 150px;
+		max-width: 500px;
+		min-width: 220px;
+		min-height: 150px;
 		background-color: rgba(0, 0, 0, 0.65);
 		border-radius: 18px;
-        font-size: 32px;
+        font-size: 26px;
         color: #fff;
         text-align: center;
         display: flex;
@@ -118,9 +120,9 @@
             color: #fff;
             width: 100%;
             text-align: center;
-            font-size: 25px;
+            font-size: 20px;
             content: "点击任意位置继续";
-            bottom: -50px;
+            bottom: -40px;
         }
     }
 
@@ -128,6 +130,7 @@
         display: none;
     }
 }
+
 
 .setSize(@w, @h) {
     width: @w;
