@@ -5,12 +5,14 @@ import PX from './tool/PX';
 import { browser, push } from './tool/TD';
 import { delay, getRandom, getJs, getQuery } from './tool/BaseTools';
 
-require('./util/pixi-spine'); // 骨骼动画
-
 // 项目初始化的一些函数
 var initProject = async function () {
     /* 自动添加cnzz统计代码 */
-    // Config.defShare.cnzz && document.write(unescape('%3Cspan style="display: none" id="cnzz_stat_icon_' + Config.defShare.cnzz + '"%3E%3C/span%3E%3Cscript src="' + 'https://s4.cnzz.com/z_stat.php%3Fid%3D' + cnzzID + '" type="text/javascript"%3E%3C/script%3E'));
+    // if (Config.defShare.cnzz) {
+    //     let cnzz = document.createElement('script');
+    //     cnzz.src = 'https://s4.cnzz.com/z_stat.php?id=' + Config.defShare.cnzz;
+    //     document.body.append(cnzz);
+    // }
 
     /* 初始化微信接口 */
     // Config.defShare.appid && TD.initWxApi(Config.defShare);

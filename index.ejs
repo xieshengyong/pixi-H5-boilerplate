@@ -44,7 +44,7 @@
 
                 <div class="m-index absf">
                     <div class="video-box abcter">
-                        <video src="" id="video" class="video absf" preload></video>
+                        <video src="" id="video" class="video absf"></video>
                     </div>
                 </div>
 
@@ -60,6 +60,13 @@
 
         <div class="m-stage-wrap absf">
             <canvas class="abcter"></canvas>
+        </div>
+        
+        <!-- 信息提示弹窗 -->
+        <div class="m-msg absf" id="msg">
+            <div class="bg abcter">
+                <div class="content"></div>
+            </div>
         </div>
 
         <!-- loading小动画 -->
@@ -77,8 +84,8 @@
 
     </div>
 
-    <script src="./src/js/lib/zepto.modules.min.js"></script>
-    <script src="./src/js/lib/mmd.videoplayer.min.js"></script>
+    <script src="./js/lib/zepto.modules.min.js"></script>
+    <script src="./js/lib/mmd.videoplayer.min.js"></script>
     <script charset="utf-8" src="//ossweb-img.qq.com/images/spiderMediaData/yxzj_new/mediaURLData_https.js"></script>
 
     <% if (process.env.NODE_ENV==='prod') { %>
@@ -98,13 +105,13 @@
         <script charset="utf-8" src="//ossweb-img.qq.com/images/js/TGMobileShare/TGMobileShare.min.js"></script>
         <script>
             TGMobileShare({
-                    shareTitle: '赶快来挑战强者之路，搭配职业共逐巅峰，领取丰厚奖品吧！',
-                    shareDesc: '赶快来挑战强者之路，搭配职业共逐巅峰，领取丰厚奖品吧！',
-                    shareImgUrl: 'https://game.gtimg.cn/images/dnf/cp/a20210104act/share.jpg',
-                    shareLink: location.origin + location.pathname,
-                    actName: 'a20210104act',
-                    types: "1"
-                })
+                shareTitle: '赶快来挑战强者之路，搭配职业共逐巅峰，领取丰厚奖品吧！',
+                shareDesc: '赶快来挑战强者之路，搭配职业共逐巅峰，领取丰厚奖品吧！',
+                shareImgUrl: 'https://game.gtimg.cn/images/dnf/cp/a20210104act/share.jpg',
+                shareLink: location.origin + location.pathname,
+                actName: 'a20210104act',
+                types: "1"
+            })
         </script>
     <% } %>
 

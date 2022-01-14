@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-10-21 21:49:55
+ * @LastEditTime: 2022-01-13 17:52:00
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -76,7 +76,7 @@ module.exports = function () {
                         }
                     },
                     generator: {
-                        filename: '[name][hash:8][ext]'
+                        filename: '[name].[hash:8][ext]'
                     }
                 },
                 {
@@ -98,7 +98,7 @@ module.exports = function () {
                     }
                 },
                 {
-                    test: /\.(mp3|mp4|ss)$/,
+                    test: /\.(mp3|mp4|ttf)$/,
                     include: [
                         path.resolve(__dirname, 'src/media')
                     ],
@@ -109,7 +109,7 @@ module.exports = function () {
                         }
                     },
                     generator: {
-                        filename: '[name][hash:8][ext]'
+                        filename: '[name].[hash:8][ext]'
                     }
                 },
                 {
@@ -124,7 +124,7 @@ module.exports = function () {
                         }
                     },
                     generator: {
-                        filename: '[name][hash:8][ext]'
+                        filename: '[name].[hash:8][ext]'
                     }
                 }
             ]
@@ -153,88 +153,6 @@ module.exports = function () {
                     minifyJS: true // 压缩 HTML 中出现的 JS 代码
                 }
             })
-            // new SpritesmithPlugin({
-            //     // 目标小图标
-            //     src: {
-            //         cwd: path.resolve(__dirname, `./src/sprite/sprite`),
-            //         glob: '*.png'
-            //     },
-            //     // 输出雪碧图文件及样式文件
-            //     target: {
-            //         image: path.resolve(__dirname, `./src/img/bg_sprite.png`),
-            //         css: [
-            //             [path.resolve(__dirname, `./src/less/sprite.less`), {
-            //                 format: 'sprite_function_template',
-            //                 spritesheetName: 'sprite'
-            //             }]
-            //         ]
-            //     },
-            //     customTemplates: {
-            //         'sprite_function_template': data => {
-            //             let sprites = data.sprites.map(sprite => {
-            //                 return `.sprite.${sprite.name} {
-            //             width: ${sprite.width}px;
-            //             height: ${sprite.height}px;
-            //             background-size: ${data.spritesheet.width}px ${data.spritesheet.height}px;
-            //             background-repeat: no-repeat;
-            //             background-position: ${sprite.offset_x}px ${sprite.offset_y}px;
-            //         }`;
-            //             }).join('\n');
-            //             return `.sprite{background-image: url(${data.spritesheet.image});}\n${sprites}`;
-            //         }
-            //     },
-            //     // 样式文件中调用雪碧图地址写法
-            //     apiOptions: {
-            //         cssImageRef: `../img/bg_sprite.png`
-            //     },
-            //     spritesmithOptions: {
-            //         algorithm: 'binary-tree',
-            //         padding: 4
-            //     }
-            // })
-            // new SpritesmithPlugin({
-            //     // 目标小图标
-            //     src: {
-            //         cwd: path.resolve(__dirname, `./src/sprite/sprite-box`),
-            //         glob: '*.png'
-            //     },
-            //     // 输出雪碧图文件及样式文件
-            //     target: {
-            //         image: path.resolve(__dirname, `./src/img/bg_sprite_box.png`),
-            //         css: [
-            //             [path.resolve(__dirname, `./src/less/sprite-box.less`), {
-            //                 format: 'sprite_function_template_box',
-            //                 spritesheetName: 'sprite'
-            //             }]
-            //         ]
-            //     },
-            //     customTemplates: {
-            //         'sprite_function_template_box': data => {
-            //             let sprites = data.sprites.map(sprite => {
-            //                 return `.sprite-box.${sprite.name} {
-            //             width: ${sprite.width}px;
-            //             height: ${sprite.height}px;
-            //             background-size: ${data.spritesheet.width}px ${data.spritesheet.height}px;
-            //             background-repeat: no-repeat;
-            //             background-position: ${sprite.offset_x}px ${sprite.offset_y}px;
-            //         }`;
-            //             }).join('\n');
-            //             return `.sprite-box{background-image: url(${data.spritesheet.image});}\n${sprites}`;
-            //         }
-            //     },
-            //     // 样式文件中调用雪碧图地址写法
-            //     apiOptions: {
-            //         cssImageRef: `../img/bg_sprite_box.png`
-            //     },
-            //     spritesmithOptions: {
-            //         algorithm: 'binary-tree',
-            //         padding: 4
-            //     }
-            // })
         ]
-        // externals: {
-        //     '$': 'window.$',
-        //     'global': 'window.global'
-        // }
     };
 };

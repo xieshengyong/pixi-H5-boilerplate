@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-10-21 21:49:59
+ * @LastEditTime: 2021-11-08 16:42:42
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -21,7 +21,6 @@ module.exports = function (env) {
         devtool: 'inline-source-map',
         output: {
             path: path.resolve(__dirname, './dist'),
-            // filename: '[name].[hash:4].js',
             filename: (pathData) => {
                 return pathData.chunk.name === 'vendor' ? '[name].js' : '[name].[hash:4].js';
             },
@@ -86,13 +85,23 @@ module.exports = function (env) {
             new DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('development'),
                 'process.env.PATH': JSON.stringify(config.projectConfigs.path.dev),
-            })
+            }),
+            new webpack.HotModuleReplacementPlugin()
         ],
         devServer: {
             static: {
-                directory: path.join(__dirname, './')
+                directory: path.join(__dirname, 'src')
             },
+            watchFiles: ['src/**/*', '*.ejs', '*.html'],
+            // client: {
+            //     reconnect: false,
+            // },
+            // watchOptions: {
+            //     ignored: ['node_modules'],
+            //     poll: false
+            // },
             // host: '0.0.0.0',
+            // inline: true,
             hot: true,
             compress: true,
         }
