@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2022-01-13 16:14:05
- * @LastEditTime: 2022-01-14 14:30:39
+ * @LastEditTime: 2022-01-18 14:42:43
  * @LastEditors: xieshengyong
  */
 /*
@@ -70,6 +70,9 @@ export default class MediaSprite {
     private cbs: CbsType[];
     
     public media: HTMLVideoElement;
+    stalledCb: Function;
+    continueCb: Function;
+    isStalled: boolean;
 
     /**
      * 兼容Video 和 JSMPEG 的视频播放插件
@@ -111,7 +114,19 @@ export default class MediaSprite {
                 ele.activing = false;
             }
         }
+        if (this.isStalled) { // 数据加载后的重新播放
+            this.isStalled = false;
+            this.continueCb?.();
+        }
     }
+
+    /**因数据还未加载中断播放 */
+    private _onstalled() {
+        if (!this.isStalled) {
+            this.isStalled = true;
+            this.stalledCb?.();
+        }
+   }
 
     private getMedia(targets: ElementAndSrc[]) {
         if (this.isAndroidBrowser() && this.getMediaParam(targets, EleType.CANVAS)) {
@@ -122,7 +137,8 @@ export default class MediaSprite {
                 muted: this.muted,
                 decodeFirstFrame: true,
                 chunkSize: 1 * 1024 * 1024,
-                onVideoDecode: this.onTimeupdate.bind(this)
+                onVideoDecode: this.onTimeupdate.bind(this),
+                onStalled: this._onstalled.bind(this)
             });
             mediaParam.element.style.display = 'block';
 
@@ -140,6 +156,7 @@ export default class MediaSprite {
             media.setAttribute('x5-video-player-type', 'h5-page');
             media.src = mediaParam.src;
             media.addEventListener('timeupdate', this.onTimeupdate.bind(this));
+            media.onstalled = this._onstalled.bind(this)
             media.style.display = 'block';
 
             return media;
@@ -205,5 +222,13 @@ export default class MediaSprite {
                 index--;
             }
         }
+    }
+
+    onStalled (cb: Function) {
+        this.stalledCb = cb;
+    }
+
+    onContinue (cb: Function) {
+        this.continueCb = cb;
     }
 };
