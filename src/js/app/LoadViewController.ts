@@ -70,7 +70,7 @@ var initProject = async function () {
 
     // DEBUG: 显示vconsole工具
     if (getQuery('vconsole') === '1') {
-        await getJs(require('../lib/vconsole.min.js'));
+        await getJs('./js/lib/vconsole.min.js');
         new VConsole(); // eslint-disable-line
         console.log('Hello world');
     }
@@ -93,7 +93,8 @@ export default class LoadViewController extends View {
     videoPlayer: MMDVideoPlayer;
     notLoadMoreAnim: Boolean;
 
-    private init () {
+    constructor () {
+        super();
         // 防止IOS序列帧动画抖动
         browser.versions.ios && (PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH);
 
@@ -270,7 +271,6 @@ export default class LoadViewController extends View {
     }
 
     public show () {
-        this.init();
         this.load();
     }
 

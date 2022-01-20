@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-11-08 16:42:42
+ * @LastEditTime: 2022-01-20 15:45:48
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -102,7 +102,6 @@ module.exports = function (env) {
             // },
             // host: '0.0.0.0',
             // inline: true,
-            hot: true,
             compress: true,
         }
     });

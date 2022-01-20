@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2022-01-13 16:14:05
- * @LastEditTime: 2022-01-18 14:42:43
+ * @LastEditTime: 2022-01-20 17:23:20
  * @LastEditors: xieshengyong
  */
 /*
@@ -48,6 +48,8 @@ interface ElementAndSrc {
 
 enum EleType { VIDEO, CANVAS };
 
+enum ActiveState {PREACTIVE, ACTIVING, POSTACTIVE}
+
 interface TimeLineType {
     name: string;
     time: number;
@@ -58,21 +60,20 @@ interface CbsType {
     cb: Function;
     time: number;
     once: boolean;
-    activing?: boolean;
+    activing?: ActiveState;
 }
-
-const Gap = 0.5;
 
 export default class MediaSprite {
     private timeline: TimeLineType[];
     private loop: boolean;
     private muted: boolean;
     private cbs: CbsType[];
+    private stalledCb: Function;
+    private continueCb: Function;
+    private isStalled: boolean;
+    private curEleType: EleType;
     
-    public media: HTMLVideoElement;
-    stalledCb: Function;
-    continueCb: Function;
-    isStalled: boolean;
+    public media: any;
 
     /**
      * 兼容Video 和 JSMPEG 的视频播放插件
@@ -102,16 +103,22 @@ export default class MediaSprite {
     private onTimeupdate () {
         for (let index = 0; index < this.cbs.length; index++) {
             const ele = this.cbs[index];
-            if (this.media.currentTime >= ele.time && !ele.activing && this.media.currentTime < ele.time + Gap) {
-                ele.cb(ele.time);
-                ele.activing = true;
+
+            if (ele.activing !== ActiveState.PREACTIVE && this.media.currentTime < ele.time) {
+                ele.activing = ActiveState.PREACTIVE;
+            }
+
+            if (this.media.currentTime >= ele.time && ele.activing === ActiveState.PREACTIVE) {
+                ele.activing = ActiveState.ACTIVING;
+            }
+
+            if (this.media.currentTime > ele.time && ele.activing === ActiveState.ACTIVING) {
+                ele.activing = ActiveState.POSTACTIVE;
+                ele.cb(this.media.currentTime);
                 if (ele.once) {
                     this.cbs.splice(index, 1);
                     index--;
                 }
-            }
-            if (ele.activing && this.media.currentTime >= ele.time + Gap) {
-                ele.activing = false;
             }
         }
         if (this.isStalled) { // 数据加载后的重新播放
@@ -138,9 +145,13 @@ export default class MediaSprite {
                 decodeFirstFrame: true,
                 chunkSize: 1 * 1024 * 1024,
                 onVideoDecode: this.onTimeupdate.bind(this),
-                onStalled: this._onstalled.bind(this)
+                onStalled: this._onstalled.bind(this),
+                // onSourceEstablished: () => {
+                //     console.log('onSourceEstablished');
+                // }
             });
             mediaParam.element.style.display = 'block';
+            this.curEleType = EleType.CANVAS;
 
             return media;
         } else {
@@ -158,6 +169,7 @@ export default class MediaSprite {
             media.addEventListener('timeupdate', this.onTimeupdate.bind(this));
             media.onstalled = this._onstalled.bind(this)
             media.style.display = 'block';
+            this.curEleType = EleType.VIDEO;
 
             return media;
         }
@@ -198,6 +210,7 @@ export default class MediaSprite {
     gotoAndPause(time: number) {
         this.media.currentTime = time;
         this.media.pause();
+        if (this.curEleType === EleType.CANVAS) this.media.nextFrame();
     }
 
     on(name: string, callback: Function, once = false) {

@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2022-01-17 14:38:07
- * @LastEditTime: 2022-01-17 17:59:50
+ * @LastEditTime: 2022-01-20 17:23:29
  * @LastEditors: xieshengyong
  */
 
@@ -17,23 +17,44 @@ export default class VideoMpeg extends View {
             src: require('../../../media/video.mp4')
         }, {
             element: document.querySelector('#canvas'),
-            src: require('../../../media/mpegtest.ttf')
-        },], [{
-            name: 'ad',
-            time: 1
-        }])
+            // src: 'https://qrtss.treedom.cn/ci/static/media/ci_pt_2.ts'
+            src: require('../../../media/pt_main.ttf')
+        },], [
+            {
+                name: 'a2',
+                time: 5
+            },
+            {
+                name: 'a1',
+                time: 2
+            }
+        ])
 
         $('body').click(() => {
             console.log('player :>> ', player.media);
             player.play();
         })
 
-        player.onStalled(() => {
-            window.showLoading(true);
+        player.on('a1', (ti: number) => {
+            console.log('a1', ti);
+            player.pause();
+            $('body').click(() => {
+                player.play();
+            })
+        })
+        player.on('a2', (ti: number) => {
+            console.log('a2', ti);
+            player.gotoAndPlay(1.9);
+            // @ts-ignore
+            // player.nextFrame();
         })
 
-        player.onContinue(() => {
-            window.showLoading(false);
-        })
+        // player.onStalled(() => {
+        //     // window.showLoading(true);
+        // })
+
+        // player.onContinue(() => {
+        //     // window.showLoading(false);
+        // })
     }
 };
