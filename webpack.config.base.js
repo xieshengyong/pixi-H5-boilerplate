@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2022-01-13 17:52:00
+ * @LastEditTime: 2022-01-20 15:46:23
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -39,8 +39,11 @@ module.exports = function () {
                 //     ],
                 //     use: [
                 //         {
-                //             loader: 'ejs-compiled-loader',
-                //             options: {}
+                //             loader: 'ejs-loader',
+                //             options: {
+                //                 esModule: false,
+                //                 variable: 'data',
+                //             }
                 //         }
                 //     ]
                 // },
