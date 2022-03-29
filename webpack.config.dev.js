@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
- * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2022-02-14 10:55:53
+ * @Date: 2018-06-5 22:23:56
+ * @LastEditTime: 2022-03-29 12:10:30
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -10,23 +10,25 @@ const config = require('./package.json');
 
 const DefinePlugin = webpack.DefinePlugin;
 
-const { merge } = require('webpack-merge');
+const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.config.base.js');
+
+const HotModuleReplacementPlugin = webpack.HotModuleReplacementPlugin;
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = function (env) {
-    return merge (commonConfig(), {
+    return webpackMerge(commonConfig(), {
         mode: 'development',
         devtool: 'inline-source-map',
         output: {
             path: path.resolve(__dirname, './dist'),
-            filename: (pathData) => {
-                return pathData.chunk.name === 'vendor' ? '[name].js' : '[name].[hash:4].js';
-            },
+            filename: '[name].js',
+            // filename: (pathData) => {
+            //     return pathData.chunk.name === 'vendor' && '[name].js';
+            // },
             publicPath: config.projectConfigs.path.dev
         },
-        // devtool: 'inline-source-map',
         module: {
             rules: [
                 {
@@ -55,7 +57,7 @@ module.exports = function (env) {
                             loader: 'less-loader',
                             options: {
                                 sourceMap: true,
-                                // ieCompat: false
+                                ieCompat: false
                             }
                         }
                     ]
@@ -83,27 +85,23 @@ module.exports = function (env) {
         plugins: [
             new ForkTsCheckerWebpackPlugin(),
             new DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify('development'),
-                'process.env.PATH': JSON.stringify(config.projectConfigs.path.dev),
+                'process.env': {
+                    'NODE_ENV': JSON.stringify('dev'),
+                    'PATH': JSON.stringify(config.projectConfigs.path.dev)
+                }
             }),
-            new webpack.HotModuleReplacementPlugin()
+            new HotModuleReplacementPlugin()
         ],
         devServer: {
-            static: {
-                directory: path.join(__dirname, 'src')
-            },
-            watchFiles: ['src/**/*', '*.ejs', '*.html'],
-            // client: {
-            //     reconnect: false,
-            // },
-            // watchOptions: {
-            //     ignored: ['node_modules'],
-            //     poll: false
-            // },
-            // host: '0.0.0.0',
-            // inline: true,
-            // hot: true,
+            host: '0.0.0.0',
+            contentBase: path.join(__dirname, './'),
             compress: true,
+            inline: true,
+            hot: true,
+            disableHostCheck: true,
+            watchOptions: {
+                poll: true
+            }
         }
     });
 };

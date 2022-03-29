@@ -5,11 +5,14 @@
 // https://github.com/cuth/postcss-pxtorem
 
 module.exports = {
-    'plugins': [
-        require('autoprefixer'),
-        require('postcss-pxtorem')({
+    'plugins': {
+        'autoprefixer': {
+            'remove': false,
+            'browsers': ['iOS >= 8', 'Android >= 4']
+        },
+        'postcss-pxtorem': {
             rootValue: 100,
             propWhiteList: []
-        }),
-    ]
+        }
+    }
 };

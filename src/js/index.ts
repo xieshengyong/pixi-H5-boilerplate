@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import '../less/style.less';
 
 /* 引入的包根据实际情况而定 */
