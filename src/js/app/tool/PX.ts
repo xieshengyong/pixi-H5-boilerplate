@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2021-01-04 11:30:04
- * @LastEditTime: 2021-09-10 00:48:55
+ * @LastEditTime: 2022-03-29 14:07:57
  * @LastEditors: xieshengyong
  */
 /**
@@ -11,6 +11,9 @@
  * 2、 防止IOS序列帧动画抖动， 判读为IOS时PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH;
  *
  */
+import * as PIXI from 'pixi.js';
+import { gsap } from 'gsap';
+
 const Cache = PIXI.utils.TextureCache;
 
 const PX = {

@@ -1,3 +1,4 @@
+import PIXI from 'pixi.js';
 import PX from '../tool/PX';
 import View from '../tool/View';
 

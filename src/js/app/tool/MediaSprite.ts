@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2022-01-13 16:14:05
- * @LastEditTime: 2022-01-20 17:23:20
+ * @LastEditTime: 2022-03-29 16:09:07
  * @LastEditors: xieshengyong
  */
 /*
@@ -21,7 +21,7 @@
     JS:
     import 'jsmpeg.min.js';
     import MediaSprite from 'MediaSprite';
-    
+
     let player = new MediaSprite(
         [{
             element: document.querySelector('#video'),
@@ -38,8 +38,11 @@
     player.play();
     player.on('add', (ti: number) => {
         console.log(ti);
-    }); 
+    });
 */
+
+import enableInlineVideo from 'iphone-inline-video';
+import '../util/jsmpeg.min.js';
 
 interface ElementAndSrc {
     element: HTMLVideoElement | HTMLCanvasElement;
@@ -48,7 +51,9 @@ interface ElementAndSrc {
 
 enum EleType { VIDEO, CANVAS };
 
-enum ActiveState {PREACTIVE, ACTIVING, POSTACTIVE}
+enum ActiveState { PREACTIVE, ACTIVING, POSTACTIVE }
+
+enum MediaFireState { NOTFIRE, FIRING, FIRED }
 
 interface TimeLineType {
     name: string;
@@ -71,20 +76,22 @@ export default class MediaSprite {
     private stalledCb: Function;
     private continueCb: Function;
     private isStalled: boolean;
-    private curEleType: EleType;
-    
+    private startedCb: Function;
+    private mediaFireState: MediaFireState = MediaFireState.NOTFIRE;
+
+    public curEleType: EleType;
     public media: any;
 
     /**
      * 兼容Video 和 JSMPEG 的视频播放插件
-     * 
+     *
      * @param {ElementAndSrc[]} targets
      * @param {TimeLineType[]} timeline
      * @param {boolean} [loop=false]
      * @param {boolean} [muted=false]
      * @memberof MediaSprite
      */
-    constructor(
+    constructor (
         targets: ElementAndSrc[],
         timeline: TimeLineType[],
         loop = false,
@@ -92,8 +99,8 @@ export default class MediaSprite {
     ) {
         this.loop = loop;
         this.muted = muted;
-        
-        this.media = this.getMedia(targets)
+
+        this.media = this.getMedia(targets);
 
         this.timeline = timeline;
 
@@ -125,17 +132,21 @@ export default class MediaSprite {
             this.isStalled = false;
             this.continueCb?.();
         }
+        if (this.media.currentTime > 0 && this.mediaFireState === MediaFireState.FIRING) {
+            this.startedCb?.();
+            this.mediaFireState = MediaFireState.FIRED;
+        }
     }
 
     /**因数据还未加载中断播放 */
-    private _onstalled() {
+    private _onstalled () {
         if (!this.isStalled) {
             this.isStalled = true;
             this.stalledCb?.();
         }
-   }
+    }
 
-    private getMedia(targets: ElementAndSrc[]) {
+    private getMedia (targets: ElementAndSrc[]) {
         if (this.isAndroidBrowser() && this.getMediaParam(targets, EleType.CANVAS)) {
             let mediaParam = this.getMediaParam(targets, EleType.CANVAS);
             let media = new window.JSMpeg.Player(mediaParam.src, {
@@ -145,7 +156,8 @@ export default class MediaSprite {
                 decodeFirstFrame: true,
                 chunkSize: 1 * 1024 * 1024,
                 onVideoDecode: this.onTimeupdate.bind(this),
-                onStalled: this._onstalled.bind(this),
+                onStalled: this._onstalled.bind(this)
+                // preserveDrawingBuffer: true
                 // onSourceEstablished: () => {
                 //     console.log('onSourceEstablished');
                 // }
@@ -167,15 +179,17 @@ export default class MediaSprite {
             media.setAttribute('x5-video-player-type', 'h5-page');
             media.src = mediaParam.src;
             media.addEventListener('timeupdate', this.onTimeupdate.bind(this));
-            media.onstalled = this._onstalled.bind(this)
+            media.onstalled = this._onstalled.bind(this);
             media.style.display = 'block';
             this.curEleType = EleType.VIDEO;
+
+            enableInlineVideo(media);
 
             return media;
         }
     }
 
-    private getMediaParam(targets: ElementAndSrc[], type: EleType) {
+    private getMediaParam (targets: ElementAndSrc[], type: EleType) {
         return targets.find(ele => {
             if (ele.element.nodeName === EleType[type]) {
                 return true;
@@ -186,43 +200,49 @@ export default class MediaSprite {
     private isAndroidBrowser () {
         var u = navigator.userAgent;
         if (
-            (u.indexOf('Android') > -1 || u.indexOf('Adr') > -1) && 
-            !(u.indexOf('MicroMessenger') > -1) && 
+            (u.indexOf('Android') > -1 || u.indexOf('Adr') > -1) &&
+            !(u.indexOf('MicroMessenger') > -1) &&
             !(u.indexOf('QQ/') > -1)
         ) {
-            return true;
+            // @ts-ignore
+            if (/miniworldgame/gi.test(navigator.userAgent) || window.GetUrlAddAuthStr !== undefined) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
-    play() {
+    play () {
         this.media.play();
+        this.mediaFireState = MediaFireState.FIRING;
     }
 
-    pause() {
+    pause () {
         this.media.pause();
     }
 
-    gotoAndPlay(time: number) {
+    gotoAndPlay (time: number) {
         this.media.currentTime = time;
         this.media.play();
     }
 
-    gotoAndPause(time: number) {
+    gotoAndPause (time: number) {
         this.media.currentTime = time;
         this.media.pause();
         if (this.curEleType === EleType.CANVAS) this.media.nextFrame();
     }
 
-    on(name: string, callback: Function, once = false) {
+    on (name: string, callback: Function, once = false) {
         this.timeline.find((ele) => {
             if (ele.name === name) {
                 this.cbs.push({ name: name, cb: callback, time: ele.time, once: once });
                 return true;
             }
-        })
+        });
     }
 
-    off(name: string, callback?: Function) {
+    off (name: string, callback?: Function) {
         for (let index = 0; index < this.cbs.length; index++) {
             const ele = this.cbs[index];
             if (callback) {
@@ -235,6 +255,10 @@ export default class MediaSprite {
                 index--;
             }
         }
+    }
+
+    onStarted (cb: Function) {
+        this.startedCb = cb;
     }
 
     onStalled (cb: Function) {

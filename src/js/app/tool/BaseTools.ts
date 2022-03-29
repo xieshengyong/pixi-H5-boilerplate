@@ -3,7 +3,7 @@
  * 基础通用工具方法集
  * @Author: xieshengyong
  * @Date: 2020-08-27 15:05:24
- * @LastEditTime: 2021-08-26 17:37:07
+ * @LastEditTime: 2022-03-29 16:13:05
  * @LastEditors: xieshengyong
  */
 
@@ -110,7 +110,7 @@ export const merge = (obj1: any, obj2: any): object => {
  * @param {array} arr 目标
  * @param {number} count 指定返回数量 默认全部
  */
-export const shuffleArr = (arr: Array<any>, count: number) => {
+export const shuffleArr = (arr: Array<any>, count?: number) => {
     let m = arr.length;
     let i: number;
     let min = count ? (m - count) : 0;
@@ -240,20 +240,21 @@ export function getImg (src: string, anonymous = false): Promise<HTMLImageElemen
     return new Promise((resolve, reject) => {
         let img = new Image();
         anonymous && (img.crossOrigin = 'Anonymous');
-        img.src = src;
         img.onload = () => {
             resolve(img);
         };
         img.onerror = () => reject;
+        img.src = src;
     });
 };
 
-export function getJs (src: any): Promise<void> {
+export function getJs (src: any, cb?: any): Promise<void> {
     return new Promise<void>((resolve, reject) => {
         let script = document.createElement('script');
         script.setAttribute('type', 'text/javascript');
         document.body.appendChild(script);
         script.onload = () => {
+            cb && cb();
             resolve();
         };
         script.src = src;
@@ -266,4 +267,102 @@ export function wxLongTapSaveImg (img: HTMLElement, cb: Function): void {
     img.addEventListener('touchstart', () => (startTime = Date.now()));
     img.addEventListener('touchcancel', () => Date.now() - startTime >= 500 && cb?.());
     img.addEventListener('touchend', () => Date.now() - startTime >= 1000 && cb?.());
+};
+
+/** 缓动显示加载进度 */
+export const TweenLoading = () => {
+    let timer: any;
+    let progressTotle = 0;
+    let progressCb: Function;
+
+    const autoUpdate = () => {
+        progressTotle += Math.min(getRandom(1, 4), Math.floor((100 - progressTotle) / getRandom(3, 8)));
+        timer = setTimeout(autoUpdate, getRandom(900, 2000));
+        progressCb?.(progressTotle);
+    };
+
+    return {
+        setProgress: (progress: number) => {
+            if (timer) return;
+            progressTotle = Math.floor(progress / (getRandom(14, 19) / 10));
+            progressCb?.(progressTotle);
+            progress > 99 && autoUpdate();
+        },
+        onProgress: (cb: Function) => {
+            progressCb = cb;
+        },
+        loadEnd: () => {
+            clearTimeout(timer);
+            progressCb?.(100);
+        }
+    };
+};
+
+/*
+判断访问终端和语言
+    使用：
+    if ( push.browser.versions.qq ) {
+        console.log('go go');
+    }
+    注意BUG：在微信内TD.browser.versions.qq也会返回true；
+    解决：在判断手Q之后加上微信判断；
+*/
+export const browser = {
+    versions: (function () {
+        var u: any = navigator.userAgent;
+        // var app = navigator.appVersion;
+        return {
+            trident: u.indexOf('Trident') > -1, // IE内核
+            presto: u.indexOf('Presto') > -1, // opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, // 苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') === -1, // 火狐内核
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/), // 是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), // ios终端
+            ios2: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+            android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, // android终端
+            iPhone: u.indexOf('iPhone') > -1, // 是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, // 是否iPad
+            webApp: u.indexOf('Safari') === -1, // 是否web应该程序，没有头部与底部
+            weixin: u.indexOf('MicroMessenger') > -1, // 是否微信 （2015-01-22新增）
+            qq: u.match(/QQ/i) === 'QQ', // 是否QQ
+            iosVer: u.toLowerCase().match(/cpu iphone os (.*?) like mac os/),
+            androidVer: u.toLowerCase().match(/android (.*?);/)
+        };
+    })(),
+    language: (navigator.language).toLowerCase()
+};
+
+export function push (category: string, action: string, label: string, value?: string, e?: any, el?: any) {
+    /*
+    category:事件类别;action:事件操作;label:事件标签;value:事件值;
+    */
+    var _category = category || '';
+    var _action = action || '';
+    var _label = label || '';
+    var _value = value || '';
+    if (typeof _czc !== 'undefined') {
+        _czc.push(['_trackEvent', _category, _action, _label, _value]);
+    }
+    if (typeof _tdga !== 'undefined') {
+        _tdga && _tdga.addEvent(_category, _action, _label, _value, e, el);
+    }
+    if (typeof PTTSendClick !== 'undefined') {
+        PTTSendClick(category, action, label);
+    }
+};
+
+/**
+ * 防抖
+ * 触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间
+ * @param {Function} fn 处理函数
+ * @param {Number} [delay = 200] 延迟时间
+ */
+export const debounce = (fn: Function, delay = 200) => {
+    let timer: NodeJS.Timeout;
+    return function (...args: any) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
 };

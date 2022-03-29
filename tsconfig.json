@@ -18,4 +18,12 @@
     //     "Phaser"
     // ]
   },
+  "include": [
+      "src/**/*",
+      "types/**/*"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ]
 }

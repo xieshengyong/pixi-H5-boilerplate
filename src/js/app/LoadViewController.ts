@@ -1,4 +1,7 @@
 /* eslint-disable no-unused-vars */
+import * as PIXI from 'pixi.js';
+import { gsap } from 'gsap';
+import { PixiPlugin } from 'gsap/PixiPlugin';
 import View from './tool/View';
 import Config, { formatImgList, formatDelayImgList, formatJsonList, formatJsonListDelay } from './Config';
 import PX from './tool/PX';
@@ -44,7 +47,6 @@ var initProject = async function () {
         };
     }());
     browser.versions.ios && $('body').on('DOMSubtreeModified', resetScroll);
-
 
     window.showMsg = (msg: string, time?: number) => {
         let msgWrap = $('.m-msg');
@@ -122,7 +124,7 @@ export default class LoadViewController extends View {
                 .add(formatDelayImgList())
                 .add(formatJsonListDelay())
                 .load(() => {
-                    this.instace.emit('secondLoadEnd');
+                    this.instance.emit('secondLoadEnd');
                     resolve(true);
                 });
         });
