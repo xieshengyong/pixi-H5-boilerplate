@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2022-01-17 14:38:07
- * @LastEditTime: 2022-01-20 17:23:29
+ * @LastEditTime: 2022-01-21 15:59:11
  * @LastEditors: xieshengyong
  */
 
@@ -18,7 +18,7 @@ export default class VideoMpeg extends View {
         }, {
             element: document.querySelector('#canvas'),
             // src: 'https://qrtss.treedom.cn/ci/static/media/ci_pt_2.ts'
-            src: require('../../../media/pt_main.ttf')
+            src: require('../../../media/mpegtest.ttf')
         },], [
             {
                 name: 'a2',
