@@ -69,6 +69,8 @@ interface anyValue {
     [propName: string]: any;
 }
 
+declare module 'iphone-inline-video';
+
 declare var VConsole: any
 
 declare var _czc: any;

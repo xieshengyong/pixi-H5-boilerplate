@@ -1,1 +1,1 @@
-ffmpeg -i pt_main.mp4 -f mpegts -codec:v mpeg1video -s 750x1600 -b:v 800k -r 24 -bf 0 -codec:a mp2 -ar 44100 -ac 1 -b:a 96k pt_main.ttf
+ffmpeg -i video.mp4 -f mpegts -codec:v mpeg1video -s 1600x750 -b:v 800k -r 24 -bf 0 -codec:a mp2 -ar 44100 -ac 1 -b:a 96k v.ttf
