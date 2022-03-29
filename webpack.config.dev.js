@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2022-01-20 15:45:48
+ * @LastEditTime: 2022-02-14 10:55:53
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -26,7 +26,7 @@ module.exports = function (env) {
             },
             publicPath: config.projectConfigs.path.dev
         },
-        devtool: 'inline-source-map',
+        // devtool: 'inline-source-map',
         module: {
             rules: [
                 {
@@ -102,6 +102,7 @@ module.exports = function (env) {
             // },
             // host: '0.0.0.0',
             // inline: true,
+            // hot: true,
             compress: true,
         }
     });
