@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2020-05-25 17:05:09
- * @LastEditTime: 2021-08-26 17:01:57
+ * @LastEditTime: 2022-03-29 15:42:58
  * @LastEditors: xieshengyong
  */
 
@@ -10,10 +10,10 @@ export default class View {
     private _eventPool: any = {}
 
     /** 公共实例，可通过on、emit方法在不同组件间通信 */
-    public instace: View
+    public instance: View
 
     constructor () {
-        this.instace = ViewInstance;
+        this.instance = ViewInstance;
     }
 
     public on (eventName: string, callback: Function, once = false) {

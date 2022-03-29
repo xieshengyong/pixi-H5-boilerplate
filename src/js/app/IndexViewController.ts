@@ -8,7 +8,6 @@ import { util, push } from './tool/TD';
 export default class IndexViewController extends View {
     isInit: boolean;
     isSecondLoadEnd: boolean;
-    mainWrap: PIXI.Container;
 
     private async init () {
         if (this.isInit) return;
@@ -16,7 +15,7 @@ export default class IndexViewController extends View {
         console.log('IndexViewController init');
 
         /* 延迟加载完成后 */
-        this.instace.on('secondLoadEnd', () => {
+        this.instance.on('secondLoadEnd', () => {
             this.isSecondLoadEnd = true;
             $('.m-icon-loading').fadeOut(0);
         });

@@ -1,4 +1,22 @@
 {
-    "access_key": "LDyAWt9fSsXLLW77eLmABsSRc3fMjTVbcHgVx9E3",
-    "secret_key": "JlwYLMFeaaokx00gIcrGS6PT3EfuzhVs8arB2kgj"
+    "src_dir": "dist/ossweb-img",
+    "bucket": "santi",
+    "key_prefix": "mini6th/",
+    "ignore_dir": false,
+    "overwrite": false,
+    "check_exists": true,
+    "check_hash": true,
+    "check_size": false,
+    "rescan_local": true,
+    "skip_file_prefixes": "test,demo,",
+    "skip_path_prefixes": "hello/,temp/",
+    "skip_fixed_strings": ".svn,.git",
+    "skip_suffixes": ".DS_Store,.exe",
+    "log_file": "upload.log",
+    "log_level": "warn",
+    "log_rotate": 1,
+    "log_stdout": false,
+    "file_type": 0,
+    "resumable_api_v2": false,
+    "resumable_api_v2_part_size": 10485760
 }

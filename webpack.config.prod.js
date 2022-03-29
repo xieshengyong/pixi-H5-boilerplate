@@ -1,61 +1,34 @@
+/* eslint-disable camelcase */
 /*
  * @Author: xieshengyong
- * @Date: 2017-06-5 22:23:56
- * @LastEditTime: 2021-11-08 16:33:15
+ * @Date: 2018-06-5 22:23:56
+ * @LastEditTime: 2022-02-24 23:36:36
  * @LastEditors: xieshengyong
  */
 const path = require('path');
 const webpack = require('webpack');
 const config = require('./package.json');
-// const fs = require('fs');
-
-// const WebpackStrip = require('webpack-strip');
-
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
-const {CleanWebpackPlugin}  = require('clean-webpack-plugin');
+const CleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const { merge } = require('webpack-merge');
+const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.config.base.js');
-
-// const cssTemplate = require('./sprite/cssTemplate');
-//
-// const spriteImg = require('./sprite/spriteImg');
 
 const DefinePlugin = webpack.DefinePlugin;
 
-// const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
-// const SpritesmithPlugin = require('webpack-spritesmith');
-
-let PubPath = config.projectConfigs.path[process.env.NODE_ENV];
+const PubPath = config.projectConfigs.path[process.env.NODE_ENV];
 // const zipName = config.projectConfigs.zipName;
 
-// var copyItem = [];
-// if (fs.existsSync('src/img/copy')) {
-//     copyItem.push({
-//         from: 'src/img/copy',
-//         to: './',
-//         flatten: true
-//     });
-// }
-
 module.exports = function () {
-    return merge(commonConfig(), {
+    return webpackMerge(commonConfig(), {
         mode: 'production',
-        // entry: {
-        //     vendor: './src/js/vendor.ts',
-        //     main: './src/js/index.ts'
-        // },
-        devtool: 'source-map',
         output: {
             path: path.resolve(__dirname, './dist/ossweb-img'),
-            filename: '[name].[hash:8].js',
-            // filename: (pathData) => {
-            //     // return pathData.chunk.name === 'vendor' && '[name].js';
-            //     return '[name].[hash:8].js';
-            // },
+            filename: (pathData) => {
+                return '[name].[hash:8].js';
+            },
             publicPath: PubPath
         },
         module: {
@@ -71,7 +44,7 @@ module.exports = function () {
                             loader: 'css-loader',
                             options: {
                                 // importLoaders: 2,
-                                // minimize: true
+                                minimize: true
                             }
                         },
                         {
@@ -82,7 +55,7 @@ module.exports = function () {
                         {
                             loader: 'less-loader',
                             options: {
-                                // ieCompat: false
+                                ieCompat: false
                             }
                         }
                     ]
@@ -104,17 +77,23 @@ module.exports = function () {
             ]
         },
         plugins: [
-            new CleanWebpackPlugin (),
+            new CleanPlugin('dist'),
             new MiniCssExtractPlugin({
                 filename: '[name].[contenthash:8].css'
             }),
-            // new CopyWebpackPlugin(copyItem),
             new DefinePlugin({
                 'process.env': {
-                    // 'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+                    'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
                     'PATH': JSON.stringify(PubPath)
                 }
             }),
+            new UglifyJSPlugin({
+                uglifyOptions: {
+                    compress: {
+                        drop_console: false
+                    }
+                }
+            })
         ]
     });
 };
