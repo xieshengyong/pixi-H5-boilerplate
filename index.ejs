@@ -37,7 +37,7 @@
         <div class="m-horizontal absf">
             <div class="m-wrap sizcont abcter">
 
-                <div class="m-loading absf" id="m-loading">
+                <div class="m-loading absf">
                     <div class="bg abcter"></div>
                     <div class="load-process abcter">0%</div>
                 </div>
@@ -85,7 +85,7 @@
 
     </div>
     
-    <script src="//cdnjs.gtimg.com/cdnjs/libs/zepto/1.0rc1/zepto.min.js"></script>
+    <script src="<%= require('./src/js/lib/zepto.modules.min.js') %>"></script>
     <script charset="utf-8" src="//ossweb-img.qq.com/images/spiderMediaData/yxzj_new/mediaURLData_https.js"></script>
 
     <% if (process.env.NODE_ENV==='prod') { %>
