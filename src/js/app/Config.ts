@@ -1,5 +1,6 @@
 
 // import effect from '../../json/effect.json';
+import { Howl, Howler } from 'howler';
 
 const Config = {} as anyValue;
 
@@ -27,7 +28,7 @@ Config.effect = { play: () => { } };
 Config.bgm = { play: () => { } };
 
 Config.loadMusic = () => {
-    Config.bgm = new window.howler.Howl({ src: require('../../media/bg.mp3'), loop: true }); // eslint-disable-line
+    Config.bgm = new Howl({ src: require('../../media/bg.mp3'), loop: true }); // eslint-disable-line
     // Config.bgm.play();
 };
 
@@ -40,11 +41,11 @@ document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
         // 打开媒体
         if (!$('.mute-icon').hasClass('mute')) {
-            window.howler && window.howler.Howler.mute(false);
+            Howler.mute(false);
         }
     } else {
         // 关闭媒体
-        window.howler && window.howler.Howler.mute(true);
+        Howler.mute(true);
     }
 });
 

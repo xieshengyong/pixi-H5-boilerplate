@@ -18,8 +18,8 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: rgb(73, 67, 67);
-    font-size: 16px;
+    background: #fff;
+    font-size: 20px;
     font-family: 'fontT';
     overflow: hidden;
 }    
@@ -63,7 +63,7 @@ body {
 }
 
 .m-index{
-    // .hide;
+    .hide;
     z-index: 4;
     .video-box{
         width: 1600px;
@@ -89,6 +89,7 @@ body {
 
 .m-stage-wrap{
     display: none;
+    background-color: #ccc;
     z-index: 3;
     canvas{
         width: 1600px;
@@ -103,6 +104,10 @@ body {
     font-size: 25px;
     line-height: 50px;
     transform: translateZ(0);
+}
+
+.m-share{
+    display: none;
 }
 
 // @media all and (min-aspect-ratio: ~'121/80') and (orientation:landscape){
