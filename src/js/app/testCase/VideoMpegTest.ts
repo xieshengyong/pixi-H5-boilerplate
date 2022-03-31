@@ -1,16 +1,18 @@
 /*
  * @Author: xieshengyong
  * @Date: 2022-01-17 14:38:07
- * @LastEditTime: 2022-03-29 16:08:56
+ * @LastEditTime: 2022-03-31 17:54:12
  * @LastEditors: xieshengyong
  */
 
 import View from '../tool/View';
 import MediaSprite from '../tool/MediaSprite';
 
-export default class VideoMpeg extends View {
+export class VideoMpegTest extends View {
     constructor () {
         super();
+        $('.m-index').fadeIn();
+
         let player = new MediaSprite([{
             element: document.querySelector('#video'),
             src: require('../../../media/video.mp4')
@@ -28,15 +30,14 @@ export default class VideoMpeg extends View {
             }
         ]);
 
-        $('body').click(() => {
-            console.log('player :>> ', player.media);
+        $('body').one('click', () => {
             player.play();
         });
 
         player.on('a1', (ti: number) => {
             console.log('a1', ti);
             player.pause();
-            $('body').click(() => {
+            $('body').one('click', () => {
                 player.play();
             });
         });

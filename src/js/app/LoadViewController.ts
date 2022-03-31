@@ -73,8 +73,7 @@ var initProject = async function () {
     // DEBUG: 显示vconsole工具
     if (getQuery('vconsole') === '1') {
         await getJs('./js/lib/vconsole.min.js');
-        new VConsole(); // eslint-disable-line
-        console.log('Hello world');
+        return new VConsole();
     }
 
     // DEBUG: 显示stats工具
@@ -91,8 +90,6 @@ var initProject = async function () {
 };
 
 export default class LoadViewController extends View {
-    media: HTMLVideoElement;
-    videoPlayer: MMDVideoPlayer;
     notLoadMoreAnim: Boolean;
 
     constructor () {
@@ -144,7 +141,6 @@ export default class LoadViewController extends View {
                 Config.loaderRes = res;
 
                 this.initEvent();
-                this.initVideo();
 
                 Config.loadMusic();
 
@@ -198,73 +194,12 @@ export default class LoadViewController extends View {
         });
 
         $('.m-loading').one('click', () => {
-            this.videoPlayer.play();
             window.showLoading(true);
             push('btn', 'startVideo', '开始播放视频');
         });
     }
 
-    private initVideo () {
-        this.media = document.querySelector('#video');
-        this.media.setAttribute('x5-video-player-fullscreen', 'false');
-        this.media.setAttribute('x5-video-player-type', 'h5-page');
-
-        /* 监听视频开始播放，解决部分情况下MMD.VideoPlayer的onStart失效问题 */
-        const timeListener = () => {
-            if (this.media.currentTime <= 0) return;
-            this.emit('videoStart');
-            this.media.removeEventListener('timeupdate', timeListener);
-        };
-        this.media.addEventListener('timeupdate', timeListener);
-
-        let mediaSrc;
-        if (process.env.NODE_ENV === 'prod' && process.env.NODE_ENV2 !== 'qn') {
-            mediaSrc = mediaURLData[7653];
-        } else {
-            mediaSrc = require('../../media/video.mp4');
-        }
-        this.media.src = mediaSrc;
-        this.videoPlayer = new MMD.VideoPlayer({
-            videoElement: this.media,
-            src: mediaSrc,
-            timesParam: [
-                {
-                    name: 'showSkip',
-                    time: 2
-                },
-                {
-                    name: 'end',
-                    time: 8
-                }
-            ],
-            loop: false,
-            muted: false,
-            poster: '',
-            tryMultipleVideoPlayAtTheSameTime: false,
-            onTimes: async (name: string) => {
-                console.log('name :>> ', name);
-                switch (name) {
-                    case 'showSkip':
-                        this.showIndex();
-                        break;
-                    case 'end':
-                        this.emit('videoEnd');
-                        break;
-                    default:
-                        break;
-                }
-            },
-            onStart: () => {
-                this.emit('videoStart');
-            },
-            onEnd: () => {
-                this.emit('videoEnd');
-            }
-        });
-    }
-
     private async hideVideo () {
-        this.media.pause();
         $('.m-stage-wrap').fadeIn(0);
         await delay(0.2);
         $('.m-index').fadeOut(400);
