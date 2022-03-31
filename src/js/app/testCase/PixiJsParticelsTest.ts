@@ -1,10 +1,10 @@
-import PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js';
 import PX from '../tool/PX';
 import View from '../tool/View';
 
 import EmitterSnow from '../../../json/EmitterSnow.json'; // 粒子数据
 
-export default class Shader extends View {
+export class PixiJsParticelsTest extends View {
     constructor () {
         super();
         this.initParticeles();

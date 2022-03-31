@@ -125,6 +125,7 @@
         "axios-jsonp": "^1.0.2",
         "axios-jsonp-pro": "^1.1.5",
         "clipboard": "^2.0.4",
+        "dat.gui": "^0.7.9",
         "gsap": "^3.5.1",
         "hammerjs": "^2.0.8",
         "howler": "^2.2.1",

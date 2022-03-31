@@ -69,6 +69,8 @@ interface anyValue {
     [propName: string]: any;
 }
 
+declare module 'dat.gui';
+
 declare module 'iphone-inline-video';
 
 declare var VConsole: any

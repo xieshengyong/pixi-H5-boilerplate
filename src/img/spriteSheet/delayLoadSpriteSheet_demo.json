@@ -1,0 +1,36 @@
+{"frames": {
+
+"btn_share.png":
+{
+	"frame": {"x":1,"y":1,"w":88,"h":90},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":88,"h":90},
+	"sourceSize": {"w":90,"h":90}
+},
+"btn_sheding.png":
+{
+	"frame": {"x":1,"y":93,"w":88,"h":90},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":88,"h":90},
+	"sourceSize": {"w":90,"h":90}
+},
+"btn_sheding_close.png":
+{
+	"frame": {"x":1,"y":185,"w":87,"h":88},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":87,"h":88},
+	"sourceSize": {"w":90,"h":90}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "delayLoadSpriteSheet_demo.png",
+	"format": "RGBA8888",
+	"size": {"w":90,"h":273},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7fffbe7bf6922b1d0f7877ad22a5c522:fa68a61162900b9dbc630d05bc937245:044c53c20ff01d7eb7b01f4714f7759c$"
+}
+}

@@ -1,8 +1,8 @@
-import PIXI from 'pixi.js';
+import * as PIXI from 'pixi.js';
 import PX from '../tool/PX';
 import View from '../tool/View';
 
-export default class Shader extends View {
+export class PixiJsShaderTest extends View {
     constructor () {
         super();
         this.colorShader();
