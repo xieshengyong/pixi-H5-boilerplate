@@ -98,7 +98,6 @@
         "less-loader": "^4.1.0",
         "mini-css-extract-plugin": "^0.4.4",
         "move-file-cli": "^2.0.0",
-        "pixi-spine": "^3.0.13",
         "postcss-loader": "^2.1.1",
         "postcss-pxtorem": "^4.0.1",
         "raw-loader": "^0.5.1",
@@ -121,6 +120,7 @@
         "zip-webpack-plugin": "^2.1.0"
     },
     "dependencies": {
+        "@pixi/particle-emitter": "^5.0.4",
         "axios": "^0.26.0",
         "axios-jsonp": "^1.0.2",
         "axios-jsonp-pro": "^1.1.5",
@@ -132,7 +132,6 @@
         "iphone-inline-video": "^2.2.2",
         "js-cookie": "^2.2.1",
         "pixi-filters": "^3.2.2",
-        "pixi-particles": "^4.3.0",
         "pixi.js": "^6.3.0",
         "resource-loader": "^3.0.1",
         "sha1": "^1.1.1",
