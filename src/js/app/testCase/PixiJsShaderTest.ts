@@ -2,14 +2,25 @@ import * as PIXI from 'pixi.js';
 import PX from '../tool/PX';
 import View from '../tool/View';
 
+window.PIXI = PIXI;
+
 export class PixiJsShaderTest extends View {
     constructor () {
         super();
-        this.colorShader();
+        PX.init(document.querySelector('.m-stage-wrap'), 1600, 750);
+        $('.m-stage-wrap').fadeIn();
+
+        new PIXI.Loader()
+            // @ts-ignore
+            .add('1', require('../../../img/autoLoad/1.png'))
+            .load((loader: any, res: any) => {
+                console.log(res);
+                this.colorShader();
+            });
     }
 
     colorShader () {
-        let demo0 = PX.addSprite(PX.stage, '1.png', 0, 0, true);
+        let demo0 = PX.addSprite(PX.stage, '1', 0, 0, true);
         let shader = `
             precision mediump float;
 
@@ -39,5 +50,10 @@ export class PixiJsShaderTest extends View {
         });
 
         demo0.filters = [filter];
+    }
+
+    hide () {
+        $('.m-stage-wrap').hide();
+        PX.app.destroy(true);
     }
 };
