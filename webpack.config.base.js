@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2018-06-5 22:23:56
- * @LastEditTime: 2022-03-10 21:21:50
+ * @LastEditTime: 2022-03-31 19:28:44
  * @LastEditors: xieshengyong
  */
 const path = require('path');
@@ -173,7 +173,8 @@ module.exports = function () {
         ],
         externals: {
             '$': 'window.$',
-            'global': 'window.global'
+            'global': 'window.global',
+            'PIXI': 'window.PIXI'
         }
     };
 };

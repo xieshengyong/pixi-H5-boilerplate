@@ -44,58 +44,9 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
-"@pixi-spine/base@~3.0.13":
-  "integrity" "sha512-JKgK+nw81/UwoRS5YBZhU5nIHsYGO5u3HY2QsKRJjvgz2EBLYKNhQ8KpVmx8C9CV9VnmectIjKlHkMFDiP3/Dg=="
-  "resolved" "https://registry.npmmirror.com/@pixi-spine/base/-/base-3.0.13.tgz"
-  "version" "3.0.13"
-
-"@pixi-spine/loader-base@~3.0.13":
-  "integrity" "sha512-3sSWMgCRzZ0fTSx5rGMWlqYe83dCiCQ/zWOay/pbFElYywaCN06+5g0NDRyPypMwlfMjjlq2VQ2RNBgI7RtDYw=="
-  "resolved" "https://registry.npmmirror.com/@pixi-spine/loader-base/-/loader-base-3.0.13.tgz"
-  "version" "3.0.13"
-  dependencies:
-    "@pixi-spine/base" "~3.0.13"
-
-"@pixi-spine/loader-uni@~3.0.13":
-  "integrity" "sha512-iUEAn6F1mPOzIuc3eDXKa/+lX5ZPFI5e9hS08yggLWimrfgOTMSenLsg5eC0EokMfQwjsMeVGWz2Bst4LeHxuA=="
-  "resolved" "https://registry.npmmirror.com/@pixi-spine/loader-uni/-/loader-uni-3.0.13.tgz"
-  "version" "3.0.13"
-  dependencies:
-    "@pixi-spine/base" "~3.0.13"
-    "@pixi-spine/loader-base" "~3.0.13"
-    "@pixi-spine/runtime-3.7" "~3.0.13"
-    "@pixi-spine/runtime-3.8" "~3.0.13"
-    "@pixi-spine/runtime-4.0" "~3.0.13"
-
-"@pixi-spine/runtime-3.7@~3.0.13":
-  "integrity" "sha512-EoXz4997WPpqttNEmyCaFzY2lsv15QXahEfF5+EueLJaqcW6uiLzK8z7zWUA5FJ3UTeb3B9tvpT7IibLD/dltw=="
-  "resolved" "https://registry.npmmirror.com/@pixi-spine/runtime-3.7/-/runtime-3.7-3.0.13.tgz"
-  "version" "3.0.13"
-  dependencies:
-    "@pixi-spine/base" "~3.0.13"
-
-"@pixi-spine/runtime-3.8@~3.0.13":
-  "integrity" "sha512-Ve8WCqwMg4FzpUEO0kMlf0IuKum96pxLQi1Kv8J1fIGqtzsJUrpS3eAUfWo9CMdWT8YPOOGkMdjKl7ZE5ZLJHA=="
-  "resolved" "https://registry.npmmirror.com/@pixi-spine/runtime-3.8/-/runtime-3.8-3.0.13.tgz"
-  "version" "3.0.13"
-  dependencies:
-    "@pixi-spine/base" "~3.0.13"
-
-"@pixi-spine/runtime-4.0@~3.0.13":
-  "integrity" "sha512-KUihDa4D8m3YS/OEUJjoQpReNUrmgnjCSGoPuoNB5bzKgGSDENSmra9gDaT4CuyDkvnM6Q29MTx2PirUM1N/LQ=="
-  "resolved" "https://registry.npmmirror.com/@pixi-spine/runtime-4.0/-/runtime-4.0-3.0.13.tgz"
-  "version" "3.0.13"
-  dependencies:
-    "@pixi-spine/base" "~3.0.13"
-
 "@pixi/accessibility@6.3.0":
   "integrity" "sha512-G2IJovkixJ3MdXC456e7Nu9J2nLte01KwJPkWhhuuZkRQI6gBcLHn5flGG+QVx/dZDLySXyHiJ+1MAQ8kI9AbA=="
   "resolved" "https://registry.npmmirror.com/@pixi/accessibility/-/accessibility-6.3.0.tgz"
-  "version" "6.3.0"
-
-"@pixi/app@^6.1.0":
-  "integrity" "sha512-Ud+D/VkGFCx9Z+i0OXDzXqT3zNrUJ9f3sZuoACz1VVD6nnSq+wBZPnyoOOsgfiMYo/0KYVJh+EdBKZS8aYnnVQ=="
-  "resolved" "https://registry.npmmirror.com/@pixi/app/-/app-6.3.0.tgz"
   "version" "6.3.0"
 
 "@pixi/app@6.3.0":
@@ -113,12 +64,12 @@
   "resolved" "https://registry.npmmirror.com/@pixi/constants/-/constants-5.3.12.tgz"
   "version" "5.3.12"
 
-"@pixi/constants@^6.1.0", "@pixi/constants@6.3.0":
+"@pixi/constants@^6.0.4", "@pixi/constants@6.3.0":
   "integrity" "sha512-295/bb0+5IugA9plqBnD6xrvApjgGRdaNJ6EryCa7UB2j8wt4YtuzLjNeaCtng9eJONgJXXPhPF85+spdWRMbg=="
   "resolved" "https://registry.npmmirror.com/@pixi/constants/-/constants-6.3.0.tgz"
   "version" "6.3.0"
 
-"@pixi/core@^5.0.0", "@pixi/core@5.3.12":
+"@pixi/core@^5.0.0":
   "integrity" "sha512-SKZPU2mP4UE4trWOTcubGekKwopnotbyR2X8nb68wffBd1GzMoaxyakltfJF2oCV/ivrru/biP4CkW9K6MJ56g=="
   "resolved" "https://registry.npmmirror.com/@pixi/core/-/core-5.3.12.tgz"
   "version" "5.3.12"
@@ -130,14 +81,26 @@
     "@pixi/ticker" "5.3.12"
     "@pixi/utils" "5.3.12"
 
-"@pixi/core@^6.1.0", "@pixi/core@6.3.0":
+"@pixi/core@^6.0.4", "@pixi/core@6.3.0":
   "integrity" "sha512-j7UMizcgDoUB9eDrZIP22xJCPYpjx2/BCl8deE5M9Cim9OR2qPxnNnt3jC1oKf2vVnNMTDrMOLekhMVo89FX2Q=="
   "resolved" "https://registry.npmmirror.com/@pixi/core/-/core-6.3.0.tgz"
   "version" "6.3.0"
   dependencies:
     "@types/offscreencanvas" "^2019.6.4"
 
-"@pixi/display@^6.1.0", "@pixi/display@6.3.0":
+"@pixi/core@5.3.12":
+  "integrity" "sha512-SKZPU2mP4UE4trWOTcubGekKwopnotbyR2X8nb68wffBd1GzMoaxyakltfJF2oCV/ivrru/biP4CkW9K6MJ56g=="
+  "resolved" "https://registry.npmmirror.com/@pixi/core/-/core-5.3.12.tgz"
+  "version" "5.3.12"
+  dependencies:
+    "@pixi/constants" "5.3.12"
+    "@pixi/math" "5.3.12"
+    "@pixi/runner" "5.3.12"
+    "@pixi/settings" "5.3.12"
+    "@pixi/ticker" "5.3.12"
+    "@pixi/utils" "5.3.12"
+
+"@pixi/display@^6.0.4", "@pixi/display@6.3.0":
   "integrity" "sha512-Uxc1aLTFzV55d3kOlh/g19RlE2okPXsroi5jfYGCNS0VCdFk0sp6jMNEwk12BwC0KcA5SU7217H4jLy38VCVpA=="
   "resolved" "https://registry.npmmirror.com/@pixi/display/-/display-6.3.0.tgz"
   "version" "6.3.0"
@@ -356,11 +319,6 @@
   "resolved" "https://registry.npmmirror.com/@pixi/filter-zoom-blur/-/filter-zoom-blur-3.2.1.tgz"
   "version" "3.2.1"
 
-"@pixi/graphics@^6.1.0":
-  "integrity" "sha512-cnce8ddZSRgVuwK3hdWjEgf9WJljEXlJp+tOIEYvmNYnkvfaRpdeVRpF5yd+A24ZswrVRU9W/W7cXCMw2uq/vQ=="
-  "resolved" "https://registry.npmmirror.com/@pixi/graphics/-/graphics-6.3.0.tgz"
-  "version" "6.3.0"
-
 "@pixi/graphics@6.3.0":
   "integrity" "sha512-cnce8ddZSRgVuwK3hdWjEgf9WJljEXlJp+tOIEYvmNYnkvfaRpdeVRpF5yd+A24ZswrVRU9W/W7cXCMw2uq/vQ=="
   "resolved" "https://registry.npmmirror.com/@pixi/graphics/-/graphics-6.3.0.tgz"
@@ -369,11 +327,6 @@
 "@pixi/interaction@6.3.0":
   "integrity" "sha512-ZAgYJPnpQS07r69o6Mgn4SxurY+t05EWblC8bpVssQ/k2yU3xeWAKNV/Hk39AKrM5S+PBU9YyGX//jM+3gt8rQ=="
   "resolved" "https://registry.npmmirror.com/@pixi/interaction/-/interaction-6.3.0.tgz"
-  "version" "6.3.0"
-
-"@pixi/loaders@^6.1.0":
-  "integrity" "sha512-FXW3DkcAg2w0FABS6ixmzJNQSdabHXWumltelYM76NmBSE8oaLmg6tniBvjrTlSxUs3HlgwdeqgnUHV9GIFxLQ=="
-  "resolved" "https://registry.npmmirror.com/@pixi/loaders/-/loaders-6.3.0.tgz"
   "version" "6.3.0"
 
 "@pixi/loaders@6.3.0":
@@ -386,14 +339,9 @@
   "resolved" "https://registry.npmmirror.com/@pixi/math/-/math-5.3.12.tgz"
   "version" "5.3.12"
 
-"@pixi/math@^6.1.0", "@pixi/math@6.3.0":
+"@pixi/math@^6.0.4", "@pixi/math@6.3.0":
   "integrity" "sha512-QkF9wl3/kXvthwWhrDAVgWQWl3T9dbyicHsoWfx0s9b3E0rx+PZcpz5ftaAVxGd7EvecIxV9nEUnna9TIjvwJQ=="
   "resolved" "https://registry.npmmirror.com/@pixi/math/-/math-6.3.0.tgz"
-  "version" "6.3.0"
-
-"@pixi/mesh-extras@^6.1.0":
-  "integrity" "sha512-rGvpW/UDNPDSALocT2w3jvBpF9TUgyvZMGcxqolIxDbrmRiyUeT1EeYnCQpIqQUnkKW1QKxLpuSjut2yfERe7A=="
-  "resolved" "https://registry.npmmirror.com/@pixi/mesh-extras/-/mesh-extras-6.3.0.tgz"
   "version" "6.3.0"
 
 "@pixi/mesh-extras@6.3.0":
@@ -401,7 +349,7 @@
   "resolved" "https://registry.npmmirror.com/@pixi/mesh-extras/-/mesh-extras-6.3.0.tgz"
   "version" "6.3.0"
 
-"@pixi/mesh@^6.1.0", "@pixi/mesh@6.3.0":
+"@pixi/mesh@6.3.0":
   "integrity" "sha512-ljm1lk8ZyxQaZHl53psPptD7eO8yVt7mbEwly+qSyh61Nj950fq5CBgr2cd7TakBSUfiUthYAYP8wmdwop328Q=="
   "resolved" "https://registry.npmmirror.com/@pixi/mesh/-/mesh-6.3.0.tgz"
   "version" "6.3.0"
@@ -425,6 +373,11 @@
   "integrity" "sha512-yjcMUHIPUL4T27ECBrxgn6j00CpomYLBvdxXWDDqMSnm2W6AA+cy7QM30dCm2mcbStzB4j+cbYvN1+nRIuIE8Q=="
   "resolved" "https://registry.npmmirror.com/@pixi/particle-container/-/particle-container-6.3.0.tgz"
   "version" "6.3.0"
+
+"@pixi/particle-emitter@^5.0.4":
+  "integrity" "sha512-ZKEjRXjBe/xVZrVXC+HGEztmFyOE5GCBEbny0uD5jACFpd3tkUUqmhRxdi6R8Crqx2xe0jRpPuCUsa/eHp23+w=="
+  "resolved" "https://registry.npmmirror.com/@pixi/particle-emitter/-/particle-emitter-5.0.4.tgz"
+  "version" "5.0.4"
 
 "@pixi/polyfill@6.3.0":
   "integrity" "sha512-sjOLw0yndRipWOW3ykkCej5+VMZRBmnd32kUXXum9kgceSeL0w+iRPZrfvaFmgypqGnGpqwg24MsZ3vtIffd9g=="
@@ -456,7 +409,7 @@
   dependencies:
     "ismobilejs" "^1.1.0"
 
-"@pixi/settings@6.3.0":
+"@pixi/settings@^6.0.4", "@pixi/settings@6.3.0":
   "integrity" "sha512-UkbZmlexr6NGM6Qz30Et63bpWAmpmkknOOnavrhWPnnbhFIx4kVzU9mvGMHGSGNLJabX9+gFUdjDGSlzF42v4w=="
   "resolved" "https://registry.npmmirror.com/@pixi/settings/-/settings-6.3.0.tgz"
   "version" "6.3.0"
@@ -473,7 +426,7 @@
   "resolved" "https://registry.npmmirror.com/@pixi/sprite-tiling/-/sprite-tiling-6.3.0.tgz"
   "version" "6.3.0"
 
-"@pixi/sprite@^6.1.0", "@pixi/sprite@6.3.0":
+"@pixi/sprite@^6.0.4", "@pixi/sprite@6.3.0":
   "integrity" "sha512-dv0CSkxjWZeUujYQ6NorJ5Cue6SL+RE/H739JK4+cAwEtoWpYqKqiw6aeUu4aqSRsqjhyk9ilhR+K1MbnImJKA=="
   "resolved" "https://registry.npmmirror.com/@pixi/sprite/-/sprite-6.3.0.tgz"
   "version" "6.3.0"
@@ -493,17 +446,17 @@
   "resolved" "https://registry.npmmirror.com/@pixi/text/-/text-6.3.0.tgz"
   "version" "6.3.0"
 
+"@pixi/ticker@^6.0.4", "@pixi/ticker@6.3.0":
+  "integrity" "sha512-cEqyQgM5entsi+h85fUnESBzNc/yMRG/mqsfAr7/KraP7bmCcn3MYVuTycRMkRbuNPjC1NIpqkqiOaxzgAUGPw=="
+  "resolved" "https://registry.npmmirror.com/@pixi/ticker/-/ticker-6.3.0.tgz"
+  "version" "6.3.0"
+
 "@pixi/ticker@5.3.12":
   "integrity" "sha512-YNYUj94XgogipYhPOjbdFBIsy7+U6KmolvK+Av1G88GDac5SDoALb1Nt6s23fd8HIz6b4YnabHOdXGz3zPir1Q=="
   "resolved" "https://registry.npmmirror.com/@pixi/ticker/-/ticker-5.3.12.tgz"
   "version" "5.3.12"
   dependencies:
     "@pixi/settings" "5.3.12"
-
-"@pixi/ticker@6.3.0":
-  "integrity" "sha512-cEqyQgM5entsi+h85fUnESBzNc/yMRG/mqsfAr7/KraP7bmCcn3MYVuTycRMkRbuNPjC1NIpqkqiOaxzgAUGPw=="
-  "resolved" "https://registry.npmmirror.com/@pixi/ticker/-/ticker-6.3.0.tgz"
-  "version" "6.3.0"
 
 "@pixi/utils@^5.0.0", "@pixi/utils@5.3.12":
   "integrity" "sha512-PU/L852YjVbTy/6fDKQtYji6Vqcwi5FZNIjK6JXKuDPF411QfJK3QBaEqJTrexzHlc9Odr0tYECjwtXkCUR02g=="
@@ -516,7 +469,7 @@
     "eventemitter3" "^3.1.0"
     "url" "^0.11.0"
 
-"@pixi/utils@^6.1.0", "@pixi/utils@6.3.0":
+"@pixi/utils@6.3.0":
   "integrity" "sha512-QI5wb/fDdH8DAzIMlrYS0MhG382FPMLh4s3yRtOaftiOb84LL7Syz//SC+CJAyVB0UV/Lpr+T6PiCa4eBjRDgA=="
   "resolved" "https://registry.npmmirror.com/@pixi/utils/-/utils-6.3.0.tgz"
   "version" "6.3.0"
@@ -6992,24 +6945,7 @@
     "@pixi/filter-twist" "3.2.1"
     "@pixi/filter-zoom-blur" "3.2.1"
 
-"pixi-particles@^4.3.0":
-  "integrity" "sha512-XSqDFgYwm/7FRCgP5I2Fc57d98qvb1ql/x4uTjdP4uXDUGgjdO8OW/2A0HVWS1CkOht/1x6dQzsM1oCJAUlaow=="
-  "resolved" "https://registry.npmmirror.com/pixi-particles/-/pixi-particles-4.3.1.tgz"
-  "version" "4.3.1"
-
-"pixi-spine@^3.0.13":
-  "integrity" "sha512-OvnkRV1VlNroaoYdIY+srcYfnJLl0v1y616eZNqv4fpt1WF2iTeC63MhIjA/GlLy3FLFghQF4isVq2baJ0IL9w=="
-  "resolved" "https://registry.npmmirror.com/pixi-spine/-/pixi-spine-3.0.13.tgz"
-  "version" "3.0.13"
-  dependencies:
-    "@pixi-spine/base" "~3.0.13"
-    "@pixi-spine/loader-base" "~3.0.13"
-    "@pixi-spine/loader-uni" "~3.0.13"
-    "@pixi-spine/runtime-3.7" "~3.0.13"
-    "@pixi-spine/runtime-3.8" "~3.0.13"
-    "@pixi-spine/runtime-4.0" "~3.0.13"
-
-"pixi.js@^6.3.0", "pixi.js@>=4.0.0":
+"pixi.js@^6.3.0":
   "integrity" "sha512-ayOmVagMSa5lPVvznDf2e4EppwzPEDnB/q3AYdjTM9Ksw+JKT3lbLuZFo/6U0HNYF9DsJRJL/4ebReZh1hnqLQ=="
   "resolved" "https://registry.npmmirror.com/pixi.js/-/pixi.js-6.3.0.tgz"
   "version" "6.3.0"
@@ -8153,7 +8089,7 @@
     "path-parse" "^1.0.7"
     "supports-preserve-symlinks-flag" "^1.0.0"
 
-"resource-loader@^3.0.1", "resource-loader@~3.0.1":
+"resource-loader@^3.0.1":
   "integrity" "sha512-fBuCRbEHdLCI1eglzQhUv9Rrdcmqkydr1r6uHE2cYHvRBrcLXeSmbE/qI/urFt8rPr/IGxir3BUwM5kUK8XoyA=="
   "resolved" "https://registry.npmmirror.com/resource-loader/-/resource-loader-3.0.1.tgz"
   "version" "3.0.1"

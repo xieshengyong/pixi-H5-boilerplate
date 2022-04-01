@@ -3,26 +3,29 @@ import PX from '../tool/PX';
 import View from '../tool/View';
 import Config from '../Config';
 import { getImg } from '../tool/BaseTools';
-import { Spine } from 'pixi-spine';
+window.PIXI = PIXI;
+
+require('../util/pixi-spine');
 
 export class PixiJsSpineTest extends View {
     constructor () {
         super();
+        PX.init(document.querySelector('.m-stage-wrap'), 1600, 750);
+        $('.m-stage-wrap').fadeIn();
+
         new PIXI.Loader()
-            .add(Config.sheetDirPath + 'delayLoadSpriteSheet_demo.json')
-            .add(Config.sheetDirPath + 'meshSpriteReplace.json')
-            .load((loader, res) => {
-                // this.initSpine(res);
-                console.log('res :>> ', res);
-                $('.m-stage-wrap').fadeIn();
+            // @ts-ignore
+            .add({ name: 'meshSpriteReplace', url: Config.sheetDirPath + 'meshSpriteReplace.json', metadata: { spineAtlasSuffix: '.ttf' } })
+            .load((loader: any, res: any) => {
+                console.log(res);
+                this.initSpine(res);
             });
     }
 
     // Spine效果测试
     private initSpine (loaderRes: any) {
-        PX.init(document.querySelector('.m-stage-wrap canvas'), 1600, 750);
-
-        var animation2 = new Spine(loaderRes[Config.sheetDirPath + 'meshSpriteReplace.json'].spineData);
+        // @ts-ignore
+        var animation2 = new PIXI.spine.Spine(loaderRes['meshSpriteReplace'].spineData);
         animation2.position.set(600, 375);
         animation2.scale.set(0.6);
         PX.stage.addChild(animation2);
@@ -39,5 +42,10 @@ export class PixiJsSpineTest extends View {
             animation2.state.setAnimation(0, 'animation', !true);
             skins.unshift(skins.pop());
         });
+    }
+
+    hide () {
+        $('.m-stage-wrap').hide();
+        PX.app.destroy(true);
     }
 }

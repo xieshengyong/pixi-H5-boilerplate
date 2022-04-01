@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2022-01-17 14:38:07
- * @LastEditTime: 2022-03-31 17:54:12
+ * @LastEditTime: 2022-04-01 16:39:41
  * @LastEditors: xieshengyong
  */
 
@@ -9,6 +9,8 @@ import View from '../tool/View';
 import MediaSprite from '../tool/MediaSprite';
 
 export class VideoMpegTest extends View {
+    hide: () => void;
+
     constructor () {
         super();
         $('.m-index').fadeIn();
@@ -30,14 +32,14 @@ export class VideoMpegTest extends View {
             }
         ]);
 
-        $('body').one('click', () => {
+        $('.m-index').one('click', () => {
             player.play();
         });
 
         player.on('a1', (ti: number) => {
             console.log('a1', ti);
             player.pause();
-            $('body').one('click', () => {
+            $('.m-index').one('click', () => {
                 player.play();
             });
         });
@@ -55,5 +57,10 @@ export class VideoMpegTest extends View {
         // player.onContinue(() => {
         //     // window.showLoading(false);
         // })
+
+        this.hide = () => {
+            player.pause();
+            $('.m-index').fadeOut();
+        };
     }
 };

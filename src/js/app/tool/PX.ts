@@ -1,7 +1,7 @@
 /*
  * @Author: xieshengyong
  * @Date: 2021-01-04 11:30:04
- * @LastEditTime: 2022-03-29 14:07:57
+ * @LastEditTime: 2022-04-01 16:45:06
  * @LastEditors: xieshengyong
  */
 /**
@@ -27,14 +27,15 @@ const PX = {
         return Cache;
     },
 
-    init (canvasEl: HTMLCanvasElement, dWidth: number, dHeight: number) {
+    init (wrap: HTMLCanvasElement, dWidth: number, dHeight: number) {
         this.Application = new PIXI.Application({
-            view: canvasEl,
             width: dWidth,
             height: dHeight,
             backgroundAlpha: 0,
             backgroundColor: 0x000000
         });
+        wrap.append(this.Application.view);
+
         this.Application.stage.interactive = true;
 
         this.widgetPool = [];
@@ -72,8 +73,8 @@ const PX = {
                     this.app.stage.rotation = 0;
                     this.app.stage.position.set(0, 0);
                 }
-                canvasEl.style.width = dWidth0 / 100 + 'rem';
-                canvasEl.style.height = dHeight0 / 100 + 'rem';
+                this.app.view.style.width = dWidth0 / 100 + 'rem';
+                this.app.view.style.height = dHeight0 / 100 + 'rem';
             } else {
                 this.app.renderer.resize(dHeight0, dWidth0);
                 if (!landscape) {
@@ -83,8 +84,8 @@ const PX = {
                     this.app.stage.rotation = 0;
                     this.app.stage.position.set(0, 0);
                 }
-                canvasEl.style.width = dHeight0 / 100 + 'rem';
-                canvasEl.style.height = dWidth0 / 100 + 'rem';
+                this.app.view.style.width = dHeight0 / 100 + 'rem';
+                this.app.view.style.height = dWidth0 / 100 + 'rem';
             }
         };
         resizeStage();
