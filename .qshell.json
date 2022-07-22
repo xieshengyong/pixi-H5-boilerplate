@@ -1,7 +1,7 @@
 {
     "src_dir": "dist/ossweb-img",
-    "bucket": "santi",
-    "key_prefix": "mini6th/",
+    "bucket": "td-res",
+    "key_prefix": "testCase/",
     "ignore_dir": false,
     "overwrite": false,
     "check_exists": true,
