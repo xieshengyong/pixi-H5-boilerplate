@@ -51,18 +51,19 @@ var initProject = async function () {
     window.showMsg = (msg: string, time?: number) => {
         let msgWrap = $('.m-msg');
         msgWrap.fadeIn(100).find('.bg .content').html(msg);
-        if (time) {
-            msgWrap.addClass('notips');
-            setTimeout(() => {
-                msgWrap.fadeOut(0).removeClass('notips');
-            }, time);
-            return;
-        }
         return new Promise((resolve, reject) => {
-            msgWrap.one('click', () => {
-                msgWrap.fadeOut(100);
-                resolve(null);
-            });
+            if (time) {
+                msgWrap.addClass('notips');
+                setTimeout(() => {
+                    msgWrap.fadeOut(0).removeClass('notips');
+                    resolve(null);
+                }, time);
+            } else {
+                msgWrap.one('click', () => {
+                    msgWrap.fadeOut(100);
+                    resolve(null);
+                });
+            }
         });
     };
 
