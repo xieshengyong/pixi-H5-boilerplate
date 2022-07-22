@@ -13,8 +13,9 @@ sftp.connect({
     username: '',
     password: ''
 }).then(() => {
-    // return sftp.list('/var/ftp/pub');
-    return sftp.put('dist/index.html', '/var/ftp/pub/mini6th/index.html');
+    // return sftp.list('/developmemt/');
+    // xxx.treedom.cn需修改为已创建好的服务器目录。
+    return sftp.put('dist/index.html', '/developmemt/xxx.treedom.cn/index.html');
 }).then(data => {
     console.log('sftp上传成功：', data);
 }).catch(err => {
