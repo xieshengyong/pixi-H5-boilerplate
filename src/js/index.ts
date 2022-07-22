@@ -10,19 +10,19 @@ import * as dat from 'dat.gui';
 window.addEventListener('load', () => {
     const gui = new dat.GUI();
     // @ts-ignore
-    let aa = require.context('./app/testCase/', false, /(\.js|\.ts)/);
+    let caseList = require.context('./app/testCase/', false, /(\.js|\.ts)/);
     let currentCase: any = null;
-    aa.keys().forEach(async (element: any) => {
-        let name = element.match(/\/(.*)\./)[1];
+    caseList.keys().forEach(async (element: any) => {
+        let caseName = element.match(/\/(.*)\./)[1];
         let button: any = {};
-        button[name] = function () {
-            import('./app/testCase/' + name).then(module => {
+        button[caseName] = function () {
+            import('./app/testCase/' + caseName).then(module => {
                 currentCase?.hide();
-                currentCase = new module[name]();
+                currentCase = new module[caseName]();
             });
         };
 
-        gui.add(button, name);
+        gui.add(button, caseName);
     });
 });
 /* 测试项目--可删除--end */
