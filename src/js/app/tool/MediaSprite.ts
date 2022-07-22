@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /*
  * @Author: xieshengyong
  * @Date: 2022-01-13 16:14:05
@@ -66,6 +67,10 @@ interface CbsType {
     time: number;
     once: boolean;
     activing?: ActiveState;
+}
+
+function timeTranf (time: number) {
+    return Math.floor(time) + ((time % 1) * 4);
 }
 
 export default class MediaSprite {
