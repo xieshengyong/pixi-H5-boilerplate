@@ -26,13 +26,18 @@ function abs5 (a, b) {
     return Math.abs(a - b) < 5;
 }
 
+// const colorSrc = require('../../../img/color.jpg');
+const colorSrc = 'https://gw.alicdn.com/imgextra/i2/O1CN01sCJYhj1s7oGnYBhWK_!!6000000005720-0-tps-750-960.jpg';
+
 export class ColorDetection {
     constructor () {
         let img = new Image();
-        img.src = require('../../../img/color.jpg');
+        img.src = colorSrc;
         img.style.width = '7.5rem';
         img.style.position = 'absolute';
-        img.style.zIndex = -1;
+        img.style.zIndex = '10';
+        img.style.top = '50%';
+        img.style.marginTop = '-4.8rem';
         document.body.append(img);
         document.querySelector('.m-horizontal').style.display = 'none';
 
@@ -49,18 +54,18 @@ export class ColorDetection {
             colorRgb('#00FFFF'),
             colorRgb('#9CFF00')
         ];
-        this.colorFindPos(require('../../../img/color.jpg'), colors).then((pos) => {
+        this.colorFindPos(colorSrc, colors).then((pos) => {
             console.log('pos :>> ', pos);
         });
 
-        let ratio = 750 / document.documentElement.clientWidth;
+        let ratio = 750 / window.innerWidth;
         let matchTest = async (e) => {
-            let ismatch = await this.colorDetection(require('../../../img/color.jpg'), [e.layerX * ratio, e.layerY * ratio], [
+            let ismatch = await this.colorDetection(colorSrc, [e.offsetX * ratio, e.offsetY * ratio], [
                 colorRgb('#00FFFF'),
                 colorRgb('#0000FF')]);
             console.log('ismatch :>> ', ismatch);
         };
-        document.documentElement.addEventListener('click', matchTest);
+        img.addEventListener('click', matchTest);
 
         this.hide = () => {
             document.documentElement.removeEventListener('click', matchTest);
@@ -81,6 +86,7 @@ export class ColorDetection {
                 ctx.drawImage(img, 0, 0);
                 detecion();
             };
+            img.crossOrigin = 'Anonymous';
             img.src = imgSrc;
 
             function detecion () {
@@ -113,6 +119,7 @@ export class ColorDetection {
                 ctx.drawImage(img, 0, 0);
                 find();
             };
+            img.crossOrigin = 'Anonymous';
             img.src = imgSrc;
 
             function find () {
