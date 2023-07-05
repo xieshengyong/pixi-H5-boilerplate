@@ -25,7 +25,7 @@ window.addEventListener('load', () => {
         gui.add(button, caseName);
 
         // 直接执行
-        // button['ColorDetection']?.();
+        button['PixiJsScaleModes']?.();
     });
 });
 /* 测试项目--可删除--end */

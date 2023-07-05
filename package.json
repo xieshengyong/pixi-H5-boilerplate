@@ -18,6 +18,7 @@
     },
     "scripts": {
         "start": "npm run dev",
+        "audio": "gulp audio --fn=audio2",
         "dev": "webpack-dev-server --config webpack.config.dev.js",
         "dist": "cross-env NODE_ENV=dist webpack --config webpack.config.prod.js",
         "postdist": "npm run qshell && npm run sftp",
