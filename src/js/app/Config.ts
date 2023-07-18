@@ -2,20 +2,16 @@
 // import effect from '../../json/effect.json';
 import { Howl, Howler } from 'howler';
 
-const Config = {} as anyValue;
+export const PublicPath = process.env.NODE_ENV === 'prod' ? process.env.PATH : process.env.PATH + '';
 
-// 图片路径前缀
-Config.imgPath = process.env.NODE_ENV === 'prod' ? process.env.PATH : process.env.PATH + '';
-// 配置文件路径前缀
-Config.sheetDirPath = Config.imgPath + process.env.sheetPath;
+export const SheetDirPath = PublicPath + process.env.sheetPath;
 
-// 默认分享语
-Config.defShare = {
+export const DefShare = {
     title: '分享标题',
     desc: '分享描述',
     link: location.href,
     // 分享配图
-    img: Config.imgPath + 'share.jpg',
+    img: PublicPath + 'share.jpg',
     // 项目名，数据查询时候用
     proj: '',
     // 填写公众号绑定的appid
@@ -23,18 +19,13 @@ Config.defShare = {
     cnzz: '' // 例如: 1259179479
 };
 
-Config.talkSound = { play: () => { } };
-Config.effect = { play: () => { } };
-Config.bgm = { play: () => { } };
+export let effect: Howl = null;
+export let bgm: Howl = null;
 
-Config.loadMusic = () => {
-    Config.bgm = new Howl({ src: require('../../media/bg.mp3'), loop: true }); // eslint-disable-line
+export const loadMusic = () => {
+    bgm = new Howl({ src: require('../../media/bg.mp3'), loop: true }); // eslint-disable-line
     // Config.bgm.play();
 };
-
-Config.userInfo = {};
-
-Config.bottlesInfo = {};
 
 // 页面前后台切换时
 document.addEventListener('visibilitychange', () => {
@@ -49,8 +40,6 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-export default Config;
-
 export function formatJsonList () {
     // @ts-ignore
     let context = require.context('../../img/spriteSheet/', false, /(\.json|\.fnt)/);
@@ -60,7 +49,7 @@ export function formatJsonList () {
     var list = [];
     for (var i = 0; i < loadDataPool2.length; i++) {
         let name = loadDataPool2[i].slice(2);
-        list.push(Config.imgPath + process.env.sheetPath + name);
+        list.push(PublicPath + process.env.sheetPath + name);
     }
     return list;
 }
@@ -74,7 +63,7 @@ export function formatJsonListDelay () {
     var list = [];
     for (var i = 0; i < loadDataPool2.length; i++) {
         let name = loadDataPool2[i].slice(2);
-        list.push(Config.imgPath + process.env.sheetPath + name);
+        list.push(PublicPath + process.env.sheetPath + name);
     }
     return list;
 }
